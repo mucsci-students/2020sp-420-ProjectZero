@@ -1,0 +1,21 @@
+apply plugin: 'com.github.johnrengelman.shadow'
+
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        //This is necessary to use the gradle shadow plugin
+        classpath 'com.github.jengelman.gradle.plugins:shadow:5.2.0'
+    }
+}
+
+dependencies {
+}
+
+//This lets the shadow plugin know which is the main class
+jar {
+    manifest {
+        attributes 'Main-Class': 'projectzero.Main'
+    }
+}
