@@ -33,10 +33,8 @@ public class UMLClassManager {
                     break;
                 }
             }
-            if (deleatedClass == true) {
+            if (deleatedClass) {
                 classList.remove(tempClass);
-                return deleatedClass;
-            } else {
                 return deleatedClass;
             }
         }
