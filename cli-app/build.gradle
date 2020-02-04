@@ -11,6 +11,7 @@ buildscript {
 }
 
 dependencies {
+compile project(':core')
 }
 
 //This lets the shadow plugin know which is the main class
