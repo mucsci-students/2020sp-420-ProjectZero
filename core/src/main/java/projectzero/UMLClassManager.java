@@ -1,12 +1,21 @@
 package projectzero;
 
-import java.util.LinkedList;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class UMLClassManager {
-    private LinkedList<UMLClass> classList;
+    private List<UMLClass> classList;
+    private UMLClassYamlMapper umlClassYamlMapper;
 
     public UMLClassManager() {
-        classList = new LinkedList<UMLClass>();
+        this.classList = new ArrayList<>();
+        umlClassYamlMapper = new UMLClassYamlMapper();
+    }
+
+    public UMLClassManager(UMLClassYamlMapper umlClassYamlMapper) {
+        this.classList = new ArrayList<>();
+        this.umlClassYamlMapper = umlClassYamlMapper;
     }
 
     public boolean addClass(UMLClass newClass) {
@@ -42,15 +51,27 @@ public class UMLClassManager {
         //What happens if the classObject is not found?
     }
 
-    public void saveWork(String path) {
 
-    }
-
-    public void loadWork(String path) {
-
-    }
-
-    public LinkedList<UMLClass> getClassList() {
+    public List<UMLClass> getClassList() {
         return classList;
     }
+
+    public boolean save(String path) {
+        try {
+            umlClassYamlMapper.write(path, this.classList);
+            return true;
+        } catch (IOException exception) {
+            return false;
+        }
+    }
+
+    public boolean load(String path) {
+        try {
+            this.classList = umlClassYamlMapper.read(path);
+            return true;
+        } catch (IOException exception) {
+            return false;
+        }
+    }
+
 }

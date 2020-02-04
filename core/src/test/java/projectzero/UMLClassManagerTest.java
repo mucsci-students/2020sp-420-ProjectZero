@@ -2,7 +2,17 @@ package projectzero;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.io.IOException;
+
+import static org.mockito.ArgumentMatchers.anyList;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.*;
+
+@ExtendWith(MockitoExtension.class)
 public class UMLClassManagerTest {
 
     @Test
@@ -63,4 +73,39 @@ public class UMLClassManagerTest {
         Assertions.assertEquals("project", umlClass.getName());
     }
 
+    @Test
+    public void testLoadReturnsTrueOnSuccess(@Mock UMLClassYamlMapper umlClassYamlMapper) throws IOException {
+        when(umlClassYamlMapper.read(anyString())).thenReturn(anyList());
+
+        UMLClassManager umlClassManager = new UMLClassManager(umlClassYamlMapper);
+
+        Assertions.assertTrue(umlClassManager.load("test.yaml"));
+    }
+
+    @Test
+    public void testLoadReturnsFalseOnFailure(@Mock UMLClassYamlMapper umlClassYamlMapper) throws IOException {
+        doThrow(IOException.class).when(umlClassYamlMapper).read(anyString());
+
+        UMLClassManager umlClassManager = new UMLClassManager(umlClassYamlMapper);
+
+        Assertions.assertFalse(umlClassManager.load("test.yaml"));
+    }
+
+    @Test
+    public void testSaveReturnsTrueOnSuccess(@Mock UMLClassYamlMapper umlClassYamlMapper) throws IOException {
+        doNothing().when(umlClassYamlMapper).write(anyString(), anyList());
+
+        UMLClassManager umlClassManager = new UMLClassManager(umlClassYamlMapper);
+
+        Assertions.assertTrue(umlClassManager.save("test.yaml"));
+    }
+
+    @Test
+    public void testSaveReturnsFalseOnFailure(@Mock UMLClassYamlMapper umlClassYamlMapper) throws IOException {
+        doThrow(IOException.class).when(umlClassYamlMapper).write(anyString(), anyList());
+
+        UMLClassManager umlClassManager = new UMLClassManager(umlClassYamlMapper);
+
+        Assertions.assertFalse(umlClassManager.save("test.yaml"));
+    }
 }
