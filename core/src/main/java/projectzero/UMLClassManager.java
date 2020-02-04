@@ -10,35 +10,35 @@ public class UMLClassManager {
     }
 
     public boolean addClass(UMLClass newClass) {
-        for (UMLClass classObject : classList) {
+        for (UMLClass classObject : classList)
             //Found a duplicate in list already.
             if (newClass.getName().equals(classObject.getName())) {
                 return false;
             }
-        }
+
         classList.add(newClass);
         return true;
 
     }
 
     public boolean deleteClass(UMLClass classToBeDeleted) {
-        boolean deleatedClass = false;
+        boolean deletedClass = false;
         if (!classList.isEmpty() || classToBeDeleted != null) {
             UMLClass tempClass = null;
 
             for (UMLClass classObject : classList) {
                 if (classObject.getName().equals(classToBeDeleted.getName())) {
                     tempClass = classObject;
-                    deleatedClass = true;
+                    deletedClass = true;
                     break;
                 }
             }
-            if (deleatedClass) {
+            if (deletedClass) {
                 classList.remove(tempClass);
-                return deleatedClass;
+                return deletedClass;
             }
         }
-        return deleatedClass;
+        return deletedClass;
         //What happens if the classObject is not found?
     }
 
