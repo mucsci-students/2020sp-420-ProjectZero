@@ -10,4 +10,5 @@
 rootProject.name = '2020sp-420-ProjectZero'
 
 include 'cli-app'
+include 'core'
 
