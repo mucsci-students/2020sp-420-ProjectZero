@@ -1,5 +1,4 @@
 package projectzero;
-
 import java.util.Scanner;
 
 public class Application {
@@ -16,19 +15,23 @@ public class Application {
     }
 
     private void initMenuPrompt() {
-        int input;
+        String input = "";
+        boolean validInput = true;
+        int[] validInputs = {1,2};
         do {
             System.out.println("Create or load a new file?");
             System.out.println("1: create a new project\n2: load a previous project");
-            input = scan.nextInt();
-            if (input == 2) {
-                System.out.println("Enter the file path: ");
-                //handle bad case later
-                MainManager.load(scan.nextLine());
-            } else if (input != 1) {
-                System.out.println("Error: invalid option");
+            input = scan.next();
+            validInput = Validation.isValidMenuInput(validInputs, input);
+            if (validInput) {
+                //does not collect file path name, skips to main menu
+                if (Integer.parseInt(input) == 2) {
+                    System.out.println("Enter the file path: ");
+                    MainManager.load(scan.nextLine());
+                }
             }
-        } while (input != 1 || input != 2);
+        } while (!validInput);
+
     }
 
     private void MainMenu() {
@@ -60,8 +63,9 @@ public class Application {
                     if (MainManager.save(filePath))
                         System.out.println("file was saved to" + filePath);
                     else
-                        System.out.println("Error: file was not saved to" + filePath);
+                        System.out.println("file was not saved to" + filePath);
                     break;
+                default :
             }
         } while (input != 5);
     }
