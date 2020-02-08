@@ -11,6 +11,8 @@ subprojects {
     dependencies {
         testImplementation 'org.junit.jupiter:junit-jupiter-api:5.5.2'
         testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.5.2'
+        testCompile group: 'org.mockito', name: 'mockito-core', version: '3.2.4'
+        testCompile group: 'org.mockito', name: 'mockito-junit-jupiter', version: '3.2.4'
     }
 
     test {
