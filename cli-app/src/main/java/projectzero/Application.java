@@ -51,6 +51,7 @@ public class Application {
 
     private void MainMenu() {
         String input;
+        Scanner getName = new Scanner(System.in);
         boolean inMainMenu = true;
         boolean validInput = true;
         int[] validInputs = {1,2,3,4,5};
@@ -67,9 +68,16 @@ public class Application {
                         break;
                     case 2:
                         System.out.println("Enter the class name: ");
-                        className = scan.next();
-                        MainManager.addClass(new UMLClass(className));
-                        System.out.println(className + " was added\n");
+                        className = getName.nextLine();
+                        Scanner nameInput = new Scanner(className);
+                        if(!Validation.isValidName(nameInput))
+                        {
+                            System.out.println("Invalid Class: spaces can't be used\n");
+                        }
+                        else {
+                            MainManager.addClass(new UMLClass(className));
+                            System.out.println(className + " was added\n");
+                        }
                         break;
                     case 3:
                         System.out.println("Enter the class name: ");
@@ -82,7 +90,7 @@ public class Application {
                         }
                         break;
                     case 4:
-                        System.out.println("Enter file path to save to: ");
+                        System.out.println("Enter file path to save to followed by desired file name: ");
                         String filePath = scan.next();
                         if (MainManager.save(filePath))
                             System.out.println("File was saved to" + filePath + "\n");

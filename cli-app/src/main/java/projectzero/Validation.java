@@ -1,4 +1,5 @@
 package projectzero;
+import java.util.Scanner;
 
 public class Validation {
     //boolean validOption = false;
@@ -10,7 +11,7 @@ public class Validation {
             validOption = isValidInt(option, validInputList);
         }
         catch(Exception e){
-            System.out.println("Not valid");
+            System.out.println("Not valid\n");
             return false;
         }
         return validOption;
@@ -23,6 +24,15 @@ public class Validation {
                 validOption =  true;
         }
         return validOption;
+    }
+
+    public static boolean isValidName(Scanner nameScanner){
+        String className = nameScanner.nextLine();
+
+        if(className.contains(" ")){
+            return false;
+        }
+        return true;
     }
 
     /*
