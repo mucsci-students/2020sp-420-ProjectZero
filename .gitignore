@@ -1,6 +1,8 @@
 .idea
 out/
 .idea_modules/
+#Uneeded files.
+*.iml
 
 # Package Files #
 *.jar
