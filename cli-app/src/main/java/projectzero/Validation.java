@@ -2,8 +2,6 @@ package projectzero;
 import java.util.Scanner;
 
 public class Validation {
-    //boolean validOption = false;
-    //boolean validString = false;
     public static boolean isValidMenuInput(int validInputList[], String input){
         boolean validOption = false;
         try{
@@ -34,15 +32,4 @@ public class Validation {
         }
         return true;
     }
-
-    /*
-    boolean isValidString(String input){
-
-        if (input != //valid input)
-                System.out.println("non numerical option entered \n");
-        else
-
-
-        return validString;
- */
 }
