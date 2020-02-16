@@ -11,7 +11,7 @@ import java.util.List;
 public class UMLClassYamlMapper {
     public List<UMLClass> read(String fileName) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper(new YAMLFactory());
-        return objectMapper.readValue(new File(fileName), new TypeReference<>() {
+        return objectMapper.readValue(new File(fileName), new TypeReference<List<UMLClass>>() {
         });
     }
 

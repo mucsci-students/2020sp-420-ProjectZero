@@ -52,9 +52,7 @@ public class UMLClassManager {
     }
 
 
-    public List<UMLClass> getClassList() {
-        return classList;
-    }
+    public List<UMLClass> getClassList() { return classList;}
 
     public boolean save(String path) {
         try {
