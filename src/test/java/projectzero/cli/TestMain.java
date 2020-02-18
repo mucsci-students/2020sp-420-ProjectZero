@@ -1,4 +1,4 @@
-package projectzero;
+package projectzero.cli;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;

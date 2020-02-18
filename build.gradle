@@ -1,24 +1,40 @@
+plugins {
+    id "com.github.johnrengelman.shadow" version "5.2.0"
+    id "java"
+}
+
+
 group 'projectzero'
 version '0.1.0'
 
-subprojects {
-    apply plugin: "java"
+repositories {
+    mavenCentral()
+}
 
-    repositories {
-        mavenCentral()
-    }
+dependencies {
+    compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.10.2'
+    compile group: 'com.fasterxml.jackson.dataformat', name: 'jackson-dataformat-yaml', version: '2.10.2'
 
-    dependencies {
-        testImplementation 'org.junit.jupiter:junit-jupiter-api:5.5.2'
-        testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.5.2'
-        testCompile group: 'org.mockito', name: 'mockito-core', version: '3.2.4'
-        testCompile group: 'org.mockito', name: 'mockito-junit-jupiter', version: '3.2.4'
-    }
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.5.2'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.5.2'
 
-    test {
-        useJUnitPlatform()
-        testLogging {
-            events "passed", "skipped", "failed"
-        }
+    testCompile group: 'org.mockito', name: 'mockito-core', version: '3.2.4'
+    testCompile group: 'org.mockito', name: 'mockito-junit-jupiter', version: '3.2.4'
+}
+
+test {
+    useJUnitPlatform()
+    testLogging {
+        events "passed", "skipped", "failed"
     }
+}
+
+jar {
+    manifest {
+        attributes 'Main-Class': 'projectzero.Main'
+    }
+}
+
+shadowJar {
+    archiveVersion = ''
 }
