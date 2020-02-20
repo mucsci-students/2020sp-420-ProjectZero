@@ -14,7 +14,7 @@ public class Main {
             CliApplication cliApplication = new CliApplication();
             cliApplication.run();
         } else {
-           System.out.println("FX APP");
+            System.out.println("FX APP");
         }
     }
 }

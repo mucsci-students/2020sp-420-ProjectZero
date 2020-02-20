@@ -1,62 +1,50 @@
 package projectzero.core;
 
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 public class UmlClassManager {
-    private List<UmlClass> classList;
+    private Map<String, UmlClass> umlClassMap;
     private UmlClassYamlMapper umlClassYamlMapper;
 
     public UmlClassManager() {
-        this.classList = new ArrayList<>();
+        this.umlClassMap = new HashMap<>();
         umlClassYamlMapper = new UmlClassYamlMapper();
     }
 
     public UmlClassManager(UmlClassYamlMapper umlClassYamlMapper) {
-        this.classList = new ArrayList<>();
+        this.umlClassMap = new HashMap<>();
         this.umlClassYamlMapper = umlClassYamlMapper;
     }
 
-    public boolean addClass(UmlClass newClass) {
-        for (UmlClass classObject : classList)
-            //Found a duplicate in list already.
-            if (newClass.getName().equals(classObject.getName())) {
-                return false;
-            }
-
-        classList.add(newClass);
-        return true;
-
-    }
-
-    public boolean deleteClass(UmlClass classToBeDeleted) {
-        boolean deletedClass = false;
-        if (!classList.isEmpty() || classToBeDeleted != null) {
-            UmlClass tempClass = null;
-
-            for (UmlClass classObject : classList) {
-                if (classObject.getName().equals(classToBeDeleted.getName())) {
-                    tempClass = classObject;
-                    deletedClass = true;
-                    break;
-                }
-            }
-            if (deletedClass) {
-                classList.remove(tempClass);
-                return deletedClass;
-            }
+    public boolean addUmlClass(UmlClass umlClass) {
+        if (umlClassMap.containsKey(umlClass.getName())) {
+            return false;
         }
-        return deletedClass;
-        //What happens if the classObject is not found?
+
+        umlClassMap.put(umlClass.getName(), umlClass);
+        return true;
     }
 
+    public boolean deleteUmlClass(String umlClassName) {
+        if (!umlClassMap.containsKey(umlClassName)) {
+            return false;
+        }
 
-    public List<UmlClass> getClassList() { return classList;}
+        umlClassMap.remove(umlClassName);
+        return true;
+    }
+
+    public List<UmlClass> listUmlClasses() {
+        return umlClassMap.values().stream().collect(Collectors.toList());
+    }
 
     public boolean save(String path) {
         try {
-            umlClassYamlMapper.write(path, this.classList);
+            umlClassYamlMapper.write(path, this.umlClassMap);
             return true;
         } catch (IOException exception) {
             return false;
@@ -65,7 +53,7 @@ public class UmlClassManager {
 
     public boolean load(String path) {
         try {
-            this.classList = umlClassYamlMapper.read(path);
+            this.umlClassMap = umlClassYamlMapper.read(path);
             return true;
         } catch (IOException exception) {
             return false;

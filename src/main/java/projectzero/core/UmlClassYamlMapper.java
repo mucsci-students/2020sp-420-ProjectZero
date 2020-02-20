@@ -6,17 +6,17 @@ import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.List;
+import java.util.Map;
 
 public class UmlClassYamlMapper {
-    public List<UmlClass> read(String fileName) throws IOException {
+    public Map<String, UmlClass> read(String fileName) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper(new YAMLFactory());
-        return objectMapper.readValue(new File(fileName), new TypeReference<List<UmlClass>>() {
+        return objectMapper.readValue(new File(fileName), new TypeReference<Map<String, UmlClass>>() {
         });
     }
 
-    public void write(String fileName, List<UmlClass> umlClassList) throws IOException {
+    public void write(String fileName, Map<String, UmlClass> umlClassMap) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper(new YAMLFactory());
-        objectMapper.writeValue(new File(fileName), umlClassList);
+        objectMapper.writeValue(new File(fileName), umlClassMap);
     }
 }

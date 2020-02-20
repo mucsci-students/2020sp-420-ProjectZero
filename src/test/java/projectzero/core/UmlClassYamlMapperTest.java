@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 public class UmlClassYamlMapperTest {
@@ -21,13 +22,13 @@ public class UmlClassYamlMapperTest {
         UmlClass bat = new UmlClass("bat");
 
         List<UmlClass> animals = Arrays.asList(dog, cat, bat);
+        Map<String, UmlClass> animalsMap = animals.stream().collect(Collectors.toMap(animal -> animal.getName(), animal -> animal));
 
         UmlClassYamlMapper umlClassYamlMapper = new UmlClassYamlMapper();
-        umlClassYamlMapper.write(path.toString(), animals);
+        umlClassYamlMapper.write(path.toString(), animalsMap);
 
-        List<String> animalNames = animals.stream().map(animal -> animal.getName()).collect(Collectors.toList());
-        List<String> readAnimalNames = umlClassYamlMapper.read(path.toString()).stream().map(animal -> animal.getName()).collect(Collectors.toList());
+        Map<String, UmlClass> readAnimalsMap = umlClassYamlMapper.read(path.toString());
 
-        Assertions.assertArrayEquals(animalNames.toArray(), readAnimalNames.toArray());
+        Assertions.assertTrue(animalsMap.equals(readAnimalsMap));
     }
 }
