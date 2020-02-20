@@ -8,7 +8,7 @@ public class TestMain {
     /**
      * A simple test case to demonstrate that JUnit works
      *
-     * @return  void
+     * @return void
      */
     @Test
     public void testAdd() {

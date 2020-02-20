@@ -23,7 +23,7 @@ public class CliApplication {
         String input = "";
         boolean validInput = true;
         boolean inInitMenu = true;
-        int[] validInputs = {1,2};
+        int[] validInputs = {1, 2};
         do {
             System.out.println("Create or load a new file?");
             System.out.println("1: create a new project\n2: load a previous project");
@@ -31,17 +31,16 @@ public class CliApplication {
             System.out.println();
             validInput = Validation.isValidMenuInput(validInputs, input);
             if (validInput) {
-                if(Integer.parseInt(input) == 1){
+                if (Integer.parseInt(input) == 1) {
                     inInitMenu = false;
                 }
                 //does not collect file path name, skips to main menu
                 if (Integer.parseInt(input) == 2) {
                     System.out.println("Enter the file path followed by the desired name: ");
-                    if(MainManager.load(scan.next())){
+                    if (MainManager.load(scan.next())) {
                         System.out.println("\nFile retrieved successfully\n");
                         inInitMenu = false;
-                    }
-                    else{
+                    } else {
                         System.out.println("\nFailed to load file\n");
                         inInitMenu = true;
                     }
@@ -57,7 +56,7 @@ public class CliApplication {
         Scanner getName = new Scanner(System.in);
         boolean inMainMenu = true;
         boolean validInput = true;
-        int[] validInputs = {1,2,3,4,5};
+        int[] validInputs = {1, 2, 3, 4, 5};
         do {
             System.out.println(" 1. Display Class List \n 2. Add Class \n 3. Delete Class \n 4. Save Work \n 5. Quit");
             System.out.println("Enter number for option:");
@@ -73,22 +72,19 @@ public class CliApplication {
                         System.out.println("Enter the class name: ");
                         className = getName.nextLine();
                         Scanner nameInput = new Scanner(className);
-                        if(!Validation.isValidName(nameInput))
-                        {
+                        if (!Validation.isValidName(nameInput)) {
                             System.out.println("Invalid Class: spaces can't be used\n");
-                        }
-                        else {
-                            MainManager.addClass(new UmlClass(className));
+                        } else {
+                            MainManager.addUmlClass(new UmlClass(className));
                             System.out.println(className + " was added\n");
                         }
                         break;
                     case 3:
                         System.out.println("Enter the class name: ");
                         className = scan.next();
-                        if(MainManager.deleteClass(new UmlClass(className))){
+                        if (MainManager.deleteUmlClass(className)) {
                             System.out.println(className + " was deleted\n");
-                        }
-                        else{
+                        } else {
                             System.out.println("Class not found\n");
                         }
                         break;
@@ -108,11 +104,11 @@ public class CliApplication {
         } while (inMainMenu);
     }
 
-    private void printList(){
-        List<UmlClass> tempList = MainManager.getClassList();
+    private void printList() {
+        List<UmlClass> tempList = MainManager.listUmlClasses();
         System.out.println("\nCurrent classes:");
         System.out.print("[ ");
-        for(UmlClass tempClass: tempList){
+        for (UmlClass tempClass : tempList) {
             System.out.print(tempClass.getName() + " ");
         }
         System.out.println("]\n");
