@@ -1,12 +1,12 @@
-package projectzero;
+package projectzero.core;
 
-public class UMLClass {
+public class UmlClass {
     private String name;
 
-    public UMLClass() {
+    public UmlClass() {
     }
 
-    public UMLClass(String name) {
+    public UmlClass(String name) {
         this.name = name;
     }
 

@@ -1,4 +1,4 @@
-package projectzero;
+package projectzero.cli;
 import java.util.Scanner;
 
 public class Validation {

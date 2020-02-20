@@ -1,4 +1,4 @@
-package projectzero;
+package projectzero.core;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -10,19 +10,19 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class UMLClassYamlMapperTest {
+public class UmlClassYamlMapperTest {
 
     @Test
     void testReadsAndWritesClassesToFile(@TempDir Path tempDir) throws IOException {
         Path path = tempDir.resolve("animals.yaml");
 
-        UMLClass dog = new UMLClass("dog");
-        UMLClass cat = new UMLClass("cat");
-        UMLClass bat = new UMLClass("bat");
+        UmlClass dog = new UmlClass("dog");
+        UmlClass cat = new UmlClass("cat");
+        UmlClass bat = new UmlClass("bat");
 
-        List<UMLClass> animals = Arrays.asList(dog, cat, bat);
+        List<UmlClass> animals = Arrays.asList(dog, cat, bat);
 
-        UMLClassYamlMapper umlClassYamlMapper = new UMLClassYamlMapper();
+        UmlClassYamlMapper umlClassYamlMapper = new UmlClassYamlMapper();
         umlClassYamlMapper.write(path.toString(), animals);
 
         List<String> animalNames = animals.stream().map(animal -> animal.getName()).collect(Collectors.toList());

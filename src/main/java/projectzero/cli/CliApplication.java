@@ -1,14 +1,17 @@
-package projectzero;
+package projectzero.cli;
+
+import projectzero.core.UmlClass;
+import projectzero.core.UmlClassManager;
 
 import java.util.List;
 import java.util.Scanner;
 
-public class Application {
-    private UMLClassManager MainManager;
+public class CliApplication {
+    private UmlClassManager MainManager;
     private Scanner scan = new Scanner(System.in);
 
-    public Application() {
-        MainManager = new UMLClassManager();
+    public CliApplication() {
+        MainManager = new UmlClassManager();
     }
 
     public void run() {
@@ -75,14 +78,14 @@ public class Application {
                             System.out.println("Invalid Class: spaces can't be used\n");
                         }
                         else {
-                            MainManager.addClass(new UMLClass(className));
+                            MainManager.addClass(new UmlClass(className));
                             System.out.println(className + " was added\n");
                         }
                         break;
                     case 3:
                         System.out.println("Enter the class name: ");
                         className = scan.next();
-                        if(MainManager.deleteClass(new UMLClass(className))){
+                        if(MainManager.deleteClass(new UmlClass(className))){
                             System.out.println(className + " was deleted\n");
                         }
                         else{
@@ -106,10 +109,10 @@ public class Application {
     }
 
     private void printList(){
-        List<UMLClass> tempList = MainManager.getClassList();
+        List<UmlClass> tempList = MainManager.getClassList();
         System.out.println("\nCurrent classes:");
         System.out.print("[ ");
-        for(UMLClass tempClass: tempList){
+        for(UmlClass tempClass: tempList){
             System.out.print(tempClass.getName() + " ");
         }
         System.out.println("]\n");
