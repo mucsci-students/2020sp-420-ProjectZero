@@ -1,6 +1,7 @@
 package projectzero.core;
 
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentMatchers;
@@ -12,59 +13,59 @@ import java.io.IOException;
 
 @ExtendWith(MockitoExtension.class)
 public class UmlClassManagerTest {
+    private UmlClassManager umlClassManager;
+
+    @BeforeEach
+    public void makeNewManager() {
+        umlClassManager = new UmlClassManager();
+    }
 
     @Test
     public void testAddReturnsFalseOnDuplicate() {
-        UmlClassManager manager = new UmlClassManager();
         UmlClass umlclass = new UmlClass("zero");
         UmlClass umlClassTwo = new UmlClass("zero");
-        manager.addUmlClass(umlclass);
+        umlClassManager.addUmlClass(umlclass);
 
-        Assertions.assertFalse(manager.addUmlClass(umlClassTwo));
+        Assertions.assertFalse(umlClassManager.addUmlClass(umlClassTwo));
     }
 
     @Test
     public void testAddReturnsTrue() {
-        UmlClassManager manager = new UmlClassManager();
         UmlClass umlClass = new UmlClass("zero");
 
-        Assertions.assertTrue(manager.addUmlClass(umlClass));
-        Assertions.assertEquals(1, manager.listUmlClasses().size());
+        Assertions.assertTrue(umlClassManager.addUmlClass(umlClass));
+        Assertions.assertEquals(1, umlClassManager.listUmlClasses().size());
     }
 
     @Test
     public void testDeleteReturnsFalseWhenEmpty() {
-        UmlClassManager manager = new UmlClassManager();
         UmlClass umlClass = new UmlClass("zero");
-        manager.deleteUmlClass(umlClass.getName());
+        umlClassManager.deleteUmlClass(umlClass.getName());
 
-        Assertions.assertFalse(manager.deleteUmlClass(umlClass.getName()));
+        Assertions.assertFalse(umlClassManager.deleteUmlClass(umlClass.getName()));
     }
 
     @Test
     public void testDeleteReturnsTrue() {
-        UmlClassManager manager = new UmlClassManager();
         UmlClass umlClass = new UmlClass("zero");
-        manager.addUmlClass(umlClass);
+        umlClassManager.addUmlClass(umlClass);
 
-        Assertions.assertTrue(manager.deleteUmlClass(umlClass.getName()));
-        Assertions.assertEquals(0, manager.listUmlClasses().size());
+        Assertions.assertTrue(umlClassManager.deleteUmlClass(umlClass.getName()));
+        Assertions.assertEquals(0, umlClassManager.listUmlClasses().size());
     }
 
     @Test
     public void testDeleteReturnsFalseWhenNotInList() {
-        UmlClassManager manager = new UmlClassManager();
         UmlClass umlClass = new UmlClass("zero");
         UmlClass umlClassTwo = new UmlClass("project");
 
-        manager.addUmlClass(umlClass);
+        umlClassManager.addUmlClass(umlClass);
 
-        Assertions.assertFalse(manager.deleteUmlClass(umlClassTwo.getName()));
+        Assertions.assertFalse(umlClassManager.deleteUmlClass(umlClassTwo.getName()));
     }
 
     @Test
     public void testUMLClassSetName() {
-        UmlClassManager manager = new UmlClassManager();
         UmlClass umlClass = new UmlClass("zero");
         umlClass.setName("project");
 

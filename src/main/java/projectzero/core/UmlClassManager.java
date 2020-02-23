@@ -1,10 +1,10 @@
 package projectzero.core;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 public class UmlClassManager {
     private Map<String, UmlClass> umlClassMap;
@@ -39,7 +39,7 @@ public class UmlClassManager {
     }
 
     public List<UmlClass> listUmlClasses() {
-        return umlClassMap.values().stream().collect(Collectors.toList());
+        return new ArrayList<>(umlClassMap.values());
     }
 
     public boolean save(String path) {
@@ -59,5 +59,4 @@ public class UmlClassManager {
             return false;
         }
     }
-
 }
