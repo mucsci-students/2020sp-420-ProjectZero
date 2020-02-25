@@ -1,5 +1,6 @@
 package projectzero.core;
 
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
@@ -21,6 +22,8 @@ public class UmlClassYamlMapperTest {
         UmlClass cat = new UmlClass("cat");
         UmlClass bat = new UmlClass("bat");
 
+        dog.addField(new Field("color"));
+
         List<UmlClass> animals = Arrays.asList(dog, cat, bat);
         Map<String, UmlClass> animalsMap = animals.stream().collect(Collectors.toMap(animal -> animal.getName(), animal -> animal));
 
@@ -30,5 +33,6 @@ public class UmlClassYamlMapperTest {
         Map<String, UmlClass> readAnimalsMap = umlClassYamlMapper.read(path.toString());
 
         Assertions.assertTrue(animalsMap.equals(readAnimalsMap));
+        Assertions.assertTrue(animalsMap.get("dog").getFieldMap().containsKey("color"));
     }
 }
