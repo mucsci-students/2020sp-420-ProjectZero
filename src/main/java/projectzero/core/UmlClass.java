@@ -7,15 +7,18 @@ import java.util.Objects;
 
 public class UmlClass {
     private String name;
+    private Map<String, Field> fieldMap;
     private Map<String, Method> methodMap;
 
     public UmlClass() {
+        this.fieldMap = new HashMap<>();
         this.methodMap = new HashMap<>();
     }
 
     public UmlClass(String name) {
-        this.methodMap = new HashMap<>();
         this.name = name;
+        this.fieldMap = new HashMap<>();
+        this.methodMap = new HashMap<>();
     }
 
     public String getName() {
@@ -26,12 +29,30 @@ public class UmlClass {
         this.name = name;
     }
 
+    public Map<String, Field> getFieldMap() {
+        return fieldMap;
+    }
+
+    public void setFieldMap(Map<String, Field> fieldMap) {
+        this.fieldMap = fieldMap;
+    }
+
+
     public Map<String, Method> getMethodMap() {
         return methodMap;
     }
 
     public void setMethodMap(Map<String, Method> methodMap) {
         this.methodMap = methodMap;
+    }
+
+    public boolean addField(Field field) {
+        if (!SourceVersion.isIdentifier(field.getName()) ||  fieldMap.containsKey(field.getName())) {
+            return false;
+        }
+
+        fieldMap.put(field.getName(), field);
+        return true;
     }
 
     public boolean addMethod(Method method) {
@@ -49,6 +70,7 @@ public class UmlClass {
         if (o == null || getClass() != o.getClass()) return false;
         UmlClass umlClass = (UmlClass) o;
         return Objects.equals(getName(), umlClass.getName()) &&
-                Objects.equals(getMethodMap(), umlClass.getMethodMap());
+                Objects.equals(getMethodMap(), umlClass.getMethodMap()) &&
+                Objects.equals(getFieldMap(), umlClass.getFieldMap());
     }
 }
