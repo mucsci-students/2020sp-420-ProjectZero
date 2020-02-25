@@ -21,14 +21,17 @@ public class UmlClassYamlMapperTest {
         UmlClass cat = new UmlClass("cat");
         UmlClass bat = new UmlClass("bat");
 
+        dog.addRelationship(new Relationship(cat));
+
         List<UmlClass> animals = Arrays.asList(dog, cat, bat);
-        Map<String, UmlClass> animalsMap = animals.stream().collect(Collectors.toMap(animal -> animal.getName(), animal -> animal));
+        Map<String, UmlClass> animalsMap = animals.stream().collect(Collectors.toMap(UmlClass::getName, animal -> animal));
 
         UmlClassYamlMapper umlClassYamlMapper = new UmlClassYamlMapper();
         umlClassYamlMapper.write(path.toString(), animalsMap);
 
         Map<String, UmlClass> readAnimalsMap = umlClassYamlMapper.read(path.toString());
 
-        Assertions.assertTrue(animalsMap.equals(readAnimalsMap));
+        Assertions.assertEquals(animalsMap, readAnimalsMap);
+        Assertions.assertEquals(animalsMap.get("dog").getRelationshipMap().get("cat"), readAnimalsMap.get("dog").getRelationshipMap().get("cat"));
     }
 }
