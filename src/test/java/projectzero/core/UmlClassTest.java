@@ -34,6 +34,4 @@ public class UmlClassTest {
         Assertions.assertTrue(umlClass.addMethod(new Method("method")));
         Assertions.assertFalse(umlClass.addMethod(new Method("method")));
     }
-
-
 }

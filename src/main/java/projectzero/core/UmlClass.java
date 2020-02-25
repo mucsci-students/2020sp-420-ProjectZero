@@ -48,11 +48,7 @@ public class UmlClass {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         UmlClass umlClass = (UmlClass) o;
-        return Objects.equals(getName(), umlClass.getName());
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(getName());
+        return Objects.equals(getName(), umlClass.getName()) &&
+                Objects.equals(getMethodMap(), umlClass.getMethodMap());
     }
 }

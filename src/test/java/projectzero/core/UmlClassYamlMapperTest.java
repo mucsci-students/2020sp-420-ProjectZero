@@ -24,14 +24,14 @@ public class UmlClassYamlMapperTest {
         dog.addMethod(new Method("bark"));
 
         List<UmlClass> animals = Arrays.asList(dog, cat, bat);
-        Map<String, UmlClass> animalsMap = animals.stream().collect(Collectors.toMap(animal -> animal.getName(), animal -> animal));
+        Map<String, UmlClass> animalsMap = animals.stream().collect(Collectors.toMap(UmlClass::getName, animal -> animal));
 
         UmlClassYamlMapper umlClassYamlMapper = new UmlClassYamlMapper();
         umlClassYamlMapper.write(path.toString(), animalsMap);
 
         Map<String, UmlClass> readAnimalsMap = umlClassYamlMapper.read(path.toString());
 
-        Assertions.assertTrue(animalsMap.equals(readAnimalsMap));
-        Assertions.assertTrue(animalsMap.get("dog").getMethodMap().containsKey("bark"));
+        Assertions.assertEquals(animalsMap, readAnimalsMap);
+        Assertions.assertTrue(readAnimalsMap.get("dog").getMethodMap().containsKey("bark"));
     }
 }
