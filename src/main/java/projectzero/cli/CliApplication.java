@@ -19,10 +19,8 @@ public class CliApplication {
     }
 
     public void run() {
-
         MainMenu();
     }
-
 
     private void MainMenu() {
         Scanner input = new Scanner(System.in);
@@ -30,15 +28,14 @@ public class CliApplication {
 
         while(true){
             inputLine = input.nextLine();
-
-
             determineCommand(inputLine);
-
-
         }
     }
+
     private void determineCommand(String inputLine){
-        if(inputLine.equals("help")){
+        if(inputLine.equals("displayAllClasses")){
+            printList();
+        }else if(inputLine.equals("help")){
             printHelp();
         }else {
             String command = inputLine.substring(0, inputLine.indexOf(" "));
@@ -49,19 +46,12 @@ public class CliApplication {
                 switch(command){
                     case "addClass":
                         addClass(arguments);
-
                 }
-
             }
-
         }
     }
 
-
-
     private void printHelp() {
-
-
         File help = new File("src/main/java/projectzero/cli/helpMenu");
         try{
             Scanner fileRead = new Scanner(help);
@@ -84,7 +74,6 @@ public class CliApplication {
             System.out.println(name + " " +  "was added");
         }
     }
-
 
     private void printList() {
         List<UmlClass> tempList = MainManager.listUmlClasses();
