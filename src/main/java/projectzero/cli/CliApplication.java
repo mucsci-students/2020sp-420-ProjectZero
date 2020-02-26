@@ -60,16 +60,72 @@ public class CliApplication {
                     case "addMethod":
                         addMethod(arguments);
                         break;
-
                     case "addField":
                         addField(arguments);
                         break;
                     case "displayClass":
                         displayOneClass(arguments);
                         break;
+                    case "deleteClass":
+                        deleteClass(arguments);
+                        break;
+                    case "deleteMethod":
+                        deleteMethod(arguments);
+                        break;
+                    case "deleteField":
+                        deleteField(arguments);
+                        break;
                 }
             }
         }
+    }
+
+    private void deleteField(String arguments) {
+        String className = arguments.substring(0, arguments.indexOf(" "));
+        String field = arguments.substring(arguments.indexOf(" ") + 1);
+        UmlClass temp = MainManager.getUmlClass(className);
+        for(String m: temp.getFieldMap().keySet()){
+            if(m.equals(field)){
+                temp.getFieldMap().remove(field);
+                break;
+            }
+        }
+        if(temp.getFieldMap().containsKey(field)){
+            System.out.println("Field not found.");
+        }
+        else{
+            System.out.println("Field " + field + " has been deleted from " + className + ".");
+        }
+
+    }
+
+    private void deleteMethod(String arguments) {
+        String className = arguments.substring(0, arguments.indexOf(" "));
+        String method = arguments.substring(arguments.indexOf(" ") + 1);
+        UmlClass temp = MainManager.getUmlClass(className);
+        for(String m: temp.getMethodMap().keySet()){
+            if(m.equals(method)){
+                temp.getMethodMap().remove(method);
+                break;
+            }
+        }
+        if(temp.getMethodMap().containsKey(method)){
+            System.out.println("Method not found.");
+        }
+        else{
+            System.out.println("Method " + method + " has been deleted from " + className + ".");
+        }
+
+    }
+
+    private void deleteClass(String arguments) {
+        if(MainManager.deleteUmlClass(arguments)){
+            System.out.println(arguments + " was deleted." );
+        }
+        else{
+            System.out.println("Class not found.");
+        }
+
     }
 
     private void addField(String s) {
