@@ -1,28 +1,24 @@
 package projectzero.cli;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class Validation {
-    public static boolean isValidMenuInput(int[] validInputList, String input) {
-        boolean validOption = false;
-        try {
-            int option = Integer.parseInt(input);
-            validOption = isValidInt(option, validInputList);
-        } catch (Exception e) {
-            System.out.println("Not valid\n");
-            return false;
+    public static ArrayList<String> validCommands = new ArrayList<String>(Arrays.asList(
+         "addClass", "addMethod", "addField", "addRelationship", "deleteClass" ,"deleteMethod",
+         "deleteField", "deleteRelationship", "editClass", "editMethod", "editField", "displayAll",
+         "displayClass", "help", "save", "load"
+    ));
+
+    public static boolean isValidMenuInput(String input) {
+        if(validCommands.contains(input)){
+            return true;
         }
-        return validOption;
+        return false;
     }
 
-    private static boolean isValidInt(int input, int[] validInputList) {
-        boolean validOption = false;
-        for (int i : validInputList) {
-            if (i == input)
-                validOption = true;
-        }
-        return validOption;
-    }
+
 
     public static boolean isValidName(Scanner nameScanner) {
         String className = nameScanner.nextLine();
