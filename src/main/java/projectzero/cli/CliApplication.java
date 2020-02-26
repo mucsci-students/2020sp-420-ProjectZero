@@ -1,6 +1,7 @@
 package projectzero.cli;
 
 import projectzero.Main;
+import projectzero.core.Field;
 import projectzero.core.Method;
 import projectzero.core.UmlClass;
 import projectzero.core.UmlClassManager;
@@ -29,16 +30,24 @@ public class CliApplication {
 
         while(true){
             inputLine = input.nextLine();
-            determineCommand(inputLine);
+
+            if(inputLine.length() > 1) {
+                determineCommand(inputLine);
+            }
+            else{
+                System.out.println("Not a command");
+            }
         }
     }
 
     private void determineCommand(String inputLine){
         if(inputLine.equals("displayAllClasses")){
             printList();
-        }else if(inputLine.equals("help")){
+        }
+        else if(inputLine.equals("help")){
             printHelp();
-        }else {
+        }
+        else {
             String command = inputLine.substring(0, inputLine.indexOf(" "));
             String arguments = inputLine.substring(inputLine.indexOf(" ") + 1);
             if (!Validation.isValidMenuInput(command)) {
@@ -50,8 +59,26 @@ public class CliApplication {
                         break;
                     case "addMethod":
                         addMethod(arguments);
+                        break;
+
+                    case "addField":
+                        addField(arguments);
+                        break;
+                    case "displayClass":
+                        displayOneClass(arguments);
+                        break;
                 }
             }
+        }
+    }
+
+    private void addField(String s) {
+        String className = s.substring(0, s.indexOf(" "));
+        String field = s.substring(s.indexOf(" ") + 1);
+
+        if(Validation.isValidClass(MainManager, className)){
+            MainManager.getUmlClass(className).addField(new Field(field));
+            System.out.println("The field " + field + " was added to " + className);
         }
     }
 
@@ -97,10 +124,38 @@ public class CliApplication {
     private void printList() {
         List<UmlClass> tempList = MainManager.listUmlClasses();
         System.out.println("\nCurrent classes:");
-        System.out.print("[ ");
         for (UmlClass tempClass : tempList) {
-            System.out.print(tempClass.getName() + " ");
+            System.out.print("[ ");
+            System.out.println(tempClass.getName() + ": ");
+            System.out.print("\t");
+            System.out.println("Fields: ");
+            for(String field: tempClass.getFieldMap().keySet()){
+                System.out.println("\t  " + field);
+            }
+            System.out.print("\t");
+            System.out.println("Methods: ");
+            for(String method: tempClass.getMethodMap().keySet()){
+                System.out.println("\t  " + method);
+            }
+            System.out.println("]\n");
         }
-        System.out.println("]\n");
     }
+
+
+    public void displayOneClass(String name){
+        UmlClass temp = MainManager.getUmlClass(name);
+        System.out.print("[ ");
+        System.out.println(temp.getName() + ": ");
+        System.out.print("\t");
+        System.out.println("Fields: ");
+            for(String field: temp.getFieldMap().keySet()){
+                System.out.println("\t  " + field);
+            }
+            System.out.print("\t");
+            System.out.println("Methods: ");
+            for(String method: temp.getMethodMap().keySet()){
+                System.out.println("\t  " + method);
+            }
+            System.out.println("]\n");
+        }
 }
