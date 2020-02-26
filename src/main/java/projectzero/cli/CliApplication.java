@@ -1,5 +1,6 @@
 package projectzero.cli;
 
+import projectzero.Main;
 import projectzero.core.UmlClass;
 import projectzero.core.UmlClassManager;
 
@@ -45,6 +46,11 @@ public class CliApplication {
             if (!Validation.isValidMenuInput(command)) {
                 System.out.println("Not a valid command.");
             } else {
+                switch(command){
+                    case "addClass":
+                        addClass(arguments);
+
+                }
 
             }
 
@@ -67,16 +73,17 @@ public class CliApplication {
         }
     }
 
-
-
-
-
-
-
-
-
-
-
+    private void addClass(String name){
+        if(!Validation.isValidName(name)){
+            System.out.println("Not a valid class name.");
+        }
+        else if(!MainManager.addUmlClass(new UmlClass(name))){
+            System.out.println("Class already exists");
+        }
+        else{
+            System.out.println(name + " " +  "was added");
+        }
+    }
 
 
     private void printList() {

@@ -1,5 +1,6 @@
 package projectzero.cli;
 
+import javax.lang.model.SourceVersion;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
@@ -20,9 +21,11 @@ public class Validation {
 
 
 
-    public static boolean isValidName(Scanner nameScanner) {
-        String className = nameScanner.nextLine();
+    public static boolean isValidName(String name) {
+        if (!SourceVersion.isIdentifier(name) && !SourceVersion.isKeyword(name)) {
+                return true;
+        }
+        return false;
 
-        return !className.contains(" ");
     }
 }
