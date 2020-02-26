@@ -1,0 +1,22 @@
+
+addClass <class name>
+addMethod <class Name> <method name>
+addField <class Name> <field name>
+addRelationship <From class Name> <to class name>
+
+deleteClass <class name>
+deleteMethod <class name> <method name>
+deleteField <class name> <field name>
+deleteRelationship <from class name> <to class name>
+
+editClass <old class name> <new class name>
+editMethod <class name> <old method name> <new method name>
+editField <class name> <old field name> <new field name>
+
+displayAll
+displayClass <class name>
+
+save <file name>
+load <file name>
+
+help
