@@ -38,9 +38,14 @@ public class UmlClassManager {
         return true;
     }
 
-    public List<UmlClass> listUmlClasses() {
-        return new ArrayList<>(umlClassMap.values());
+    public UmlClass getUmlClass(String umlClassName){
+
+        return umlClassMap.get(umlClassName);
+
     }
+
+
+    public List<UmlClass> listUmlClasses() { return new ArrayList<>(umlClassMap.values());}
 
     public boolean save(String path) {
         try {

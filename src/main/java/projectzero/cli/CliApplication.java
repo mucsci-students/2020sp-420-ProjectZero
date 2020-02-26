@@ -1,6 +1,7 @@
 package projectzero.cli;
 
 import projectzero.Main;
+import projectzero.core.Method;
 import projectzero.core.UmlClass;
 import projectzero.core.UmlClassManager;
 
@@ -39,16 +40,34 @@ public class CliApplication {
             printHelp();
         }else {
             String command = inputLine.substring(0, inputLine.indexOf(" "));
-            String arguments = inputLine.substring(inputLine.indexOf(" "), inputLine.length());
+            String arguments = inputLine.substring(inputLine.indexOf(" ") + 1);
             if (!Validation.isValidMenuInput(command)) {
                 System.out.println("Not a valid command.");
             } else {
                 switch(command){
                     case "addClass":
                         addClass(arguments);
+                        break;
+                    case "addMethod":
+                        addMethod(arguments);
                 }
             }
         }
+    }
+
+    private void addMethod(String s) {
+        String className = s.substring(0, s.indexOf(" "));
+        String method = s.substring(s.indexOf(" ") + 1);
+
+
+         if(Validation.isValidClass(MainManager, className)){
+             MainManager.getUmlClass(className).addMethod(new Method(method));
+             System.out.println(method + " was added to " + className);
+         }
+         else{
+             System.out.println("Invalid class name");
+         }
+
     }
 
     private void printHelp() {
