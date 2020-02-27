@@ -39,6 +39,10 @@ public class UmlClassManager {
         return true;
     }
 
+    public UmlClass getUmlClass(String umlClassName) {
+        return umlClassMap.getOrDefault(umlClassName, null);
+    }
+
     public List<UmlClass> listUmlClasses() {
         return new ArrayList<>(umlClassMap.values());
     }
@@ -60,5 +64,5 @@ public class UmlClassManager {
             return false;
         }
     }
-
 }
+
