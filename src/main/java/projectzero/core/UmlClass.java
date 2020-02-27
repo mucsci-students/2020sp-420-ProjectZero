@@ -9,16 +9,19 @@ public class UmlClass {
     private String name;
     private Map<String, Field> fieldMap;
     private Map<String, Method> methodMap;
+    private Map<String, Relationship> relationshipMap;
 
     public UmlClass() {
         this.fieldMap = new HashMap<>();
         this.methodMap = new HashMap<>();
+        this.relationshipMap = new HashMap<>();
     }
 
     public UmlClass(String name) {
         this.name = name;
         this.fieldMap = new HashMap<>();
         this.methodMap = new HashMap<>();
+        this.relationshipMap = new HashMap<>();
     }
 
     public String getName() {
@@ -46,8 +49,17 @@ public class UmlClass {
         this.methodMap = methodMap;
     }
 
+
+    public Map<String, Relationship> getRelationshipMap() {
+        return relationshipMap;
+    }
+
+    public void setRelationshipMap(Map<String, Relationship> relationshipMap) {
+        this.relationshipMap = relationshipMap;
+    }
+
     public boolean addField(Field field) {
-        if (!SourceVersion.isIdentifier(field.getName()) ||  fieldMap.containsKey(field.getName())) {
+        if (!SourceVersion.isIdentifier(field.getName()) || fieldMap.containsKey(field.getName())) {
             return false;
         }
 
@@ -64,6 +76,15 @@ public class UmlClass {
         return true;
     }
 
+    public boolean addRelationship(Relationship relationship) {
+        if (this.relationshipMap.containsKey(relationship.getTo().getName()) || relationship.getTo().getRelationshipMap().containsKey(this.getName())) {
+            return false;
+        }
+
+        this.relationshipMap.put(relationship.getTo().getName(), relationship);
+        return true;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -71,6 +92,7 @@ public class UmlClass {
         UmlClass umlClass = (UmlClass) o;
         return Objects.equals(getName(), umlClass.getName()) &&
                 Objects.equals(getMethodMap(), umlClass.getMethodMap()) &&
-                Objects.equals(getFieldMap(), umlClass.getFieldMap());
+                Objects.equals(getFieldMap(), umlClass.getFieldMap()) &&
+                Objects.equals(getRelationshipMap(), umlClass.getRelationshipMap());
     }
 }
