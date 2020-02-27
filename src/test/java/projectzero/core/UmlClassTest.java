@@ -28,6 +28,71 @@ public class UmlClassTest {
     }
 
     @Test
+    void testDeleteFieldReturnsTrueOnNullValue() {
+        UmlClass umlClass = new UmlClass("class");
+
+        Assertions.assertTrue(umlClass.deleteField("field"));
+    }
+
+    @Test
+    void testDeleteFieldReturnsTrueOnSuccessfulRemove() {
+        UmlClass umlClass = new UmlClass("class");
+        umlClass.addField(new Field("field"));
+        Assertions.assertEquals(1, umlClass.listFields().size());
+
+        Assertions.assertTrue(umlClass.deleteField("field"));
+        Assertions.assertEquals(0, umlClass.listFields().size());
+    }
+
+    @Test
+    void testGetFieldReturnsNullOnNonExistentField() {
+        UmlClass umlClass = new UmlClass("class");
+
+        Assertions.assertNull(umlClass.getField("field"));
+    }
+
+    @Test
+    void testGetFieldReturnsFieldOnExistentField() {
+        UmlClass umlClass = new UmlClass("class");
+        Field field = new Field("field");
+
+        umlClass.addField(field);
+
+        Assertions.assertEquals(field, umlClass.getField("field"));
+    }
+
+    @Test
+    void testListFieldsReturnsCorrectValues() {
+        UmlClass umlClass = new UmlClass("class");
+        Assertions.assertEquals(0, umlClass.listFields().size());
+
+        Field field = new Field("field");
+        umlClass.addField(field);
+        Assertions.assertEquals(1, umlClass.listFields().size());
+
+        umlClass.deleteField("field");
+        Assertions.assertEquals(0, umlClass.listFields().size());
+    }
+
+    @Test
+    public void testUpdateFieldReturnsTrueOnSuccessfulAdd() {
+        UmlClass umlClass = new UmlClass("class");
+
+        Assertions.assertTrue(umlClass.addField(new Field("field")));
+    }
+
+    @Test
+    public void testUpdateFieldReturnsTrueOnSuccessfulUpdate() {
+        UmlClass umlClass = new UmlClass("class");
+
+        Field fieldOriginal = new Field("fieldOriginal");
+        Field fieldReplacement = new Field("fieldReplacement");
+
+        Assertions.assertTrue(umlClass.updateField(fieldOriginal.getName(), fieldOriginal));
+        Assertions.assertTrue(umlClass.updateField(fieldReplacement.getName(), fieldReplacement));
+    }
+
+    @Test
     void testAddMethodReturnsTrueOnSuccess() {
         UmlClass umlClass = new UmlClass("class");
 

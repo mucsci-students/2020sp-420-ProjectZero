@@ -83,8 +83,6 @@ public class UmlClass {
         return true;
     }
 
-
-
     public boolean addMethod(Method method) {
         if (!SourceVersion.isIdentifier(method.getName()) || methodMap.containsKey(method.getName())) {
             return false;
