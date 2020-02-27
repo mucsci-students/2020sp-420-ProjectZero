@@ -1,7 +1,6 @@
 package projectzero.core;
 
 import javax.lang.model.SourceVersion;
-
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -60,7 +59,7 @@ public class UmlClass {
     }
 
     public boolean addField(Field field) {
-        if (!SourceVersion.isIdentifier(field.getName()) ||  fieldMap.containsKey(field.getName())) {
+        if (!SourceVersion.isIdentifier(field.getName()) || fieldMap.containsKey(field.getName())) {
             return false;
         }
 
