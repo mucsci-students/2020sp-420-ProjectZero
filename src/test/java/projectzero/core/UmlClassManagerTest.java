@@ -80,7 +80,6 @@ public class UmlClassManagerTest {
         Assertions.assertTrue(manager.updateUmlClass(umlClassReplacement.getName(), umlClassReplacement));
     }
 
-
     @Test
     public void testUMLClassSetName() {
         UmlClassManager manager = new UmlClassManager();
