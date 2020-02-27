@@ -63,6 +63,22 @@ public class UmlClassManagerTest {
     }
 
     @Test
+    public void testGetReturnsObjectOnExistingClass() {
+        UmlClassManager manager = new UmlClassManager();
+        UmlClass umlClass = new UmlClass("class");
+        manager.addUmlClass(umlClass);
+
+        Assertions.assertEquals(umlClass, manager.getUmlClass("class"));
+    }
+
+    @Test
+    public void testGetReturnsNullOnNonExistingClass() {
+        UmlClassManager manager = new UmlClassManager();
+
+        Assertions.assertEquals(null, manager.getUmlClass("notClass"));
+    }
+
+    @Test
     public void testUMLClassSetName() {
         UmlClassManager manager = new UmlClassManager();
         UmlClass umlClass = new UmlClass("zero");
