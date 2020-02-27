@@ -1,9 +1,7 @@
 package projectzero.core;
 
 import javax.lang.model.SourceVersion;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 public class UmlClass {
     private String name;
@@ -66,6 +64,26 @@ public class UmlClass {
         fieldMap.put(field.getName(), field);
         return true;
     }
+
+    public boolean deleteField(String fieldName) {
+        this.fieldMap.remove(fieldName);
+        return true;
+    }
+
+    public Field getField(String fieldName) {
+        return fieldMap.getOrDefault(fieldName, null);
+    }
+
+    public List<Field> listFields() {
+        return new ArrayList<>(fieldMap.values());
+    }
+
+    public boolean updateField(String fieldName, Field field) {
+        this.fieldMap.replace(fieldName, field);
+        return true;
+    }
+
+
 
     public boolean addMethod(Method method) {
         if (!SourceVersion.isIdentifier(method.getName()) || methodMap.containsKey(method.getName())) {
