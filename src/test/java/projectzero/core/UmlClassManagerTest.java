@@ -79,6 +79,24 @@ public class UmlClassManagerTest {
     }
 
     @Test
+    public void testUpdateReturnsTrueOnSuccessfulAdd() {
+        UmlClassManager manager = new UmlClassManager();
+        UmlClass umlClass = new UmlClass("zero");
+
+        Assertions.assertTrue(manager.updateUmlClass(umlClass.getName(), umlClass));
+    }
+
+    @Test
+    public void testUpdateReturnsTrueOnSuccessfulUpdate() {
+        UmlClassManager manager = new UmlClassManager();
+        UmlClass umlClassOriginal = new UmlClass("original");
+        UmlClass umlClassReplacement = new UmlClass("replacement");
+
+        Assertions.assertTrue(manager.updateUmlClass(umlClassOriginal.getName(), umlClassOriginal));
+        Assertions.assertTrue(manager.updateUmlClass(umlClassReplacement.getName(), umlClassReplacement));
+    }
+
+    @Test
     public void testUMLClassSetName() {
         UmlClassManager manager = new UmlClassManager();
         UmlClass umlClass = new UmlClass("zero");

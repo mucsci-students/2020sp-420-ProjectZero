@@ -46,6 +46,11 @@ public class UmlClassManager {
         return new ArrayList<>(umlClassMap.values());
     }
 
+    public boolean updateUmlClass(String umlClassName, UmlClass umlClass) {
+        umlClassMap.replace(umlClassName, umlClass);
+        return true;
+    }
+
     public boolean save(String path) {
         try {
             umlClassYamlMapper.write(path, this.umlClassMap);
