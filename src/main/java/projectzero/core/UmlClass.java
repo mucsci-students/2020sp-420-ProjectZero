@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import projectzero.core.exceptions.InvalidNameException;
 
 import javax.lang.model.SourceVersion;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
