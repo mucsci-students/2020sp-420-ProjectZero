@@ -6,137 +6,281 @@ import org.junit.jupiter.api.Test;
 public class UmlClassTest {
 
     @Test
-    void testAddFieldReturnsTrueOnSuccess() {
-        UmlClass umlClass = new UmlClass("class");
+    public void testUmlClassAddFieldSucceedsOnValidField() {
+        Assertions.assertDoesNotThrow(() -> {
+            UmlClass umlClass = new UmlClass("Class");
+            Field field = new Field("field");
 
-        Assertions.assertTrue(umlClass.addField(new Field("field")));
+            Assertions.assertTrue(umlClass.addField(field));
+            Assertions.assertTrue(umlClass.getFields().contains(field));
+        });
     }
 
     @Test
-    void testAddFieldReturnsFalseOnBadName() {
-        UmlClass umlClass = new UmlClass("class");
+    public void testUmlClassAddFieldReturnsFalseOnDuplicateField() {
+        Assertions.assertDoesNotThrow(() -> {
+            UmlClass umlClass = new UmlClass("Class");
+            Field field1 = new Field("field");
+            Field field2 = new Field("field");
 
-        Assertions.assertFalse(umlClass.addField(new Field("!field")));
+            Assertions.assertTrue(umlClass.addField(field1));
+            Assertions.assertTrue(umlClass.getFields().contains(field1));
+            Assertions.assertFalse(umlClass.addField(field2));
+        });
     }
 
     @Test
-    void testAddFieldReturnsFalseOnDuplicateField() {
-        UmlClass umlClass = new UmlClass("class");
+    public void testUmlClassDeleteFieldReturnsTrueOnSuccessfulDelete() {
+        Assertions.assertDoesNotThrow(() -> {
+            UmlClass umlClass = new UmlClass("Class");
+            Field field = new Field("field");
 
-        Assertions.assertTrue(umlClass.addField(new Field("field")));
-        Assertions.assertFalse(umlClass.addField(new Field("field")));
+            Assertions.assertTrue(umlClass.addField(field));
+            Assertions.assertTrue(umlClass.getFields().contains(field));
+            Assertions.assertTrue(umlClass.deleteField(field));
+            Assertions.assertFalse(umlClass.getFields().contains(field));
+        });
     }
 
     @Test
-    void testDeleteFieldReturnsTrueOnNullValue() {
-        UmlClass umlClass = new UmlClass("class");
+    public void testUmlClassDeleteFieldReturnsFalseOnUnsuccessfulDelete() {
+        Assertions.assertDoesNotThrow(() -> {
+            UmlClass umlClass = new UmlClass("Class");
+            Field field = new Field("field");
 
-        Assertions.assertTrue(umlClass.deleteField("field"));
+            Assertions.assertFalse(umlClass.getFields().contains(field));
+            Assertions.assertFalse(umlClass.deleteField(field));
+            Assertions.assertFalse(umlClass.getFields().contains(field));
+        });
     }
 
     @Test
-    void testDeleteFieldReturnsTrueOnSuccessfulRemove() {
-        UmlClass umlClass = new UmlClass("class");
-        umlClass.addField(new Field("field"));
-        Assertions.assertEquals(1, umlClass.listFields().size());
+    public void testUmlClassUpdateFieldReturnsTrueOnSuccessfulUpdate() {
+        Assertions.assertDoesNotThrow(() -> {
+            UmlClass umlClass = new UmlClass("Class");
+            Field field1 = new Field("field1");
+            Field field2 = new Field("field2");
 
-        Assertions.assertTrue(umlClass.deleteField("field"));
-        Assertions.assertEquals(0, umlClass.listFields().size());
+            Assertions.assertTrue(umlClass.addField(field1));
+            Assertions.assertTrue(umlClass.getFields().contains(field1));
+            Assertions.assertTrue(umlClass.updateField(field1, field2));
+            Assertions.assertFalse(umlClass.getFields().contains(field1));
+            Assertions.assertTrue(umlClass.getFields().contains(field2));
+        });
     }
 
     @Test
-    void testGetFieldReturnsNullOnNonExistentField() {
-        UmlClass umlClass = new UmlClass("class");
+    public void testUmlClassUpdateFieldReturnsFalseOnUnsuccessfulUpdate() {
+        Assertions.assertDoesNotThrow(() -> {
+            UmlClass umlClass = new UmlClass("Class");
+            Field field1 = new Field("field1");
+            Field field2 = new Field("field2");
 
-        Assertions.assertNull(umlClass.getField("field"));
+            Assertions.assertTrue(umlClass.addField(field1));
+            Assertions.assertTrue(umlClass.getFields().contains(field1));
+            Assertions.assertTrue(umlClass.addField(field2));
+            Assertions.assertTrue(umlClass.getFields().contains(field2));
+            Assertions.assertFalse(umlClass.updateField(field1, field2));
+            Assertions.assertTrue(umlClass.getFields().contains(field1));
+            Assertions.assertTrue(umlClass.getFields().contains(field2));
+        });
     }
 
     @Test
-    void testGetFieldReturnsFieldOnExistentField() {
-        UmlClass umlClass = new UmlClass("class");
-        Field field = new Field("field");
+    public void testUmlClassAddMethodSucceedsOnValidMethod() {
+        Assertions.assertDoesNotThrow(() -> {
+            UmlClass umlClass = new UmlClass("Class");
+            Method method = new Method("method1");
 
-        umlClass.addField(field);
+            umlClass.addMethod(method);
 
-        Assertions.assertEquals(field, umlClass.getField("field"));
+            Assertions.assertTrue(umlClass.getMethods().contains(method));
+        });
     }
 
     @Test
-    void testListFieldsReturnsCorrectValues() {
-        UmlClass umlClass = new UmlClass("class");
-        Assertions.assertEquals(0, umlClass.listFields().size());
+    public void testUmlClassAddMethodReturnsFalseOnDuplicateMethod() {
+        Assertions.assertDoesNotThrow(() -> {
+            UmlClass umlClass = new UmlClass("Class");
+            Method method1 = new Method("method");
+            Method method2 = new Method("method");
 
-        Field field = new Field("field");
-        umlClass.addField(field);
-        Assertions.assertEquals(1, umlClass.listFields().size());
-
-        umlClass.deleteField("field");
-        Assertions.assertEquals(0, umlClass.listFields().size());
+            Assertions.assertTrue(umlClass.addMethod(method1));
+            Assertions.assertTrue(umlClass.getMethods().contains(method1));
+            Assertions.assertFalse(umlClass.addMethod(method2));
+        });
     }
 
     @Test
-    public void testUpdateFieldReturnsTrueOnSuccessfulAdd() {
-        UmlClass umlClass = new UmlClass("class");
+    public void testUmlClassDeleteMethodReturnsTrueOnSuccessfulDelete() {
+        Assertions.assertDoesNotThrow(() -> {
+            UmlClass umlClass = new UmlClass("Class");
+            Method method = new Method("method");
 
-        Assertions.assertTrue(umlClass.addField(new Field("field")));
+            Assertions.assertTrue(umlClass.addMethod(method));
+            Assertions.assertTrue(umlClass.getMethods().contains(method));
+            Assertions.assertTrue(umlClass.deleteMethod(method));
+            Assertions.assertFalse(umlClass.getMethods().contains(method));
+        });
     }
 
     @Test
-    public void testUpdateFieldReturnsTrueOnSuccessfulUpdate() {
-        UmlClass umlClass = new UmlClass("class");
+    public void testUmlClassDeleteMethodReturnsFalseOnUnsuccessfulDelete() {
+        Assertions.assertDoesNotThrow(() -> {
+            UmlClass umlClass = new UmlClass("Class");
+            Method method = new Method("method");
 
-        Field fieldOriginal = new Field("fieldOriginal");
-        Field fieldReplacement = new Field("fieldReplacement");
-
-        Assertions.assertTrue(umlClass.updateField(fieldOriginal.getName(), fieldOriginal));
-        Assertions.assertTrue(umlClass.updateField(fieldReplacement.getName(), fieldReplacement));
+            Assertions.assertFalse(umlClass.getMethods().contains(method));
+            Assertions.assertFalse(umlClass.deleteMethod(method));
+            Assertions.assertFalse(umlClass.getMethods().contains(method));
+        });
     }
 
     @Test
-    void testAddMethodReturnsTrueOnSuccess() {
-        UmlClass umlClass = new UmlClass("class");
+    public void testUmlClassUpdateMethodReturnsTrueOnSuccessfulUpdate() {
+        Assertions.assertDoesNotThrow(() -> {
+            UmlClass umlClass = new UmlClass("Class");
+            Method method1 = new Method("method1");
+            Method method2 = new Method("method2");
 
-        Assertions.assertTrue(umlClass.addMethod(new Method("method")));
+            Assertions.assertTrue(umlClass.addMethod(method1));
+            Assertions.assertTrue(umlClass.getMethods().contains(method1));
+            Assertions.assertTrue(umlClass.updateMethod(method1, method2));
+            Assertions.assertFalse(umlClass.getMethods().contains(method1));
+            Assertions.assertTrue(umlClass.getMethods().contains(method2));
+        });
     }
 
     @Test
-    void testAddMethodReturnsFalseOnBadName() {
-        UmlClass umlClass = new UmlClass("class");
+    public void testUmlClassUpdateMethodReturnsFalseOnUnsuccessfulUpdate() {
+        Assertions.assertDoesNotThrow(() -> {
+            UmlClass umlClass = new UmlClass("Class");
+            Method method1 = new Method("method1");
+            Method method2 = new Method("method2");
 
-        Assertions.assertFalse(umlClass.addMethod(new Method("!method")));
+            Assertions.assertTrue(umlClass.addMethod(method1));
+            Assertions.assertTrue(umlClass.getMethods().contains(method1));
+            Assertions.assertTrue(umlClass.addMethod(method2));
+            Assertions.assertTrue(umlClass.getMethods().contains(method2));
+            Assertions.assertFalse(umlClass.updateMethod(method1, method2));
+            Assertions.assertTrue(umlClass.getMethods().contains(method1));
+            Assertions.assertTrue(umlClass.getMethods().contains(method2));
+        });
     }
 
     @Test
-    void testAddMethodReturnsFalseOnDuplicateMethod() {
-        UmlClass umlClass = new UmlClass("class");
+    public void testUmlClassAddRelationshipSucceedsOnValidRelationship() {
+        Assertions.assertDoesNotThrow(() -> {
+            UmlClass from = new UmlClass("From");
+            UmlClass to1 = new UmlClass("To1");
+            UmlClass to2 = new UmlClass("To2");
 
-        Assertions.assertTrue(umlClass.addMethod(new Method("method")));
-        Assertions.assertFalse(umlClass.addMethod(new Method("method")));
+            Relationship relationship1 = new Relationship(to1);
+            Relationship relationship2 = new Relationship(to2);
+
+            Assertions.assertTrue(from.addRelationship(relationship1));
+            Assertions.assertTrue(from.getRelationships().contains(relationship1));
+            Assertions.assertTrue(from.addRelationship(relationship2));
+            Assertions.assertTrue(from.getRelationships().contains(relationship2));
+            Assertions.assertTrue(to1.addRelationship(relationship2));
+            Assertions.assertTrue(to1.getRelationships().contains(relationship2));
+        });
     }
 
     @Test
-    public void testAddRelationshipReturnsTrueOnSuccess() {
-        UmlClass from = new UmlClass("from");
-        UmlClass to = new UmlClass("to");
+    public void testUmlClassAddRelationshipReturnsFalseOnDuplicateRelationship() {
+        Assertions.assertDoesNotThrow(() -> {
+            UmlClass from = new UmlClass("From");
+            UmlClass to = new UmlClass("To");
 
-        Assertions.assertTrue(from.addRelationship(new Relationship(to)));
+            Relationship relationship1 = new Relationship(to);
+            Relationship relationship2 = new Relationship(to);
+
+            Assertions.assertTrue(from.addRelationship(relationship1));
+            Assertions.assertTrue(from.getRelationships().contains(relationship1));
+            Assertions.assertFalse(from.addRelationship(relationship2));
+        });
     }
 
     @Test
-    public void testAddRelationshipReturnsFalseOnDuplicateRelationship() {
-        UmlClass from = new UmlClass("from");
-        UmlClass to = new UmlClass("to");
+    public void testUmlClassAddRelationshipReturnsFalseOnInverseRelationship() {
+        Assertions.assertDoesNotThrow(() -> {
+            UmlClass from = new UmlClass("From");
+            UmlClass to = new UmlClass("To");
 
-        Assertions.assertTrue(from.addRelationship(new Relationship(to)));
-        Assertions.assertFalse(from.addRelationship(new Relationship(to)));
+            Relationship toTo = new Relationship(to);
+            Relationship toFrom = new Relationship(from);
+
+            Assertions.assertTrue(from.addRelationship(toTo));
+            Assertions.assertFalse(to.addRelationship(toFrom));
+        });
     }
 
     @Test
-    public void testAddRelationshipReturnsFalseOnInverseRelationship() {
-        UmlClass from = new UmlClass("from");
-        UmlClass to = new UmlClass("to");
+    public void testUmlClassDeleteRelationshipReturnsTrueOnSuccessfulDelete() {
+        Assertions.assertDoesNotThrow(() -> {
+            UmlClass from = new UmlClass("From");
+            UmlClass to = new UmlClass("To");
 
-        Assertions.assertTrue(from.addRelationship(new Relationship(to)));
-        Assertions.assertFalse(to.addRelationship(new Relationship(from)));
+            Relationship relationship = new Relationship(to);
+
+            Assertions.assertFalse(from.getRelationships().contains(relationship));
+            Assertions.assertTrue(from.addRelationship(relationship));
+            Assertions.assertTrue(from.getRelationships().contains(relationship));
+            Assertions.assertTrue(from.deleteRelationship(relationship));
+            Assertions.assertFalse(from.getRelationships().contains(relationship));
+        });
+    }
+
+    @Test
+    public void testUmlClassDeleteRelationshipReturnsFalseOnUnsuccessfulDelete() {
+        Assertions.assertDoesNotThrow(() -> {
+            UmlClass from = new UmlClass("From");
+            UmlClass to = new UmlClass("To");
+
+            Relationship relationship = new Relationship(to);
+
+            Assertions.assertFalse(from.getRelationships().contains(relationship));
+            Assertions.assertFalse(from.deleteRelationship(relationship));
+            Assertions.assertFalse(from.getRelationships().contains(relationship));
+        });
+    }
+
+    @Test
+    public void testUmlClassUpdateRelationshipReturnsTrueOnSuccessfulUpdate() {
+        Assertions.assertDoesNotThrow(() -> {
+            UmlClass from = new UmlClass("From");
+            UmlClass to1 = new UmlClass("To1");
+            UmlClass to2 = new UmlClass("To2");
+
+            Relationship relationship1 = new Relationship(to1);
+            Relationship relationship2 = new Relationship(to2);
+
+            Assertions.assertTrue(from.addRelationship(relationship1));
+            Assertions.assertTrue(from.getRelationships().contains(relationship1));
+            Assertions.assertTrue(from.updateRelationship(relationship1, relationship2));
+            Assertions.assertFalse(from.getRelationships().contains(relationship1));
+            Assertions.assertTrue(from.getRelationships().contains(relationship2));
+        });
+    }
+
+    @Test
+    public void testUmlClassUpdateRelationshipReturnsFalseOnUnsuccessfulUpdate() {
+        Assertions.assertDoesNotThrow(() -> {
+            UmlClass from = new UmlClass("From");
+            UmlClass to1 = new UmlClass("To1");
+            UmlClass to2 = new UmlClass("To2");
+
+            Relationship relationship1 = new Relationship(to1);
+            Relationship relationship2 = new Relationship(to2);
+
+            Assertions.assertTrue(from.addRelationship(relationship1));
+            Assertions.assertTrue(from.getRelationships().contains(relationship1));
+            Assertions.assertTrue(from.addRelationship(relationship2));
+            Assertions.assertTrue(from.getRelationships().contains(relationship2));
+            Assertions.assertFalse(from.updateRelationship(relationship1, relationship2));
+            Assertions.assertTrue(from.getRelationships().contains(relationship1));
+            Assertions.assertTrue(from.getRelationships().contains(relationship2));
+        });
     }
 }

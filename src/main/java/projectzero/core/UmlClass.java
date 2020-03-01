@@ -1,104 +1,137 @@
 package projectzero.core;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import projectzero.core.exceptions.InvalidNameException;
+
 import javax.lang.model.SourceVersion;
-import java.util.*;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 public class UmlClass {
-    private String name;
-    private Map<String, Field> fieldMap;
-    private Map<String, Method> methodMap;
-    private Map<String, Relationship> relationshipMap;
+    private final String name;
+    private final List<Field> fields;
+    private final List<Method> methods;
+    private final List<Relationship> relationships;
 
-    public UmlClass() {
-        this.fieldMap = new HashMap<>();
-        this.methodMap = new HashMap<>();
-        this.relationshipMap = new HashMap<>();
+    public UmlClass(String name) throws InvalidNameException {
+        if (!SourceVersion.isIdentifier(name)) {
+            throw new InvalidNameException();
+        }
+
+        this.name = name;
+        this.fields = new ArrayList<>();
+        this.methods = new ArrayList<>();
+        this.relationships = new ArrayList<>();
     }
 
-    public UmlClass(String name) {
+    private UmlClass(@JsonProperty("name") String name,
+                     @JsonProperty("fields") List<Field> fields,
+                     @JsonProperty("methods") List<Method> methods,
+                     @JsonProperty("relationships") List<Relationship> relationships) throws InvalidNameException {
+        if (!SourceVersion.isIdentifier(name)) {
+            throw new InvalidNameException();
+        }
+
         this.name = name;
-        this.fieldMap = new HashMap<>();
-        this.methodMap = new HashMap<>();
-        this.relationshipMap = new HashMap<>();
+        this.fields = fields;
+        this.methods = methods;
+        this.relationships = relationships;
     }
 
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public List<Field> getFields() {
+        return fields;
     }
 
-    public Map<String, Field> getFieldMap() {
-        return fieldMap;
+    public List<Method> getMethods() {
+        return methods;
     }
 
-    public void setFieldMap(Map<String, Field> fieldMap) {
-        this.fieldMap = fieldMap;
-    }
-
-
-    public Map<String, Method> getMethodMap() {
-        return methodMap;
-    }
-
-    public void setMethodMap(Map<String, Method> methodMap) {
-        this.methodMap = methodMap;
-    }
-
-
-    public Map<String, Relationship> getRelationshipMap() {
-        return relationshipMap;
-    }
-
-    public void setRelationshipMap(Map<String, Relationship> relationshipMap) {
-        this.relationshipMap = relationshipMap;
+    public List<Relationship> getRelationships() {
+        return relationships;
     }
 
     public boolean addField(Field field) {
-        if (!SourceVersion.isIdentifier(field.getName()) || fieldMap.containsKey(field.getName())) {
+        if (fields.contains(field)) {
             return false;
         }
 
-        fieldMap.put(field.getName(), field);
+        fields.add(field);
         return true;
     }
 
-    public boolean deleteField(String fieldName) {
-        this.fieldMap.remove(fieldName);
-        return true;
+    public boolean deleteField(Field field) {
+        return fields.remove(field);
     }
 
-    public Field getField(String fieldName) {
-        return fieldMap.getOrDefault(fieldName, null);
-    }
+    public boolean updateField(Field oldField, Field newField) {
+        boolean added = addField(newField);
 
-    public List<Field> listFields() {
-        return new ArrayList<>(fieldMap.values());
-    }
+        if (added) {
+            fields.remove(oldField);
+            return true;
+        }
 
-    public boolean updateField(String fieldName, Field field) {
-        this.fieldMap.replace(fieldName, field);
-        return true;
+        return false;
     }
 
     public boolean addMethod(Method method) {
-        if (!SourceVersion.isIdentifier(method.getName()) || methodMap.containsKey(method.getName())) {
+        if (methods.contains(method)) {
             return false;
         }
 
-        methodMap.put(method.getName(), method);
+        methods.add(method);
         return true;
     }
 
+    public boolean deleteMethod(Method method) {
+        return methods.remove(method);
+    }
+
+    public boolean updateMethod(Method oldMethod, Method newMethod) {
+        boolean added = addMethod(newMethod);
+
+        if (added) {
+            methods.remove(oldMethod);
+            return true;
+        }
+
+        return false;
+    }
+
     public boolean addRelationship(Relationship relationship) {
-        if (this.relationshipMap.containsKey(relationship.getTo().getName()) || relationship.getTo().getRelationshipMap().containsKey(this.getName())) {
+        if (relationships.contains(relationship)) {
             return false;
         }
 
-        this.relationshipMap.put(relationship.getTo().getName(), relationship);
+        for (Relationship r : relationship.getTo().getRelationships()) {
+            if (r.getTo().equals(this)) {
+                return false;
+            }
+        }
+
+        relationships.add(relationship);
         return true;
+    }
+
+    public boolean deleteRelationship(Relationship relationship) {
+        return relationships.remove(relationship);
+    }
+
+    public boolean updateRelationship(Relationship oldRelationship, Relationship newRelationship) {
+        boolean added = addRelationship(newRelationship);
+
+        if (added) {
+            relationships.remove(oldRelationship);
+            return true;
+        }
+
+        return false;
     }
 
     @Override
@@ -107,8 +140,8 @@ public class UmlClass {
         if (o == null || getClass() != o.getClass()) return false;
         UmlClass umlClass = (UmlClass) o;
         return Objects.equals(getName(), umlClass.getName()) &&
-                Objects.equals(getMethodMap(), umlClass.getMethodMap()) &&
-                Objects.equals(getFieldMap(), umlClass.getFieldMap()) &&
-                Objects.equals(getRelationshipMap(), umlClass.getRelationshipMap());
+                Objects.equals(getFields(), umlClass.getFields()) &&
+                Objects.equals(getMethods(), umlClass.getMethods()) &&
+                Objects.equals(getRelationships(), umlClass.getRelationships());
     }
 }

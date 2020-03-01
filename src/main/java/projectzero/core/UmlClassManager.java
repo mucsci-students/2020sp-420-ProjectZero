@@ -20,53 +20,33 @@ public class UmlClassManager {
         this.umlClassYamlMapper = umlClassYamlMapper;
     }
 
-    public boolean addUmlClass(UmlClass umlClass) {
-        if (umlClassMap.containsKey(umlClass.getName())) {
-            return false;
-        }
-
-        umlClassMap.put(umlClass.getName(), umlClass);
-        return true;
+    public UmlClass addUmlClass(UmlClass umlClass) {
+        return umlClassMap.putIfAbsent(umlClass.getName(), umlClass);
     }
 
-    public boolean deleteUmlClass(String umlClassName) {
-        if (!umlClassMap.containsKey(umlClassName)) {
-            return false;
-        }
-
-        umlClassMap.remove(umlClassName);
-        return true;
+    public UmlClass deleteUmlClass(String umlClassName) {
+        return umlClassMap.remove(umlClassName);
     }
 
     public UmlClass getUmlClass(String umlClassName) {
-        return umlClassMap.getOrDefault(umlClassName, null);
+        return umlClassMap.get(umlClassName);
+    }
+
+    public UmlClass updateUmlClass(String umlClassName, UmlClass umlClass) {
+        umlClassMap.remove(umlClassName);
+        return this.addUmlClass(umlClass);
     }
 
     public List<UmlClass> listUmlClasses() {
         return new ArrayList<>(umlClassMap.values());
     }
 
-    public boolean updateUmlClass(String umlClassName, UmlClass umlClass) {
-        umlClassMap.replace(umlClassName, umlClass);
-        return true;
+    public void save(String path) throws IOException {
+        umlClassYamlMapper.write(path, this.umlClassMap);
     }
 
-    public boolean save(String path) {
-        try {
-            umlClassYamlMapper.write(path, this.umlClassMap);
-            return true;
-        } catch (IOException exception) {
-            return false;
-        }
-    }
-
-    public boolean load(String path) {
-        try {
-            this.umlClassMap = umlClassYamlMapper.read(path);
-            return true;
-        } catch (IOException exception) {
-            return false;
-        }
+    public void load(String path) throws IOException {
+        this.umlClassMap = umlClassYamlMapper.read(path);
     }
 }
 
