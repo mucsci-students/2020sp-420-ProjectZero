@@ -2,7 +2,9 @@ package projectzero.cli;
 
 import projectzero.core.UmlClass;
 import projectzero.core.UmlClassManager;
+import projectzero.core.exceptions.InvalidNameException;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Scanner;
 
@@ -37,14 +39,14 @@ public class CliApplication {
                 //does not collect file path name, skips to main menu
                 if (Integer.parseInt(input) == 2) {
                     System.out.println("Enter the file path followed by the desired name: ");
-                    if (MainManager.load(scan.next())) {
+                    try {
+                        MainManager.load(scan.next());
                         System.out.println("\nFile retrieved successfully\n");
                         inInitMenu = false;
-                    } else {
+                    } catch (IOException e) {
                         System.out.println("\nFailed to load file\n");
                         inInitMenu = true;
                     }
-
                 }
             }
         } while (inInitMenu);
@@ -72,29 +74,33 @@ public class CliApplication {
                         System.out.println("Enter the class name: ");
                         className = getName.nextLine();
                         Scanner nameInput = new Scanner(className);
-                        if (!Validation.isValidName(nameInput)) {
-                            System.out.println("Invalid Class: spaces can't be used\n");
-                        } else {
-                            MainManager.addUmlClass(new UmlClass(className));
-                            System.out.println(className + " was added\n");
+
+                        try {
+                            UmlClass umlClass = new UmlClass(className);
+                            if (MainManager.addUmlClass(umlClass) == null) {
+                                System.out.println(className + " was added\n");
+                            } else {
+                                System.out.println(className + " already exists\n");
+                            }
+                        } catch (InvalidNameException e) {
+                            System.out.println(className + " is an invalid class name\n");
                         }
+
                         break;
                     case 3:
                         System.out.println("Enter the class name: ");
                         className = scan.next();
-                        if (MainManager.deleteUmlClass(className)) {
-                            System.out.println(className + " was deleted\n");
-                        } else {
-                            System.out.println("Class not found\n");
-                        }
+                        MainManager.deleteUmlClass(className);
                         break;
                     case 4:
                         System.out.println("Enter file path to save to followed by desired file name: ");
                         String filePath = scan.next();
-                        if (MainManager.save(filePath))
+                        try {
+                            MainManager.save(filePath);
                             System.out.println("File was saved to" + filePath + "\n");
-                        else
+                        } catch (IOException e) {
                             System.out.println("File was not saved to" + filePath + "\n");
+                        }
                         break;
                     case 5:
                         inMainMenu = false;
