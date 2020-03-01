@@ -1,14 +1,12 @@
 package projectzero.core;
 
-import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import projectzero.core.exceptions.DuplicateAttributeException;
-import projectzero.core.exceptions.ExistingInverseRelationshipException;
 import projectzero.core.exceptions.InvalidNameException;
 
 import javax.lang.model.SourceVersion;
-import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 public class UmlClass {
     private final String name;

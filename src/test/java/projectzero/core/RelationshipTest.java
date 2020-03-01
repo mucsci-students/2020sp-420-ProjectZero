@@ -8,7 +8,7 @@ public class RelationshipTest {
     @Test
     public void testRelationshipConstructorDoesNotThrowWithValidName() {
         Assertions.assertDoesNotThrow(() -> {
-           Relationship relationship = new Relationship(new UmlClass("Class"));
+            Relationship relationship = new Relationship(new UmlClass("Class"));
         });
     }
 }
