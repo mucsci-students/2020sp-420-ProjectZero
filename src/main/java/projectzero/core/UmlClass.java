@@ -1,12 +1,14 @@
 package projectzero.core;
 
+import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import projectzero.core.exceptions.DuplicateAttributeException;
+import projectzero.core.exceptions.ExistingInverseRelationshipException;
 import projectzero.core.exceptions.InvalidNameException;
 
 import javax.lang.model.SourceVersion;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.io.IOException;
+import java.util.*;
 
 public class UmlClass {
     private final String name;
@@ -68,14 +70,15 @@ public class UmlClass {
         return fields.remove(field);
     }
 
-    public Field getField(Field field) {
-        int index = fields.indexOf(field);
-        return index == -1 ? null : fields.get(index);
-    }
-
     public boolean updateField(Field oldField, Field newField) {
-        fields.remove(oldField);
-        return addField(newField);
+        boolean added = addField(newField);
+
+        if (added) {
+            fields.remove(oldField);
+            return true;
+        }
+
+        return false;
     }
 
     public boolean addMethod(Method method) {
@@ -91,14 +94,15 @@ public class UmlClass {
         return methods.remove(method);
     }
 
-    public Method getMethod(Method method) {
-        int index = methods.indexOf(method);
-        return index == -1 ? null : methods.get(index);
-    }
-
     public boolean updateMethod(Method oldMethod, Method newMethod) {
-        methods.remove(oldMethod);
-        return addMethod(newMethod);
+        boolean added = addMethod(newMethod);
+
+        if (added) {
+            methods.remove(oldMethod);
+            return true;
+        }
+
+        return false;
     }
 
     public boolean addRelationship(Relationship relationship) {
@@ -120,14 +124,15 @@ public class UmlClass {
         return relationships.remove(relationship);
     }
 
-    public Relationship getRelationship(Relationship relationship) {
-        int index = relationships.indexOf(relationship);
-        return index == -1 ? null : relationships.get(index);
-    }
-
     public boolean updateRelationship(Relationship oldRelationship, Relationship newRelationship) {
-        relationships.remove(oldRelationship);
-        return addRelationship(newRelationship);
+        boolean added = addRelationship(newRelationship);
+
+        if (added) {
+            relationships.remove(oldRelationship);
+            return true;
+        }
+
+        return false;
     }
 
     @Override
