@@ -39,77 +39,79 @@ public class CliApplication {
     }
 
     private void determineCommand(String inputLine){
-        if(inputLine.equals("displayAllClasses")){
-            printList();
-        }
-        else if(inputLine.equals("help")){
-            printHelp();
-        }
-        else if(inputLine.equals("quit")){
-            System.exit(0);
-        }
-        else {
-            String command = inputLine.substring(0, inputLine.indexOf(" "));
-            String arguments = inputLine.substring(inputLine.indexOf(" ") + 1);
-            if (!Validation.isValidMenuInput(command)) {
-                System.out.println("Not a valid command.");
+        try {
+            if (inputLine.equals("displayAllClasses")) {
+                printList();
+            } else if (inputLine.equals("help")) {
+                printHelp();
+            } else if (inputLine.equals("quit")) {
+                System.exit(0);
             } else {
-                switch(command){
-                    case "addClass":
-                        addClass(arguments);
-                        break;
-                    case "addMethod":
-                        addMethod(arguments);
-                        break;
-                    case "addField":
-                        addField(arguments);
-                        break;
-                    case "displayClass":
-                        displayOneClass(arguments);
-                        break;
-                    case "deleteClass":
-                        deleteClass(arguments);
-                        break;
-                    case "deleteMethod":
-                        deleteMethod(arguments);
-                        break;
-                    case "deleteField":
-                        deleteField(arguments);
-                        break;
-                    case "addRelationship":
-                        addRelationships(arguments);
-                        break;
-                    case "deleteRelationship":
-                        deleteRelationship(arguments);
-                        break;
-                    case "save":
-                        try{
-                            MainManager.save(arguments);
-                            System.out.println("File saved.");
-                        }catch(Exception e){
-                            System.out.println("Did not save correctly.");
-                        }
-                        break;
-                    case "load":
-                        try{
-                            MainManager.load(arguments);
-                            System.out.println("File Loaded.");
-                        }catch(Exception e){
-                            System.out.println("Did not load correctly.");
-                        }
-                        break;
+                String command = inputLine.substring(0, inputLine.indexOf(" "));
+                String arguments = inputLine.substring(inputLine.indexOf(" ") + 1);
+                if (!Validation.isValidMenuInput(command)) {
+                    System.out.println("Not a valid command.");
+                } else {
+                    switch (command) {
+                        case "addClass":
+                            addClass(arguments);
+                            break;
+                        case "addMethod":
+                            addMethod(arguments);
+                            break;
+                        case "addField":
+                            addField(arguments);
+                            break;
+                        case "displayClass":
+                            displayOneClass(arguments);
+                            break;
+                        case "deleteClass":
+                            deleteClass(arguments);
+                            break;
+                        case "deleteMethod":
+                            deleteMethod(arguments);
+                            break;
+                        case "deleteField":
+                            deleteField(arguments);
+                            break;
+                        case "addRelationship":
+                            addRelationships(arguments);
+                            break;
+                        case "deleteRelationship":
+                            deleteRelationship(arguments);
+                            break;
+                        case "save":
+                            try {
+                                MainManager.save(arguments);
+                                System.out.println("File saved.");
+                            } catch (Exception e) {
+                                System.out.println("Did not save correctly.");
+                            }
+                            break;
+                        case "load":
+                            try {
+                                MainManager.load(arguments);
+                                System.out.println("File Loaded.");
+                            } catch (Exception e) {
+                                System.out.println("Did not load correctly.");
+                            }
+                            break;
 
-                    case "editClass":
-                        editClass(arguments);
-                        break;
-                    case "editField":
-                        editField(arguments);
-                        break;
-                    case "editMethod":
-                        editMethod(arguments);
-                        break;
+                        case "editClass":
+                            editClass(arguments);
+                            break;
+                        case "editField":
+                            editField(arguments);
+                            break;
+                        case "editMethod":
+                            editMethod(arguments);
+                            break;
+                    }
                 }
             }
+        }
+        catch(IndexOutOfBoundsException e){
+            System.out.println("Invalid input\n");
         }
     }
 
@@ -166,11 +168,12 @@ public class CliApplication {
                     break;
                 }
             }
+            System.out.println("Relationship from " + from + " to " + to + " has been deleted.");
         }catch (NullPointerException e){
             System.out.println("Relationship not found");
         }
 
-        System.out.println("Relationship from " + from + " to " + to + " has been deleted.");
+
 
 
     }
@@ -204,11 +207,12 @@ public class CliApplication {
                     break;
                 }
             }
+            System.out.println("Field " + field + " has been deleted from " + className + ".");
         }catch (NullPointerException e){
             System.out.println("Field not found");
         }
 
-        System.out.println("Field " + field + " has been deleted from " + className + ".");
+
 
     }
 
@@ -223,20 +227,22 @@ public class CliApplication {
                     break;
                 }
             }
+            System.out.println("Method " + method + " has been deleted from " + className + ".");
         }catch (NullPointerException e){
             System.out.println("Method not found.");
         }
-        System.out.println("Method " + method + " has been deleted from " + className + ".");
+
 
     }
 
     private void deleteClass(String arguments) {
         try{
             MainManager.deleteUmlClass(arguments);
+            System.out.println(arguments + " was deleted." );
         }catch (NullPointerException e){
             System.out.println("Class not found.");
         }
-        System.out.println(arguments + " was deleted." );
+
 
     }
 
@@ -246,10 +252,13 @@ public class CliApplication {
 
             try{
                 MainManager.getUmlClass(className).addField(new Field(field));
-            }catch (Exception e){
-                System.out.println();
+                System.out.println("The field " + field + " was added to " + className);
+            }catch (InvalidNameException e){
+                System.out.println("Invalid field input");
+            }catch (NullPointerException e){
+                System.out.println("Class not found");
             }
-            System.out.println("The field " + field + " was added to " + className);
+
     }
 
     private void addMethod(String s) {
@@ -259,11 +268,14 @@ public class CliApplication {
 
              try{
                  MainManager.getUmlClass(className).addMethod(new Method(method));
-             }catch (Exception e){
-                 System.out.println("Invalid class name");
+                 System.out.println("Method " + method + " was added to " + className);
+             }catch (InvalidNameException e){
+                 System.out.println("Invalid method input");
+             }catch (NullPointerException e){
+                 System.out.println("Class not found");
              }
 
-             System.out.println("Mehtod " + method + " was added to " + className);
+
     }
 
     private void printHelp() {
@@ -282,6 +294,7 @@ public class CliApplication {
 
         try{
             MainManager.addUmlClass(new UmlClass(name));
+            System.out.println(name + " " +  "was added");
         }catch (InvalidNameException e){
                 System.out.println("Not a valid class name.");
             }
@@ -289,7 +302,7 @@ public class CliApplication {
             System.out.println("Class already exists.");
         }
 
-        System.out.println(name + " " +  "was added");
+
     }
 
     private void printList() {
