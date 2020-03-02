@@ -20,48 +20,33 @@ public class UmlClassManager {
         this.umlClassYamlMapper = umlClassYamlMapper;
     }
 
-    public boolean addUmlClass(UmlClass umlClass) {
-        if (umlClassMap.containsKey(umlClass.getName())) {
-            return false;
-        }
-
-        umlClassMap.put(umlClass.getName(), umlClass);
-        return true;
+    public UmlClass addUmlClass(UmlClass umlClass) {
+        return umlClassMap.putIfAbsent(umlClass.getName(), umlClass);
     }
 
-    public boolean deleteUmlClass(String umlClassName) {
-        if (!umlClassMap.containsKey(umlClassName)) {
-            return false;
-        }
-
-        umlClassMap.remove(umlClassName);
-        return true;
+    public UmlClass deleteUmlClass(String umlClassName) {
+        return umlClassMap.remove(umlClassName);
     }
 
-    public UmlClass getUmlClass(String umlClassName){
-
+    public UmlClass getUmlClass(String umlClassName) {
         return umlClassMap.get(umlClassName);
-
     }
 
-
-    public List<UmlClass> listUmlClasses() { return new ArrayList<>(umlClassMap.values());}
-
-    public boolean save(String path) {
-        try {
-            umlClassYamlMapper.write(path, this.umlClassMap);
-            return true;
-        } catch (IOException exception) {
-            return false;
-        }
+    public UmlClass updateUmlClass(String umlClassName, UmlClass umlClass) {
+        umlClassMap.remove(umlClassName);
+        return this.addUmlClass(umlClass);
     }
 
-    public boolean load(String path) {
-        try {
-            this.umlClassMap = umlClassYamlMapper.read(path);
-            return true;
-        } catch (IOException exception) {
-            return false;
-        }
+    public List<UmlClass> listUmlClasses() {
+        return new ArrayList<>(umlClassMap.values());
+    }
+
+    public void save(String path) throws IOException {
+        umlClassYamlMapper.write(path, this.umlClassMap);
+    }
+
+    public void load(String path) throws IOException {
+        this.umlClassMap = umlClassYamlMapper.read(path);
     }
 }
+

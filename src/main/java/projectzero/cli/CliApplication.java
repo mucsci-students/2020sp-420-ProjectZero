@@ -1,10 +1,8 @@
 package projectzero.cli;
 
 import projectzero.Main;
-import projectzero.core.Field;
-import projectzero.core.Method;
-import projectzero.core.UmlClass;
-import projectzero.core.UmlClassManager;
+import projectzero.core.*;
+import projectzero.core.exceptions.InvalidNameException;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -75,27 +73,47 @@ public class CliApplication {
                     case "deleteField":
                         deleteField(arguments);
                         break;
+                    case "addRelationship":
+                        addRelationships(arguments);
                 }
             }
         }
+    }
+
+    private void addRelationships(String arguments) {
+        String from = arguments.substring(0, arguments.indexOf(" "));
+        String to = arguments.substring(arguments.indexOf(" ") + 1);
+
+       try{
+           if(!MainManager.getUmlClass(from).addRelationship(new Relationship(MainManager.getUmlClass(to)))){
+               System.out.println("Relationship can not be made.");
+           }
+           else{
+               System.out.println("Relationship added From " + from + " to " + to + ".");
+           }
+       }catch (NullPointerException e){
+           System.out.println("Class does not exist.");
+       }
+
     }
 
     private void deleteField(String arguments) {
         String className = arguments.substring(0, arguments.indexOf(" "));
         String field = arguments.substring(arguments.indexOf(" ") + 1);
         UmlClass temp = MainManager.getUmlClass(className);
-        for(String m: temp.getFieldMap().keySet()){
-            if(m.equals(field)){
-                temp.getFieldMap().remove(field);
-                break;
+
+        try {
+            for (Field m : temp.getFields()) {
+                if (m.getName().equals(m)) {
+                    temp.deleteField(m);
+                    break;
+                }
             }
+        }catch (NullPointerException e){
+            System.out.println("Field not found");
         }
-        if(temp.getFieldMap().containsKey(field)){
-            System.out.println("Field not found.");
-        }
-        else{
-            System.out.println("Field " + field + " has been deleted from " + className + ".");
-        }
+
+        System.out.println("Field " + field + " has been deleted from " + className + ".");
 
     }
 
@@ -103,28 +121,27 @@ public class CliApplication {
         String className = arguments.substring(0, arguments.indexOf(" "));
         String method = arguments.substring(arguments.indexOf(" ") + 1);
         UmlClass temp = MainManager.getUmlClass(className);
-        for(String m: temp.getMethodMap().keySet()){
-            if(m.equals(method)){
-                temp.getMethodMap().remove(method);
-                break;
+        try {
+            for (Method m : temp.getMethods()) {
+                if (m.getName().equals(method)) {
+                    temp.deleteMethod(m);
+                    break;
+                }
             }
-        }
-        if(temp.getMethodMap().containsKey(method)){
+        }catch (NullPointerException e){
             System.out.println("Method not found.");
         }
-        else{
-            System.out.println("Method " + method + " has been deleted from " + className + ".");
-        }
+        System.out.println("Method " + method + " has been deleted from " + className + ".");
 
     }
 
     private void deleteClass(String arguments) {
-        if(MainManager.deleteUmlClass(arguments)){
-            System.out.println(arguments + " was deleted." );
-        }
-        else{
+        try{
+            MainManager.deleteUmlClass(arguments);
+        }catch (NullPointerException e){
             System.out.println("Class not found.");
         }
+        System.out.println(arguments + " was deleted." );
 
     }
 
@@ -132,10 +149,12 @@ public class CliApplication {
         String className = s.substring(0, s.indexOf(" "));
         String field = s.substring(s.indexOf(" ") + 1);
 
-        if(Validation.isValidClass(MainManager, className)){
-            MainManager.getUmlClass(className).addField(new Field(field));
+            try{
+                MainManager.getUmlClass(className).addField(new Field(field));
+            }catch (Exception e){
+                System.out.println();
+            }
             System.out.println("The field " + field + " was added to " + className);
-        }
     }
 
     private void addMethod(String s) {
@@ -143,14 +162,13 @@ public class CliApplication {
         String method = s.substring(s.indexOf(" ") + 1);
 
 
-         if(Validation.isValidClass(MainManager, className)){
-             MainManager.getUmlClass(className).addMethod(new Method(method));
-             System.out.println(method + " was added to " + className);
-         }
-         else{
-             System.out.println("Invalid class name");
-         }
+             try{
+                 MainManager.getUmlClass(className).addMethod(new Method(method));
+             }catch (Exception e){
+                 System.out.println("Invalid class name");
+             }
 
+             System.out.println(method + " was added to " + className);
     }
 
     private void printHelp() {
@@ -166,15 +184,17 @@ public class CliApplication {
     }
 
     private void addClass(String name){
-        if(!Validation.isValidName(name)){
-            System.out.println("Not a valid class name.");
+
+        try{
+            MainManager.addUmlClass(new UmlClass(name));
+        }catch (InvalidNameException e){
+                System.out.println("Not a valid class name.");
+            }
+        catch (NullPointerException e){
+            System.out.println("Class already exists.");
         }
-        else if(!MainManager.addUmlClass(new UmlClass(name))){
-            System.out.println("Class already exists");
-        }
-        else{
-            System.out.println(name + " " +  "was added");
-        }
+
+        System.out.println(name + " " +  "was added");
     }
 
     private void printList() {
@@ -185,13 +205,18 @@ public class CliApplication {
             System.out.println(tempClass.getName() + ": ");
             System.out.print("\t");
             System.out.println("Fields: ");
-            for(String field: tempClass.getFieldMap().keySet()){
-                System.out.println("\t  " + field);
+            for(Field f: tempClass.getFields()){
+                System.out.println("\t  " + f.getName());
             }
             System.out.print("\t");
             System.out.println("Methods: ");
-            for(String method: tempClass.getMethodMap().keySet()){
-                System.out.println("\t  " + method);
+            for(Method m: tempClass.getMethods()){
+                System.out.println("\t  " + m.getName());
+            }
+            System.out.print("\t");
+            System.out.println("Relationships Points to: ");
+            for(Relationship r: tempClass.getRelationships()){
+                System.out.println("\t  " + r.getTo().getName());
             }
             System.out.println("]\n");
         }
@@ -204,14 +229,19 @@ public class CliApplication {
         System.out.println(temp.getName() + ": ");
         System.out.print("\t");
         System.out.println("Fields: ");
-            for(String field: temp.getFieldMap().keySet()){
-                System.out.println("\t  " + field);
+            for(Field f: temp.getFields()){
+                System.out.println("\t  " + f.getName());
             }
             System.out.print("\t");
             System.out.println("Methods: ");
-            for(String method: temp.getMethodMap().keySet()){
-                System.out.println("\t  " + method);
+            for(Method m : temp.getMethods()){
+                System.out.println("\t  " + m.getName());
             }
+        System.out.print("\t");
+        System.out.println("Relationships Points to: ");
+        for(Relationship r: temp.getRelationships()){
+            System.out.println("\t  " + r.getTo().getName());
+        }
             System.out.println("]\n");
         }
 }

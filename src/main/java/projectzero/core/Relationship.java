@@ -1,14 +1,14 @@
 package projectzero.core;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.Objects;
 
 public class Relationship {
-    private UmlClass to;
 
-    public Relationship() {
-    }
+    private final UmlClass to;
 
-    public Relationship(UmlClass to) {
+    public Relationship(@JsonProperty("to") UmlClass to) {
         this.to = to;
     }
 
@@ -16,15 +16,11 @@ public class Relationship {
         return to;
     }
 
-    public void setTo(UmlClass to) {
-        this.to = to;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Relationship that = (Relationship) o;
-        return Objects.equals(to, that.to);
+        return Objects.equals(getTo(), that.getTo());
     }
 }

@@ -7,7 +7,6 @@ import javax.lang.model.SourceVersion;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Scanner;
 
 public class Validation {
     public static ArrayList<String> validCommands = new ArrayList<String>(Arrays.asList(

@@ -1,23 +1,24 @@
 package projectzero.core;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import projectzero.core.exceptions.InvalidNameException;
+
+import javax.lang.model.SourceVersion;
 import java.util.Objects;
 
 public class Method {
-    private String name;
+    private final String name;
 
-    public Method() {
-    }
+    public Method(@JsonProperty("name") String name) throws InvalidNameException {
+        if (!SourceVersion.isIdentifier(name)) {
+            throw new InvalidNameException();
+        }
 
-    public Method(String name) {
         this.name = name;
     }
 
     public String getName() {
         return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     @Override
