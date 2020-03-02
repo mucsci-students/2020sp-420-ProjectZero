@@ -172,26 +172,25 @@ public class CliApplication {
         }catch (NullPointerException e){
             System.out.println("Relationship not found");
         }
-
-
-
-
     }
 
     private void addRelationships(String arguments) {
         String from = arguments.substring(0, arguments.indexOf(" "));
         String to = arguments.substring(arguments.indexOf(" ") + 1);
-
-       try{
-           if(!MainManager.getUmlClass(from).addRelationship(new Relationship(MainManager.getUmlClass(to)))){
-               System.out.println("Relationship can not be made.");
-           }
-           else{
-               System.out.println("Relationship added From " + from + " to " + to + ".");
-           }
-       }catch (NullPointerException e){
-           System.out.println("Class does not exist.");
-       }
+        if(from.equals(to)){
+            System.out.println("Relationship can't be made");
+        }
+        else {
+            try {
+                if (!MainManager.getUmlClass(from).addRelationship(new Relationship(MainManager.getUmlClass(to)))) {
+                    System.out.println("Relationship can not be made.");
+                } else {
+                    System.out.println("Relationship added From " + from + " to " + to + ".");
+                }
+            } catch (NullPointerException e) {
+                System.out.println("Class does not exist.");
+            }
+        }
 
     }
 
@@ -202,7 +201,7 @@ public class CliApplication {
 
         try {
             for (Field m : temp.getFields()) {
-                if (m.getName().equals(m)) {
+                if (m.getName().equals(field)) {
                     temp.deleteField(m);
                     break;
                 }
@@ -211,9 +210,6 @@ public class CliApplication {
         }catch (NullPointerException e){
             System.out.println("Field not found");
         }
-
-
-
     }
 
     private void deleteMethod(String arguments) {
