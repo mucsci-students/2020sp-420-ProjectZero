@@ -45,6 +45,9 @@ public class CliApplication {
         else if(inputLine.equals("help")){
             printHelp();
         }
+        else if(inputLine.equals("quit")){
+            System.exit(0);
+        }
         else {
             String command = inputLine.substring(0, inputLine.indexOf(" "));
             String arguments = inputLine.substring(inputLine.indexOf(" ") + 1);
@@ -75,9 +78,101 @@ public class CliApplication {
                         break;
                     case "addRelationship":
                         addRelationships(arguments);
+                        break;
+                    case "deleteRelationship":
+                        deleteRelationship(arguments);
+                        break;
+                    case "save":
+                        try{
+                            MainManager.save(arguments);
+                            System.out.println("File saved.");
+                        }catch(Exception e){
+                            System.out.println("Did not save correctly.");
+                        }
+                        break;
+                    case "load":
+                        try{
+                            MainManager.load(arguments);
+                            System.out.println("File Loaded.");
+                        }catch(Exception e){
+                            System.out.println("Did not load correctly.");
+                        }
+                        break;
+
+                    case "editClass":
+                        editClass(arguments);
+                        break;
+                    case "editField":
+                        editField(arguments);
+                        break;
+                    case "editMethod":
+                        editMethod(arguments);
+                        break;
                 }
             }
         }
+    }
+
+    private void editMethod(String arguments) {
+        String className = arguments.substring(0, arguments.indexOf(" "));
+        arguments = arguments.substring(className.length() + 1, arguments.length());
+        String oMethodName = arguments.substring(0, arguments.indexOf(" "));
+        String nMethodName = arguments.substring(arguments.indexOf(" ") + 1);
+        try{
+            MainManager.getUmlClass(className).updateMethod(MainManager.getUmlClass(className).getMethod(oMethodName), new Method(nMethodName));
+            System.out.println("Method " + oMethodName + " has been changed to " + nMethodName + ".");
+        }catch(InvalidNameException e){
+            System.out.println("Invalid Class name.");
+        }catch(NullPointerException e){
+            System.out.println("Method not found.");
+        }
+    }
+
+    private void editField(String arguments) {
+        String className = arguments.substring(0, arguments.indexOf(" "));
+        arguments = arguments.substring(className.length() + 1, arguments.length());
+        String oFieldName = arguments.substring(0, arguments.indexOf(" "));
+        String nFieldName = arguments.substring(arguments.indexOf(" ") + 1);
+        try{
+            MainManager.getUmlClass(className).updateField(MainManager.getUmlClass(className).getField(oFieldName), new Field(nFieldName));
+            System.out.println("Field " + oFieldName + " has been changed to " + nFieldName + ".");
+        }catch(InvalidNameException e){
+            System.out.println("Invalid Class name.");
+        }catch(NullPointerException e){
+            System.out.println("Field not found.");
+        }
+    }
+
+    private void editClass(String arguments) {
+        String oClassName = arguments.substring(0, arguments.indexOf(" "));
+        String nClassName = arguments.substring(arguments.indexOf(" ") + 1);
+        try{
+            MainManager.updateUmlClass(oClassName, new UmlClass(nClassName));
+            System.out.println("Class " + oClassName + " has been changed to " + nClassName + ".");
+        }catch(InvalidNameException e){
+            System.out.println("Invalid Class name.");
+        }
+    }
+
+    private void deleteRelationship(String arguments) {
+        String from = arguments.substring(0, arguments.indexOf(" "));
+        String to = arguments.substring(arguments.indexOf(" ") + 1);
+        UmlClass temp = MainManager.getUmlClass(from);
+
+        try {
+            for (Relationship r : temp.getRelationships()) {
+                if (r.getTo().getName().equals(to)) {
+                    temp.deleteRelationship(r);
+                    break;
+                }
+            }
+        }catch (NullPointerException e){
+            System.out.println("Relationship not found");
+        }
+
+        System.out.println("Relationship from " + from + " to " + to + " has been deleted.");
+
+
     }
 
     private void addRelationships(String arguments) {
@@ -168,7 +263,7 @@ public class CliApplication {
                  System.out.println("Invalid class name");
              }
 
-             System.out.println(method + " was added to " + className);
+             System.out.println("Mehtod " + method + " was added to " + className);
     }
 
     private void printHelp() {
@@ -214,7 +309,7 @@ public class CliApplication {
                 System.out.println("\t  " + m.getName());
             }
             System.out.print("\t");
-            System.out.println("Relationships Points to: ");
+            System.out.println("Relationship Points to: ");
             for(Relationship r: tempClass.getRelationships()){
                 System.out.println("\t  " + r.getTo().getName());
             }
@@ -238,7 +333,7 @@ public class CliApplication {
                 System.out.println("\t  " + m.getName());
             }
         System.out.print("\t");
-        System.out.println("Relationships Points to: ");
+        System.out.println("Relationship Points to: ");
         for(Relationship r: temp.getRelationships()){
             System.out.println("\t  " + r.getTo().getName());
         }

@@ -64,6 +64,22 @@ public class UmlClass {
         fields.add(field);
         return true;
     }
+    public Field getField(String fieldName){
+        for(Field f: fields){
+            if(f.getName().equals(fieldName)){
+                return f;
+            }
+        }
+        return null;
+    }
+    public Method getMethod(String methodName){
+        for(Method m: methods){
+            if(m.getName().equals(methodName)){
+                return m;
+            }
+        }
+        return null;
+    }
 
     public boolean deleteField(Field field) {
         return fields.remove(field);
