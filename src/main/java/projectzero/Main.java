@@ -1,10 +1,13 @@
 package projectzero;
 
+import javafx.application.Application;
 import projectzero.cli.CliApplication;
+import projectzero.fx.FXApplication;
 
 public class Main {
     public static void main(String[] args) {
         String version = "";
+
 
         if (args.length > 0) {
             version = args[0];
@@ -14,7 +17,7 @@ public class Main {
             CliApplication cliApplication = new CliApplication();
             cliApplication.run();
         } else {
-            System.out.println("FX APP");
+            Application.launch(FXApplication.class,args);
         }
     }
 }
