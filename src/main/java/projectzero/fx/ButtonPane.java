@@ -1,5 +1,6 @@
 package projectzero.fx;
 
+import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
@@ -19,7 +20,7 @@ public class ButtonPane extends HBox {
     private void initializeButtons(){
         addClassButton = new Button("Add Class");
         addClassButton.setMaxWidth(Double.MAX_VALUE);
-        addClassButton.setOnAction(e -> new ClassScreen().show());
+        addClassButton.setOnAction(e -> new ClassScreen(new FXMLLoader()).show());
 
         editClassButton = new Button("Edit Class");
         editClassButton.setMaxWidth(Double.MAX_VALUE);

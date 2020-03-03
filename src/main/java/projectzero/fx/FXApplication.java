@@ -19,6 +19,7 @@ public class FXApplication extends Application {
     @Override
     public void start(Stage primaryStage) throws IOException{
         Scene mainScene = new Scene(new ContentPane(), WIDTH,HEIGHT);
+        mainScene.getStylesheets().add(getClass().getResource("/mainStyle.css").toExternalForm());
         primaryStage.setTitle(TITLE);
         primaryStage.setScene(mainScene);
         primaryStage.show();
