@@ -4,7 +4,7 @@ import projectzero.cli.CliApplication;
 
 public class Main {
     public static void main(String[] args) {
-        String version = "1";
+        String version = "";
 
         if (args.length > 0) {
             version = args[0];

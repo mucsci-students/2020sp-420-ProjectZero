@@ -275,15 +275,21 @@ public class CliApplication {
     }
 
     private void printHelp() {
-        File help = new File("src/main/java/projectzero/cli/helpMenu");
-        try{
-            Scanner fileRead = new Scanner(help);
-            while(fileRead.hasNext()){
-                System.out.println(fileRead.nextLine());
-            }
-        }catch(Exception e){
-            System.out.println(e.getMessage());
-        }
+        System.out.println("addClass <class name>\n" +
+                "addMethod <class Name> <method name>\n" +
+                "addField <class Name> <field name>\n" +
+                "addRelationship <From class Name> <to class name>\n");
+        System.out.println("deleteClass <class name>\n" +
+                "deleteMethod <class name> <method name>\n" +
+                "deleteField <class name> <field name>\n" +
+                "deleteRelationship <from class name> <to class name>\n");
+        System.out.println("editClass <old class name> <new class name>\n" +
+                "editMethod <class name> <old method name> <new method name>\n" +
+                "editField <class name> <old field name> <new field name>\n");
+        System.out.println("displayAllClasses\n" +
+                "displayClass <class name>\n");
+        System.out.println("save <file name>\n" +
+                "load <file name>\n");
     }
 
     private void addClass(String name){
