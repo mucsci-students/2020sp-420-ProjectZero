@@ -21,14 +21,6 @@
     -fx-font-family: "Sans-Serif";
 }
 
-.regButton{
-
-}
-
-.regButton:pressed{
-
-}
-
 .plusButton{
     -fx-background-color: linear-gradient(to bottom, #45A6FB, #3784C8);
     -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.6), 5, 0, 2, 2);

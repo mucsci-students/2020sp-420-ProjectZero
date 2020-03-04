@@ -1,10 +1,13 @@
 package projectzero.fx;
 
+import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.StackPane;
 import projectzero.core.Field;
 import projectzero.core.Method;
 import projectzero.core.UmlClass;
 import projectzero.core.exceptions.InvalidNameException;
+
+import java.io.IOException;
 
 public class GraphicsPane extends StackPane{
     public GraphicsPane(){
@@ -13,9 +16,9 @@ public class GraphicsPane extends StackPane{
             UmlClass testClass = new UmlClass("testName");
             testClass.addField(new Field("fieldName"));
             testClass.addMethod(new Method("methodName"));
+            ClassNode newNode = new ClassNode(testClass);
+            this.getChildren().add(newNode.getDisplayPane());
 
-            ClassNode testClassNode = new ClassNode(testClass);
-            this.getChildren().add(testClassNode);
         }
         catch(InvalidNameException e){
             e.printStackTrace();
