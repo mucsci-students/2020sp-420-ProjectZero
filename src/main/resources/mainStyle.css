@@ -1,49 +1,50 @@
-#mainLayout{
-     -fx-padding: 10 10 10 10;
- }
+#mainLayout {
+    -fx-padding: 10 10 10 10;
+}
 
-.root{
+.root {
     -fx-background-color: #9A9A9A;
 }
 
-.label{
+.label {
     -fx-font-size: 12px;
     -fx-text-fill: white;
     -fx-font-weight: bold;
     -fx-font-family: "Sans-Serif";
-    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.6), 5, 0, 2, 2);
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.6), 5, 0, 2, 2);
 }
 
-.button{
+.button {
     -fx-font-size: 12px;
     -fx-text-fill: black;
     -fx-font-weight: bold;
     -fx-font-family: "Sans-Serif";
 }
 
-.regButton{
+.regButton {
 
 }
 
-.regButton:pressed{
+.regButton:pressed {
 
 }
 
-.plusButton{
+.plusButton {
     -fx-background-color: linear-gradient(to bottom, #45A6FB, #3784C8);
-    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.6), 5, 0, 2, 2);
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.6), 5, 0, 2, 2);
 }
 
-.plusButton:pressed{
-    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.0), 0, 0, 0, 0);
+.plusButton:pressed {
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.0), 0, 0, 0, 0);
     -fx-background-color: #3784C8;
 }
 
-.minusButton{
+.minusButton {
     -fx-background-color: linear-gradient(to bottom, #FF2929, #D22121);
-    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.6), 5, 0, 2, 2);
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.6), 5, 0, 2, 2);
 }
-.minusButton:pressed{
-    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.0), 0, 0, 0, 0);
+
+.minusButton:pressed {
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.0), 0, 0, 0, 0);
     -fx-background-color: #D22121;
 }
