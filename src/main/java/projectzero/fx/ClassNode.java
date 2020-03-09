@@ -10,6 +10,7 @@ import projectzero.core.UmlClass;
 import projectzero.core.Field;
 
 
+import java.util.List;
 import java.util.Map;
 
 public class ClassNode extends AnchorPane {
@@ -23,17 +24,17 @@ public class ClassNode extends AnchorPane {
         this.data = data;
         VBox layout = new VBox();
         Label classLabel = new Label(this.data.getName());
-        Map<String, Field> fieldMap = this.data.getFieldMap();
+        List<Field> fields = this.data.getFields();
         VBox fieldBox = new VBox();
-        for(Map.Entry<String,Field> mapValue: fieldMap.entrySet()){
-            Label fieldLabel = new Label(mapValue.getValue().getName());
+        for(Field field: fields){
+            Label fieldLabel = new Label(field.getName());
             fieldBox.getChildren().add(fieldLabel);
         }
         VBox methodBox = new VBox();
-        Map<String, Method> methodMap = this.data.getMethodMap();
+        List<Method> methods = this.data.getMethods();
 
-        for(Map.Entry<String,Method> mapValue: methodMap.entrySet()){
-            Label methodLabel = new Label(mapValue.getValue().getName());
+        for(Method method: methods){
+            Label methodLabel = new Label(method.getName());
             methodBox.getChildren().add(methodLabel);
         }
         Separator fieldLine = new Separator(Orientation.HORIZONTAL);
