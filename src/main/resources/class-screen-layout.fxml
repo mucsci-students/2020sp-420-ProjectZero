@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?import java.lang.*?>
+
+<?import javafx.collections.FXCollections?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.collections.FXCollections?>
-
-<VBox xmlns="http://javafx.com/javafx/8.0.25"
-      xmlns:fx="http://javafx.com/fxml/1"
+<?import java.lang.String?>
+<VBox xmlns:fx="http://javafx.com/fxml/1"
+      xmlns="http://javafx.com/javafx/8.0.25"
       fx:controller="projectzero.fx.ClassScreenController" id="mainLayout" spacing="10">
     <children>
         <HBox>
             <Label text="Class name: "/>
-            <TextField />
+            <TextField/>
         </HBox>
         <HBox>
             <Label text="Method name: "/>
-            <TextField fx:id="textBoxMethods" />
-            <Button text="+" styleClass="plusButton" onAction="#addMethod" />
+            <TextField fx:id="textBoxMethods"/>
+            <Button text="+" styleClass="plusButton" onAction="#addMethod"/>
         </HBox>
         <HBox>
             <Label text="Field name: "/>
@@ -27,9 +27,9 @@
             <ComboBox fx:id="comboRelationships">
                 <items>
                     <FXCollections fx:factory="observableArrayList">
-                        <String fx:value="Pizza Guy" />
-                        <String fx:value="Dude" />
-                        <String fx:value="Another Dude" />
+                        <String fx:value="Pizza Guy"/>
+                        <String fx:value="Dude"/>
+                        <String fx:value="Another Dude"/>
                     </FXCollections>
                 </items>
             </ComboBox>
@@ -39,13 +39,13 @@
             <children>
                 <HBox alignment="TOP_LEFT">
                     <Label text="Methods:"/>
-                    <ListView fx:id="methodDisplay" prefWidth="200" prefHeight="100"  >
+                    <ListView fx:id="methodDisplay" prefWidth="200" prefHeight="100">
                     </ListView>
                     <Button text="-" styleClass="minusButton" onAction="#minusMethod"/>
                 </HBox>
                 <HBox alignment="TOP_LEFT">
                     <Label text="Fields:"/>
-                    <ListView fx:id="fieldDisplay" prefWidth="200" prefHeight="100" >
+                    <ListView fx:id="fieldDisplay" prefWidth="200" prefHeight="100">
                     </ListView>
                     <Button text="-" styleClass="minusButton" onAction="#minusField"/>
                 </HBox>

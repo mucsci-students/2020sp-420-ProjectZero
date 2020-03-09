@@ -5,20 +5,19 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Separator;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
+import projectzero.core.Field;
 import projectzero.core.Method;
 import projectzero.core.UmlClass;
-import projectzero.core.Field;
-
 
 import java.util.List;
-import java.util.Map;
 
 public class ClassNode extends AnchorPane {
-    private UmlClass data;
     private static final double offsetX = -350.0;
     private static final double offsetY = -100.0;
     private static final double WIDTH = 100.0, HEIGHT = 80.0;
-    public ClassNode(UmlClass data){
+    private UmlClass data;
+
+    public ClassNode(UmlClass data) {
         this.setPrefSize(WIDTH, HEIGHT);
         this.setMaxSize(WIDTH, HEIGHT);
         this.data = data;
@@ -26,14 +25,14 @@ public class ClassNode extends AnchorPane {
         Label classLabel = new Label(this.data.getName());
         List<Field> fields = this.data.getFields();
         VBox fieldBox = new VBox();
-        for(Field field: fields){
+        for (Field field : fields) {
             Label fieldLabel = new Label(field.getName());
             fieldBox.getChildren().add(fieldLabel);
         }
         VBox methodBox = new VBox();
         List<Method> methods = this.data.getMethods();
 
-        for(Method method: methods){
+        for (Method method : methods) {
             Label methodLabel = new Label(method.getName());
             methodBox.getChildren().add(methodLabel);
         }

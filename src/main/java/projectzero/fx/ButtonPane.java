@@ -13,11 +13,11 @@ public class ButtonPane extends HBox {
     private Button editClassButton;
     private Button deleteClassButton;
 
-    public ButtonPane(){
+    public ButtonPane() {
         initializeButtons();
     }
 
-    private void initializeButtons(){
+    private void initializeButtons() {
         addClassButton = new Button("Add Class");
         addClassButton.setMaxWidth(Double.MAX_VALUE);
         addClassButton.setOnAction(e -> new ClassScreen(new FXMLLoader()).show());
@@ -32,6 +32,6 @@ public class ButtonPane extends HBox {
         HBox.setHgrow(editClassButton, Priority.ALWAYS);
         HBox.setHgrow(deleteClassButton, Priority.ALWAYS);
 
-        this.getChildren().addAll(addClassButton,editClassButton,deleteClassButton);
+        this.getChildren().addAll(addClassButton, editClassButton, deleteClassButton);
     }
 }

@@ -5,7 +5,7 @@ import projectzero.core.Field;
 import projectzero.core.Method;
 import projectzero.core.UmlClass;
 
-public class GraphicsPane extends StackPane{
+public class GraphicsPane extends StackPane {
     public GraphicsPane() {
         this.setPrefSize(200, 200);
         try {
