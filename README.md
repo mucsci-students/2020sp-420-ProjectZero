@@ -1,7 +1,6 @@
 # UML Application
 
-An cliApplication that allows the user to create and edit UML's in the console window.
-You are also able to save/load files created in this cliApplication.
+A cliApplication that allows the user to add, delete, and edit UML classes, methods, fields, and relationships in the console window. There is also an optional GUI view. You are also able to save/load files created in the console.
 
 ## Prerequisites
 
@@ -10,10 +9,13 @@ You are also able to save/load files created in this cliApplication.
 [Gradle](https://gradle.org)
  
  ## Deployment
- 
-1. ```gradle build```
-2. ```gradle shadow```
-3. ```java -jar path/to/jar``` 
+1. ```Navigate to where the file is located on your computer in the console```
+2. ```gradle build```
+3. ```gradle shadow```
+4. ```java -jar path/to/jar (1)``` 
+
+The default option will open up the GUI application. To open the console app, you would need to include a 1 after you specify the path to the file.
+
 
 ## Built With
 
