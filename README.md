@@ -1,6 +1,6 @@
 # UML Application
 
-A cliApplication that allows the user to create, edit, and delete classes for fields, methods, and relationships in the console window. There is also an optional GUI view. You are also able to save/load files created in the console.
+A cliApplication that allows the user to add, delete, and edit UML classes, methods, fields, and relationships in the console window. There is also an optional GUI view. You are also able to save/load files created in the console.
 
 ## Prerequisites
 
