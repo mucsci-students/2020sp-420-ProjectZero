@@ -10,7 +10,7 @@
     <children>
         <HBox>
             <Label text="Class name: "/>
-            <TextField />
+            <TextField fx:id="textBoxClass"/>
         </HBox>
         <HBox>
             <Label text="Method name: "/>
@@ -27,9 +27,6 @@
             <ComboBox fx:id="comboRelationships">
                 <items>
                     <FXCollections fx:factory="observableArrayList">
-                        <String fx:value="Pizza Guy" />
-                        <String fx:value="Dude" />
-                        <String fx:value="Another Dude" />
                     </FXCollections>
                 </items>
             </ComboBox>
@@ -58,7 +55,7 @@
             </children>
         </VBox>
         <HBox>
-            <Button text="Apply"/>
+            <Button text="Apply" onAction="#applyUMLClass"/>
             <Button text="Cancel"/>
         </HBox>
     </children>
