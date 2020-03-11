@@ -8,11 +8,17 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
+import projectzero.core.*;
+import projectzero.core.exceptions.InvalidNameException;
+
 import java.net.URL;
 import java.util.ResourceBundle;
 
 public class ClassScreenController implements Initializable {
     private ObservableList<String> methods, fields, relationships;
+    private UmlClassManager mainManager;
+    @FXML
+    private TextField textBoxClass;
     @FXML
     private TextField textBoxMethods;
     @FXML
@@ -49,6 +55,39 @@ public class ClassScreenController implements Initializable {
     public void minusRelationship(ActionEvent e){
         relationships.remove(relationshipDisplay.getSelectionModel().getSelectedItem());
     }
+    public void applyUMLClass(ActionEvent event){
+        try {
+            UmlClass umlClass = new UmlClass(textBoxClass.getText());
+            for(String method: methods)
+                umlClass.addMethod(new Method(method));
+            for(String field: fields)
+                umlClass.addField((new Field(field)));
+            //Get rid of this code later. Because the relationships need to be
+                //existing classes.
+            for(String relationship: relationships)
+                umlClass.addRelationship(new Relationship(mainManager.getUmlClass(relationship)));
+            if(mainManager.addUmlClass(umlClass) == null)
+                updateComboBoxRelationships(umlClass);
+
+        } catch (InvalidNameException e) {
+            e.printStackTrace();
+        }
+
+        resetData();
+    }
+
+    public void setUMLClassManager(UmlClassManager mainManager){
+        this.mainManager = mainManager;
+        fillRelationships();
+    }
+
+    private void fillRelationships(){
+        mainManager.listUmlClasses().forEach(umlClass -> comboRelationships.getItems().add(umlClass.getName()));
+    }
+
+    private void updateComboBoxRelationships(UmlClass umlClass){
+        comboRelationships.getItems().add(umlClass.getName());
+    }
 
     private void setupListViews(){
         methods = FXCollections.observableArrayList();
@@ -58,5 +97,15 @@ public class ClassScreenController implements Initializable {
         methodDisplay.setItems(methods);
         fieldDisplay.setItems(fields);
         relationshipDisplay.setItems(relationships);
+    }
+
+    private void resetData(){
+        textBoxClass.setText("");
+        textBoxMethods.setText("");
+        textBoxFields.setText("");
+        comboRelationships.getSelectionModel().clearSelection();
+        methods.removeAll(methods);
+        fields.removeAll(fields);
+        relationships.removeAll(relationships);
     }
 }

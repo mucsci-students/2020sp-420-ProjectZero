@@ -11,26 +11,26 @@ import projectzero.core.UmlClass;
 import java.io.IOException;
 
 public class ClassNode{
-    private UmlClass data;
+    private UmlClass umlClass;
     private Pane pane;
     private Label classLabel;
     private VBox fieldBox,methodBox,mainLayout;
 
-    public ClassNode(UmlClass data) {
-        this.data = data;
+    public ClassNode(UmlClass umlClass, ContentPaneController controller){
+        this.umlClass = umlClass;
         try {
             pane  = FXMLLoader.<Pane>load(getClass().getResource("/fxml/class-node-layout.fxml"));
         } catch (IOException e) {
             e.printStackTrace();
         }
         initlizeFields();
-        classLabel.setText(this.data.getName());
+        classLabel.setText(this.umlClass.getName());
 
-        for(Field field: this.data.getFields()){
+        for(Field field: this.umlClass.getFields()){
             fieldBox.getChildren().add(new Label(field.getName()));
         }
 
-        for(Method method: this.data.getMethods()){
+        for(Method method: this.umlClass.getMethods()){
             methodBox.getChildren().add(new Label(method.getName()));
         }
 
@@ -39,6 +39,8 @@ public class ClassNode{
             pane.setTranslateX(getTranslateX(tempNode,event.getX()));
             pane.setTranslateY(getTranslateY(tempNode,event.getY()));
         });
+
+        pane.setOnMouseReleased(event -> controller.setSelectedUMLClass(this.umlClass));
 
         pane.getStyleClass().add("classnode");
     }
@@ -49,7 +51,9 @@ public class ClassNode{
         fieldBox = (VBox)mainLayout.getChildren().get(2);
         methodBox = (VBox)mainLayout.getChildren().get(4);
     }
-
+    public UmlClass getUmlClass(){
+            return this.umlClass;
+    }
     public Pane getDisplayPane(){
         return pane;
     }
