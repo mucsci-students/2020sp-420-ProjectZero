@@ -9,6 +9,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import projectzero.core.*;
+import projectzero.core.exceptions.DuplicateAttributeException;
 import projectzero.core.exceptions.InvalidNameException;
 
 import java.net.URL;
@@ -68,12 +69,17 @@ public class ClassScreenController implements Initializable {
                 umlClass.addRelationship(new Relationship(mainManager.getUmlClass(relationship)));
             if(mainManager.addUmlClass(umlClass) == null)
                 updateComboBoxRelationships(umlClass);
-
+                textBoxClass.setStyle("-fx-text-box-border: #9A9A9A; -fx-focus-color: darkslateblue;");
+                fieldDisplay.setStyle("-fx-border-color: #9A9A9A; -fx-focus-color: darkslateblue;");
+            resetData();
         } catch (InvalidNameException e) {
-            e.printStackTrace();
+            textBoxClass.setStyle(" -fx-text-box-border: red ; -fx-focus-color: red ;");
         }
+         catch(DuplicateAttributeException e){
+            fieldDisplay.setStyle(" -fx-border-color: red ; -fx-focus-color: red ;");
+         }
 
-        resetData();
+
     }
 
     public void setUMLClassManager(UmlClassManager mainManager){
