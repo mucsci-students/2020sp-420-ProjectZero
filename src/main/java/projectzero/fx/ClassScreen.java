@@ -17,6 +17,7 @@ public class ClassScreen extends Stage {
             ((ClassScreenController)loader.getController()).setUMLClassManager(mainManager);
             Scene mainScene = new Scene(root);
             mainScene.getStylesheets().add(getClass().getResource("/css/mainStyle.css").toExternalForm());
+            mainScene.getStylesheets().add(getClass().getResource("/css/classScreenStyle.css").toExternalForm());
             this.setScene(mainScene);
             this.setTitle(TITLE);
         } catch (IOException e) {

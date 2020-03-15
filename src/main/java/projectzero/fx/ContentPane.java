@@ -1,17 +1,10 @@
 package projectzero.fx;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import projectzero.core.UmlClass;
-import projectzero.core.UmlClassManager;
-import projectzero.core.UmlClassYamlMapper;
 
 import java.io.IOException;
-import java.util.List;
-import java.util.Observable;
-import java.util.Observer;
 
 public class ContentPane extends Stage{
     public static final int WIDTH = 720;
@@ -23,7 +16,8 @@ public class ContentPane extends Stage{
             VBox mainLayout;
             mainLayout = loader.<VBox>load();
             Scene mainScene = new Scene(mainLayout,WIDTH,HEIGHT);
-            mainScene.getStylesheets().add(getClass().getResource("/css/mainScreenStyle.css").toExternalForm());
+            mainScene.getStylesheets().add(getClass().getResource("/css/mainStyle.css").toExternalForm());
+            mainScene.getStylesheets().add(getClass().getResource("/css/contentScreenStyle.css").toExternalForm());
             this.setScene(mainScene);
             this.setTitle(TITLE);
         }
