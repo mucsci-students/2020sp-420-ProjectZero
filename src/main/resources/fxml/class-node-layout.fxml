@@ -2,10 +2,12 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<Pane fx:id="pane" xmlns="http://javafx.com/javafx"
-           xmlns:fx="http://javafx.com/fxml"
-           maxWidth="-Infinity" maxHeight="-Infinity"
-            >
+<fx:root xmlns="http://javafx.com/javafx"
+         xmlns:fx="http://javafx.com/fxml"
+         type="javafx.scene.layout.Pane"
+         fx:id="pane" maxWidth="-Infinity"
+         maxHeight="-Infinity"
+         styleClass="classnode">
     <VBox id="mainLayout" fx:id="mainLayout">
         <children>
             <Label fx:id="classLabel"/>
@@ -24,4 +26,4 @@
 
         </children>
     </VBox>
-</Pane>
+</fx:root>
