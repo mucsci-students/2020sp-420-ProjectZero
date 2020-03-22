@@ -5,6 +5,12 @@
     -fx-border-color: black;
     -fx-border-width: 2px;
     -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.8), 4, 0.4, 2, 2);
+}
+.label {
+    -fx-text-fill: black;
+}
+.classnode .label{
+
 
 }
 

@@ -55,8 +55,8 @@
             </children>
         </VBox>
         <HBox>
-            <Button text="Apply" onAction="#applyUMLClass"/>
-            <Button text="Cancel"/>
+            <Button styleClass="regButton" text="Apply" onAction="#applyUMLClass"/>
+            <Button styleClass="regButton" text="Cancel"/>
         </HBox>
     </children>
 </VBox>

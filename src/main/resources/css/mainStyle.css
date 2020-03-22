@@ -5,13 +5,14 @@
 .root{
     -fx-background-color: #9A9A9A;
 }
-
+.menu:hover{
+    -fx-background-color: #0099CC;
+}
 .label{
     -fx-font-size: 12px;
     -fx-text-fill: white;
     -fx-font-weight: bold;
     -fx-font-family: "Sans-Serif";
-    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.6), 5, 0, 2, 2);
 }
 
 .button{
@@ -22,9 +23,10 @@
 }
 
 .regButton{
+    -fx-background-color: #E8E8E8;
 
 }
 
 .regButton:pressed{
-
+    -fx-background-color: #0099CC
 }

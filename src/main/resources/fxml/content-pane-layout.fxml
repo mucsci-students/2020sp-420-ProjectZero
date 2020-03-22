@@ -13,9 +13,9 @@
         </Menu>
     </MenuBar>
     <HBox fx:id="buttonPane">
-        <Button fx:id="addButton" text="Add Class" onAction="#addButtonClick" maxWidth="Infinity" HBox.hgrow="ALWAYS"/>
-        <Button fx:id="editButton" text="Edit Class" onAction="#editButtonClick" maxWidth="Infinity" HBox.hgrow="ALWAYS"/>
-        <Button fx:id="deleteButton" text="Delete Class" onAction="#deleteButtonClick" maxWidth="Infinity" HBox.hgrow="ALWAYS"/>
+        <Button styleClass="regButton" fx:id="addButton" text="Add Class" onAction="#addButtonClick" maxWidth="Infinity" HBox.hgrow="ALWAYS"/>
+        <Button styleClass="regButton" fx:id="editButton" text="Edit Class" onAction="#editButtonClick" maxWidth="Infinity" HBox.hgrow="ALWAYS"/>
+        <Button styleClass="regButton" fx:id="deleteButton" text="Delete Class" onAction="#deleteButtonClick" maxWidth="Infinity" HBox.hgrow="ALWAYS"/>
     </HBox>
     <StackPane fx:id="graphicsPane">
     </StackPane>
