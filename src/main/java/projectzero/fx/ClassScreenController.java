@@ -15,19 +15,19 @@ import projectzero.core.exceptions.InvalidNameException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class ClassScreenController implements Initializable {
-    private ObservableList<String> methods, fields, relationships;
-    private UmlClassManager mainManager;
+public abstract class ClassScreenController implements Initializable {
+    protected ObservableList<String> methods, fields, relationships;
+    protected UmlClassManager mainManager;
     @FXML
-    private TextField textBoxClass;
+    protected TextField textBoxClass;
     @FXML
-    private TextField textBoxMethods;
+    protected TextField textBoxMethods;
     @FXML
-    private TextField textBoxFields;
+    protected TextField textBoxFields;
     @FXML
-    private ComboBox<String> comboRelationships;
+    protected ComboBox<String> comboRelationships;
     @FXML
-    private ListView<String> methodDisplay, fieldDisplay, relationshipDisplay;
+    protected ListView<String> methodDisplay, fieldDisplay, relationshipDisplay;
 
     public void addMethod(ActionEvent e){
         methods.add(textBoxMethods.getText());
@@ -56,42 +56,18 @@ public class ClassScreenController implements Initializable {
     public void minusRelationship(ActionEvent e){
         relationships.remove(relationshipDisplay.getSelectionModel().getSelectedItem());
     }
-    public void applyUMLClass(ActionEvent event){
-        try {
-            UmlClass umlClass = new UmlClass(textBoxClass.getText());
-            for(String method: methods)
-                umlClass.addMethod(new Method(method));
-            for(String field: fields)
-                umlClass.addField((new Field(field)));
-            //Get rid of this code later. Because the relationships need to be
-                //existing classes.
-            for(String relationship: relationships)
-                umlClass.addRelationship(new Relationship(mainManager.getUmlClass(relationship)));
-            if(mainManager.addUmlClass(umlClass) == null)
-                updateComboBoxRelationships(umlClass);
-                textBoxClass.setStyle("-fx-text-box-border: #9A9A9A; -fx-focus-color: darkslateblue;");
-                fieldDisplay.setStyle("-fx-border-color: #9A9A9A; -fx-focus-color: darkslateblue;");
-            resetData();
-        } catch (InvalidNameException e) {
-            textBoxClass.setStyle(" -fx-text-box-border: red ; -fx-focus-color: red ;");
-        }
-         catch(DuplicateAttributeException e){
-            fieldDisplay.setStyle(" -fx-border-color: red ; -fx-focus-color: red ;");
-         }
-
-
-    }
+    public abstract void applyUMLClass(ActionEvent event);
 
     public void setUMLClassManager(UmlClassManager mainManager){
         this.mainManager = mainManager;
         fillRelationships();
     }
 
-    private void fillRelationships(){
+    protected void fillRelationships(){
         mainManager.listUmlClasses().forEach(umlClass -> comboRelationships.getItems().add(umlClass.getName()));
     }
 
-    private void updateComboBoxRelationships(UmlClass umlClass){
+    protected void updateComboBoxRelationships(UmlClass umlClass){
         comboRelationships.getItems().add(umlClass.getName());
     }
 
@@ -105,7 +81,7 @@ public class ClassScreenController implements Initializable {
         relationshipDisplay.setItems(relationships);
     }
 
-    private void resetData(){
+    protected void resetData(){
         textBoxClass.setText("");
         textBoxMethods.setText("");
         textBoxFields.setText("");

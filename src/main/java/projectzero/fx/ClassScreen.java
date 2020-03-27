@@ -8,13 +8,14 @@ import projectzero.core.UmlClassManager;
 import java.io.IOException;
 
 public class ClassScreen extends Stage {
-    private final String TITLE = "Class Mod Screen";
+    private String TITLE;
 
-    public ClassScreen(UmlClassManager mainManager) {
+    public ClassScreen(UmlClassManager mainManager, ClassScreenType type) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/class-screen-layout.fxml"));
-            VBox root = loader.load();
+            setScreenController(loader,type);
             ((ClassScreenController)loader.getController()).setUMLClassManager(mainManager);
+            VBox root = loader.load();
             Scene mainScene = new Scene(root);
             mainScene.getStylesheets().add(getClass().getResource("/css/mainStyle.css").toExternalForm());
             mainScene.getStylesheets().add(getClass().getResource("/css/classScreenStyle.css").toExternalForm());
@@ -23,5 +24,19 @@ public class ClassScreen extends Stage {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private void setScreenController(FXMLLoader loader, ClassScreenType type) {
+        switch(type){
+            case ADDSCREEN:
+                loader.setController(new AddClassScreenController());
+                TITLE = "Add UMLClass Screen";
+                break;
+            case EDITSCREEN:
+                //vvvv Not working yet vvvv
+                loader.setController(new EditClassScreenController());
+                TITLE = "Edit UMLClass Screen";
+        }
+
     }
 }

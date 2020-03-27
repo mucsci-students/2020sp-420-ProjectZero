@@ -23,11 +23,11 @@ public class ContentPaneController implements Initializable, Observer<UmlClass>{
         mainManager.register(this);
     }
     public void addButtonClick(ActionEvent event){
-        new ClassScreen(mainManager).show();
+        new ClassScreen(mainManager, ClassScreenType.ADDSCREEN).show();
     }
 
     public void editButtonClick(ActionEvent event){
-
+        new ClassScreen(mainManager,ClassScreenType.EDITSCREEN).show();
     }
 
     public void deleteButtonClick(ActionEvent event){
