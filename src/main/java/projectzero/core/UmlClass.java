@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import projectzero.core.exceptions.InvalidNameException;
 
 import javax.lang.model.SourceVersion;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -64,6 +63,7 @@ public class UmlClass {
         fields.add(field);
         return true;
     }
+
     public Field getField(String fieldName){
         for(Field f: fields){
             if(f.getName().equals(fieldName)){
@@ -72,6 +72,7 @@ public class UmlClass {
         }
         return null;
     }
+
     public Method getMethod(String methodName){
         for(Method m: methods){
             if(m.getName().equals(methodName)){

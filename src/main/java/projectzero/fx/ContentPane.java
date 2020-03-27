@@ -1,9 +1,9 @@
 package projectzero.fx;
+
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-
 import java.io.IOException;
 
 public class ContentPane extends Stage{
@@ -13,8 +13,7 @@ public class ContentPane extends Stage{
     public ContentPane(){
         try{
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/content-pane-layout.fxml"));
-            VBox mainLayout;
-            mainLayout = loader.<VBox>load();
+            VBox mainLayout = loader.<VBox>load();
             Scene mainScene = new Scene(mainLayout,WIDTH,HEIGHT);
             mainScene.getStylesheets().add(getClass().getResource("/css/mainStyle.css").toExternalForm());
             mainScene.getStylesheets().add(getClass().getResource("/css/contentScreenStyle.css").toExternalForm());

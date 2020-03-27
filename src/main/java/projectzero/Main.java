@@ -17,7 +17,7 @@ public class Main {
             CliApplication cliApplication = new CliApplication();
             cliApplication.run();
         } else {
-            Application.launch(FXApplication.class,args);
+            Application.launch(FXApplication.class, args);
         }
     }
 }
