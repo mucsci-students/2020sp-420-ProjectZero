@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?import java.lang.*?>
+<?import javafx.collections.FXCollections?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.collections.FXCollections?>
@@ -7,15 +7,17 @@
 <VBox xmlns="http://javafx.com/javafx/8.0.25"
       xmlns:fx="http://javafx.com/fxml/1"
       id="mainLayout" spacing="10">
+
     <children>
         <HBox>
             <Label text="Class name: "/>
             <TextField fx:id="textBoxClass"/>
+            <TextField/>
         </HBox>
         <HBox>
             <Label text="Method name: "/>
-            <TextField fx:id="textBoxMethods" />
-            <Button text="+" styleClass="plusButton" onAction="#addMethod" />
+            <TextField fx:id="textBoxMethods"/>
+            <Button text="+" styleClass="plusButton" onAction="#addMethod"/>
         </HBox>
         <HBox>
             <Label text="Field name: "/>
@@ -36,13 +38,13 @@
             <children>
                 <HBox alignment="TOP_LEFT">
                     <Label text="Methods:"/>
-                    <ListView fx:id="methodDisplay" prefWidth="200" prefHeight="100"  >
+                    <ListView fx:id="methodDisplay" prefWidth="200" prefHeight="100">
                     </ListView>
                     <Button text="-" styleClass="minusButton" onAction="#minusMethod"/>
                 </HBox>
                 <HBox alignment="TOP_LEFT">
                     <Label text="Fields:"/>
-                    <ListView fx:id="fieldDisplay" prefWidth="200" prefHeight="100" >
+                    <ListView fx:id="fieldDisplay" prefWidth="200" prefHeight="100">
                     </ListView>
                     <Button text="-" styleClass="minusButton" onAction="#minusField"/>
                 </HBox>

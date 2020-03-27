@@ -29,17 +29,17 @@ public abstract class ClassScreenController implements Initializable {
     @FXML
     protected ListView<String> methodDisplay, fieldDisplay, relationshipDisplay;
 
-    public void addMethod(ActionEvent e){
+    public void addMethod(ActionEvent e) {
         methods.add(textBoxMethods.getText());
         textBoxMethods.setText("");
     }
 
-    public void addField(ActionEvent e){
+    public void addField(ActionEvent e) {
         fields.add(textBoxFields.getText());
         textBoxFields.setText("");
     }
 
-    public void addRelationship(ActionEvent e){
+    public void addRelationship(ActionEvent e) {
         relationships.add(comboRelationships.getSelectionModel().getSelectedItem());
     }
 
@@ -47,13 +47,16 @@ public abstract class ClassScreenController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         setupListViews();
     }
-    public void minusMethod(ActionEvent e){
+
+    public void minusMethod(ActionEvent e) {
         methods.remove(methodDisplay.getSelectionModel().getSelectedItem());
     }
-    public void minusField(ActionEvent e){
+
+    public void minusField(ActionEvent e) {
         fields.remove(fieldDisplay.getSelectionModel().getSelectedItem());
     }
-    public void minusRelationship(ActionEvent e){
+
+    public void minusRelationship(ActionEvent e) {
         relationships.remove(relationshipDisplay.getSelectionModel().getSelectedItem());
     }
     public abstract void applyUMLClass(ActionEvent event);
@@ -71,7 +74,7 @@ public abstract class ClassScreenController implements Initializable {
         comboRelationships.getItems().add(umlClass.getName());
     }
 
-    private void setupListViews(){
+    private void setupListViews() {
         methods = FXCollections.observableArrayList();
         fields = FXCollections.observableArrayList();
         relationships = FXCollections.observableArrayList();

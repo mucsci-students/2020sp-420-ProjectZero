@@ -67,6 +67,4 @@ public class ClassNode extends Pane{
     private double getHalfHeight(){
         return this.getHeight() / 2;
     }
-
-
 }
