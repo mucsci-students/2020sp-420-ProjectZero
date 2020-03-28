@@ -10,7 +10,11 @@ public class GraphicsPane extends StackPane {
         this.setPrefSize(200, 200);
         try {
             UmlClass testClass = new UmlClass("testName");
-            testClass.addField(new Field("fieldName"));
+            testClass.addField(new Field.Builder()
+                    .withName("field")
+                    .withType("type")
+                    .build()
+            );
             testClass.addMethod(new Method("methodName"));
             ClassNode testClassNode = new ClassNode(testClass);
             this.getChildren().add(testClassNode);

@@ -8,17 +8,32 @@ import java.util.Objects;
 
 public class Field {
     private final String name;
+    private final String type;
 
-    public Field(@JsonProperty("name") String name) throws InvalidNameException {
+    private Field(@JsonProperty("name") String name, @JsonProperty("type") String type) throws InvalidNameException {
+        if (name == null || type == null) {
+            throw new NullPointerException();
+        }
+
         if (!SourceVersion.isIdentifier(name)) {
             throw new InvalidNameException();
         }
 
         this.name = name;
+        this.type = type;
+    }
+
+    private Field(Field.Builder fieldBuilder) {
+        this.name = fieldBuilder.name;
+        this.type = fieldBuilder.type;
     }
 
     public String getName() {
         return name;
+    }
+
+    public String getType() {
+        return type;
     }
 
     @Override
@@ -26,6 +41,47 @@ public class Field {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Field field = (Field) o;
-        return Objects.equals(getName(), field.getName());
+        return name.equals(field.name) &&
+                type.equals(field.type);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, type);
+    }
+
+    @Override
+    public String toString() {
+        return "Field{" +
+                "name='" + name + '\'' +
+                ", type='" + type + '\'' +
+                '}';
+    }
+
+    public static class Builder {
+        private String name;
+        private String type;
+
+        public Field.Builder withName(String name){
+            this.name = name;
+            return this;
+        }
+
+        public Field.Builder withType(String type) {
+            this.type = type;
+            return this;
+        }
+
+        public Field build() throws InvalidNameException, NullPointerException {
+            if (this.name == null || this.type == null) {
+                throw new NullPointerException();
+            }
+
+            if (!SourceVersion.isIdentifier(name)) {
+                throw new InvalidNameException();
+            }
+
+            return new Field(this);
+        }
     }
 }

@@ -124,14 +124,17 @@ public class CliApplication {
         }
     }
 
-    private void editField(String arguments) {
-        String className = arguments.substring(0, arguments.indexOf(" "));
-        arguments = arguments.substring(className.length() + 1);
-        String oFieldName = arguments.substring(0, arguments.indexOf(" "));
-        String nFieldName = arguments.substring(arguments.indexOf(" ") + 1);
+    private void editField(String s) {
+        String[] arguments = s.split(" ");
+
+        if (arguments.length != 4) {
+            System.out.println("Invalid Number of Arguments");
+        }
+
         try {
-            MainManager.getUmlClass(className).updateField(MainManager.getUmlClass(className).getField(oFieldName), new Field(nFieldName));
-            System.out.println("Field " + oFieldName + " has been changed to " + nFieldName + ".");
+            UmlClass umlClass = MainManager.getUmlClass(arguments[0]);
+            umlClass.updateField(umlClass.getField(arguments[1]), new Field.Builder().withName(arguments[2]).withType(arguments[3]).build());
+            System.out.println("Field " + arguments[1] + " has been changed to " + arguments[2] + ".");
         } catch (InvalidNameException e) {
             System.out.println("Invalid Class name.");
         } catch (NullPointerException e) {
@@ -236,12 +239,20 @@ public class CliApplication {
     }
 
     private void addField(String s) {
-        String className = s.substring(0, s.indexOf(" "));
-        String field = s.substring(s.indexOf(" ") + 1);
+        String[] arguments = s.split(" ");
+
+        if (arguments.length != 3) {
+            System.out.println("Invalid number of arguments");
+            return;
+        }
 
         try {
-            MainManager.getUmlClass(className).addField(new Field(field));
-            System.out.println("The field " + field + " was added to " + className);
+            MainManager.getUmlClass(arguments[0]).addField(new Field.Builder()
+                    .withName(arguments[1])
+                    .withType(arguments[2])
+                    .build()
+            );
+            System.out.println("The field " + arguments[1] + " was added to " + arguments[0]);
         } catch (InvalidNameException e) {
             System.out.println("Invalid field input");
         } catch (NullPointerException e) {
@@ -308,7 +319,7 @@ public class CliApplication {
             System.out.print("\t");
             System.out.println("Fields: ");
             for (Field f : tempClass.getFields()) {
-                System.out.println("\t  " + f.getName());
+                System.out.println("\t  " + f);
             }
             System.out.print("\t");
             System.out.println("Methods: ");
@@ -332,7 +343,7 @@ public class CliApplication {
         System.out.print("\t");
         System.out.println("Fields: ");
         for (Field f : temp.getFields()) {
-            System.out.println("\t  " + f.getName());
+            System.out.println("\t  " + f);
         }
         System.out.print("\t");
         System.out.println("Methods: ");
