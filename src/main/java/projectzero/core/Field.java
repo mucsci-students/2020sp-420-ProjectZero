@@ -62,7 +62,7 @@ public class Field {
         private String name;
         private String type;
 
-        public Field.Builder withName(String name){
+        public Field.Builder withName(String name) {
             this.name = name;
             return this;
         }
@@ -77,7 +77,7 @@ public class Field {
                 throw new NullPointerException();
             }
 
-            if (!SourceVersion.isIdentifier(name)) {
+            if (!SourceVersion.isIdentifier(this.name)) {
                 throw new InvalidNameException();
             }
 

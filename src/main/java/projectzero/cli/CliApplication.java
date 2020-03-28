@@ -3,6 +3,7 @@ package projectzero.cli;
 import projectzero.core.*;
 import projectzero.core.exceptions.InvalidNameException;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -109,14 +110,17 @@ public class CliApplication {
         }
     }
 
-    private void editMethod(String arguments) {
-        String className = arguments.substring(0, arguments.indexOf(" "));
-        arguments = arguments.substring(className.length() + 1);
-        String oMethodName = arguments.substring(0, arguments.indexOf(" "));
-        String nMethodName = arguments.substring(arguments.indexOf(" ") + 1);
+    private void editMethod(String s) {
+        String[] arguments = s.split(" ");
+
+        if (arguments.length != 4) {
+            System.out.println("Invalid Number of Arguments");
+        }
+
         try {
-            MainManager.getUmlClass(className).updateMethod(MainManager.getUmlClass(className).getMethod(oMethodName), new Method(nMethodName));
-            System.out.println("Method " + oMethodName + " has been changed to " + nMethodName + ".");
+            UmlClass umlClass = MainManager.getUmlClass(arguments[0]);
+            umlClass.updateMethod(umlClass.getMethod(arguments[1]), new Method.Builder().withName(arguments[2]).withType(arguments[3]).withParameterTypes(new ArrayList<>()).build());
+            System.out.println("Method " + arguments[1] + " has been changed to " + arguments[2] + ".");
         } catch (InvalidNameException e) {
             System.out.println("Invalid Class name.");
         } catch (NullPointerException e) {
@@ -262,13 +266,21 @@ public class CliApplication {
     }
 
     private void addMethod(String s) {
-        String className = s.substring(0, s.indexOf(" "));
-        String method = s.substring(s.indexOf(" ") + 1);
+        String[] arguments = s.split(" ");
 
+        if (arguments.length != 3) {
+            System.out.println("Invalid number of arguments");
+            return;
+        }
 
         try {
-            MainManager.getUmlClass(className).addMethod(new Method(method));
-            System.out.println("Method " + method + " was added to " + className);
+            MainManager.getUmlClass(arguments[0]).addMethod(new Method.Builder()
+                    .withName(arguments[1])
+                    .withType(arguments[2])
+                    .withParameterTypes(new ArrayList<>())
+                    .build()
+            );
+            System.out.println("The method " + arguments[1] + " was added to " + arguments[0]);
         } catch (InvalidNameException e) {
             System.out.println("Invalid method input");
         } catch (NullPointerException e) {
@@ -324,7 +336,7 @@ public class CliApplication {
             System.out.print("\t");
             System.out.println("Methods: ");
             for (Method m : tempClass.getMethods()) {
-                System.out.println("\t  " + m.getName());
+                System.out.println("\t  " + m);
             }
             System.out.print("\t");
             System.out.println("Relationship Points to: ");
@@ -348,7 +360,7 @@ public class CliApplication {
         System.out.print("\t");
         System.out.println("Methods: ");
         for (Method m : temp.getMethods()) {
-            System.out.println("\t  " + m.getName());
+            System.out.println("\t  " + m);
         }
         System.out.print("\t");
         System.out.println("Relationship Points to: ");
