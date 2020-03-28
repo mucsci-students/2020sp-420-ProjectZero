@@ -1,28 +1,93 @@
-# This workflow will build a Java project with Gradle
+# This workflow will build and test a Java project with Gradle
 # For more information see: https://help.github.com/actions/language-and-framework-guides/building-and-testing-java-with-gradle
 
 name: Java CI with Gradle
 
 on:
   push:
-    branches: 
-      - "**"
+    branches:
+      - 'develop'
+
   pull_request:
-    branches: 
-      - "**"
+    branches:
+      - '**'
 
 jobs:
-  build:
-
-    runs-on: ubuntu-latest
-
+  build_macos:
+    runs-on: macos-latest
     steps:
-    - uses: actions/checkout@v2
-    - name: Set up JDK 1.13
-      uses: actions/setup-java@v1
-      with:
-        java-version: 1.13
-    - name: Grant execute permission for gradlew
-      run: chmod +x gradlew
-    - name: Build with Gradle
-      run: ./gradlew build
+      - uses: actions/checkout@v2
+      - name: Set up JDK 1.13
+        uses: actions/setup-java@v1
+        with:
+          java-version: 1.13
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+      - name: Build with Gradle
+        run: ./gradlew build
+  test_macos:
+    needs: build_macos
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up JDK 1.13
+        uses: actions/setup-java@v1
+        with:
+          java-version: 1.13
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+      - name: Build with Gradle
+        run: ./gradlew test
+
+  build_ubuntu:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up JDK 1.13
+        uses: actions/setup-java@v1
+        with:
+          java-version: 1.13
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+      - name: Build with Gradle
+        run: ./gradlew build
+  test_ubuntu:
+    needs: build_ubuntu
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up JDK 1.13
+        uses: actions/setup-java@v1
+        with:
+          java-version: 1.13
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+      - name: Build with Gradle
+        run: ./gradlew test
+
+  build_windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up JDK 1.13
+        uses: actions/setup-java@v1
+        with:
+          java-version: 1.13
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+      - name: Build with Gradle
+        run: ./gradlew build
+  test_windows:
+    needs: build_windows
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up JDK 1.13
+        uses: actions/setup-java@v1
+        with:
+          java-version: 1.13
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+      - name: Build with Gradle
+        run: ./gradlew test
+
