@@ -50,14 +50,14 @@ public class UmlClassYamlMapperTest {
         Field birdBeakSizeField = null;
 
         try {
-            dogColorField = new Field("color");
-            dogWeightField = new Field("weight");
+            dogColorField = new Field.Builder().withName("color").withType("string").build();
+            dogWeightField = new Field.Builder().withName("weight").withType("double").build();
 
-            catLengthField = new Field("length");
-            catFluffinessField = new Field("fluffiness");
+            catLengthField = new Field.Builder().withName("length").withType("double").build();
+            catFluffinessField = new Field.Builder().withName("fluffiness").withType("double").build();
 
-            birdWingSpanField = new Field("wingSpan");
-            birdBeakSizeField = new Field("beakSize");
+            birdWingSpanField = new Field.Builder().withName("wingSpan").withType("double").build();
+            birdBeakSizeField = new Field.Builder().withName("beakSize").withType("double").build();
         } catch (Exception e) {
             Assertions.fail("Field constructor failed - " + e.getLocalizedMessage());
         }

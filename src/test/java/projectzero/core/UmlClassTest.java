@@ -9,7 +9,7 @@ public class UmlClassTest {
     public void testUmlClassAddFieldSucceedsOnValidField() {
         Assertions.assertDoesNotThrow(() -> {
             UmlClass umlClass = new UmlClass("Class");
-            Field field = new Field("field");
+            Field field = new Field.Builder().withName("field").withType("type").build();
 
             Assertions.assertTrue(umlClass.addField(field));
             Assertions.assertTrue(umlClass.getFields().contains(field));
@@ -20,8 +20,8 @@ public class UmlClassTest {
     public void testUmlClassAddFieldReturnsFalseOnDuplicateField() {
         Assertions.assertDoesNotThrow(() -> {
             UmlClass umlClass = new UmlClass("Class");
-            Field field1 = new Field("field");
-            Field field2 = new Field("field");
+            Field field1 = new Field.Builder().withName("field").withType("type").build();
+            Field field2 = new Field.Builder().withName("field").withType("type").build();
 
             Assertions.assertTrue(umlClass.addField(field1));
             Assertions.assertTrue(umlClass.getFields().contains(field1));
@@ -33,7 +33,7 @@ public class UmlClassTest {
     public void testUmlClassDeleteFieldReturnsTrueOnSuccessfulDelete() {
         Assertions.assertDoesNotThrow(() -> {
             UmlClass umlClass = new UmlClass("Class");
-            Field field = new Field("field");
+            Field field = new Field.Builder().withName("field").withType("type").build();
 
             Assertions.assertTrue(umlClass.addField(field));
             Assertions.assertTrue(umlClass.getFields().contains(field));
@@ -46,7 +46,7 @@ public class UmlClassTest {
     public void testUmlClassDeleteFieldReturnsFalseOnUnsuccessfulDelete() {
         Assertions.assertDoesNotThrow(() -> {
             UmlClass umlClass = new UmlClass("Class");
-            Field field = new Field("field");
+            Field field = new Field.Builder().withName("field").withType("type").build();
 
             Assertions.assertFalse(umlClass.getFields().contains(field));
             Assertions.assertFalse(umlClass.deleteField(field));
@@ -58,8 +58,8 @@ public class UmlClassTest {
     public void testUmlClassUpdateFieldReturnsTrueOnSuccessfulUpdate() {
         Assertions.assertDoesNotThrow(() -> {
             UmlClass umlClass = new UmlClass("Class");
-            Field field1 = new Field("field1");
-            Field field2 = new Field("field2");
+            Field field1 = new Field.Builder().withName("field1").withType("type").build();
+            Field field2 = new Field.Builder().withName("field2").withType("type").build();
 
             Assertions.assertTrue(umlClass.addField(field1));
             Assertions.assertTrue(umlClass.getFields().contains(field1));
@@ -73,8 +73,8 @@ public class UmlClassTest {
     public void testUmlClassUpdateFieldReturnsFalseOnUnsuccessfulUpdate() {
         Assertions.assertDoesNotThrow(() -> {
             UmlClass umlClass = new UmlClass("Class");
-            Field field1 = new Field("field1");
-            Field field2 = new Field("field2");
+            Field field1 = new Field.Builder().withName("field1").withType("type").build();
+            Field field2 = new Field.Builder().withName("field2").withType("type").build();
 
             Assertions.assertTrue(umlClass.addField(field1));
             Assertions.assertTrue(umlClass.getFields().contains(field1));
