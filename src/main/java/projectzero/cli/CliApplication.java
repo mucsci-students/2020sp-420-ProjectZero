@@ -175,17 +175,25 @@ public class CliApplication {
         }
     }
 
-    private void addRelationships(String arguments) {
-        String from = arguments.substring(0, arguments.indexOf(" "));
-        String to = arguments.substring(arguments.indexOf(" ") + 1);
-        if (from.equals(to)) {
+    private void addRelationships(String s) {
+        String[] arguments = s.split(" ");
+
+        if (arguments.length != 3) {
+            System.out.println("Invalid Number of Arguments");
+        }
+
+        if (arguments[0].equals(arguments[1])) {
             System.out.println("Relationship can't be made");
         } else {
             try {
-                if (!MainManager.getUmlClass(from).addRelationship(new Relationship(MainManager.getUmlClass(to)))) {
+                if (!MainManager.getUmlClass(arguments[0]).addRelationship(new Relationship.Builder()
+                        .withTo(MainManager.getUmlClass(arguments[1]))
+                        .withType(Relationship.Type.valueOf(arguments[2].toUpperCase()))
+                        .build())
+                ) {
                     System.out.println("Relationship can not be made.");
                 } else {
-                    System.out.println("Relationship added From " + from + " to " + to + ".");
+                    System.out.println("Relationship added From " + arguments[0] + " to " + arguments[1] + ".");
                 }
             } catch (NullPointerException e) {
                 System.out.println("Class does not exist.");

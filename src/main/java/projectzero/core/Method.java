@@ -12,7 +12,7 @@ public class Method {
     private final String type;
     private final List<String> parameterTypes;
 
-    public Method(@JsonProperty("name") String name, @JsonProperty("type") String type, @JsonProperty("parameterTypes") List<String> parameterTypes) throws InvalidNameException {
+    private Method(@JsonProperty("name") String name, @JsonProperty("type") String type, @JsonProperty("parameterTypes") List<String> parameterTypes) throws InvalidNameException {
         if (name == null || type == null || parameterTypes == null) {
             throw new NullPointerException();
         }
