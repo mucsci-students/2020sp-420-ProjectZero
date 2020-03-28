@@ -3,6 +3,8 @@ package projectzero.core;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
+
 public class UmlClassTest {
 
     @Test
@@ -90,7 +92,11 @@ public class UmlClassTest {
     public void testUmlClassAddMethodSucceedsOnValidMethod() {
         Assertions.assertDoesNotThrow(() -> {
             UmlClass umlClass = new UmlClass("Class");
-            Method method = new Method("method1");
+            Method method = new Method.Builder()
+                    .withName("method")
+                    .withType("type")
+                    .withParameterTypes(new ArrayList<>())
+                    .build();
 
             umlClass.addMethod(method);
 
@@ -102,8 +108,16 @@ public class UmlClassTest {
     public void testUmlClassAddMethodReturnsFalseOnDuplicateMethod() {
         Assertions.assertDoesNotThrow(() -> {
             UmlClass umlClass = new UmlClass("Class");
-            Method method1 = new Method("method");
-            Method method2 = new Method("method");
+            Method method1 = new Method.Builder()
+                    .withName("method")
+                    .withType("type")
+                    .withParameterTypes(new ArrayList<>())
+                    .build();
+            Method method2 = new Method.Builder()
+                    .withName("method")
+                    .withType("type")
+                    .withParameterTypes(new ArrayList<>())
+                    .build();
 
             Assertions.assertTrue(umlClass.addMethod(method1));
             Assertions.assertTrue(umlClass.getMethods().contains(method1));
@@ -115,7 +129,11 @@ public class UmlClassTest {
     public void testUmlClassDeleteMethodReturnsTrueOnSuccessfulDelete() {
         Assertions.assertDoesNotThrow(() -> {
             UmlClass umlClass = new UmlClass("Class");
-            Method method = new Method("method");
+            Method method = new Method.Builder()
+                    .withName("method")
+                    .withType("type")
+                    .withParameterTypes(new ArrayList<>())
+                    .build();
 
             Assertions.assertTrue(umlClass.addMethod(method));
             Assertions.assertTrue(umlClass.getMethods().contains(method));
@@ -128,7 +146,11 @@ public class UmlClassTest {
     public void testUmlClassDeleteMethodReturnsFalseOnUnsuccessfulDelete() {
         Assertions.assertDoesNotThrow(() -> {
             UmlClass umlClass = new UmlClass("Class");
-            Method method = new Method("method");
+            Method method = new Method.Builder()
+                    .withName("method")
+                    .withType("type")
+                    .withParameterTypes(new ArrayList<>())
+                    .build();
 
             Assertions.assertFalse(umlClass.getMethods().contains(method));
             Assertions.assertFalse(umlClass.deleteMethod(method));
@@ -140,8 +162,16 @@ public class UmlClassTest {
     public void testUmlClassUpdateMethodReturnsTrueOnSuccessfulUpdate() {
         Assertions.assertDoesNotThrow(() -> {
             UmlClass umlClass = new UmlClass("Class");
-            Method method1 = new Method("method1");
-            Method method2 = new Method("method2");
+            Method method1 = new Method.Builder()
+                    .withName("method1")
+                    .withType("type")
+                    .withParameterTypes(new ArrayList<>())
+                    .build();
+            Method method2 = new Method.Builder()
+                    .withName("method2")
+                    .withType("type")
+                    .withParameterTypes(new ArrayList<>())
+                    .build();
 
             Assertions.assertTrue(umlClass.addMethod(method1));
             Assertions.assertTrue(umlClass.getMethods().contains(method1));
@@ -155,8 +185,16 @@ public class UmlClassTest {
     public void testUmlClassUpdateMethodReturnsFalseOnUnsuccessfulUpdate() {
         Assertions.assertDoesNotThrow(() -> {
             UmlClass umlClass = new UmlClass("Class");
-            Method method1 = new Method("method1");
-            Method method2 = new Method("method2");
+            Method method1 = new Method.Builder()
+                    .withName("method1")
+                    .withType("type")
+                    .withParameterTypes(new ArrayList<>())
+                    .build();
+            Method method2 = new Method.Builder()
+                    .withName("method2")
+                    .withType("type")
+                    .withParameterTypes(new ArrayList<>())
+                    .build();
 
             Assertions.assertTrue(umlClass.addMethod(method1));
             Assertions.assertTrue(umlClass.getMethods().contains(method1));

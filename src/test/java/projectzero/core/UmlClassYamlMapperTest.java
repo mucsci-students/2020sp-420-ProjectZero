@@ -6,6 +6,7 @@ import org.junit.jupiter.api.io.TempDir;
 
 import java.io.IOException;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -81,14 +82,38 @@ public class UmlClassYamlMapperTest {
         Method birdSquawkMethod = null;
 
         try {
-            dogBarkMethod = new Method("bark");
-            dogFetchMethod = new Method("fetch");
+            dogBarkMethod = new Method.Builder()
+                    .withName("bark")
+                    .withType("void")
+                    .withParameterTypes(new ArrayList<>())
+                    .build();
+            dogFetchMethod = new Method.Builder()
+                    .withName("fetch")
+                    .withType("void")
+                    .withParameterTypes(new ArrayList<>())
+                    .build();
 
-            catPurrMethod = new Method("purr");
-            catMeowMethod = new Method("meow");
+            catPurrMethod = new Method.Builder()
+                    .withName("purr")
+                    .withType("void")
+                    .withParameterTypes(new ArrayList<>())
+                    .build();
+            catMeowMethod = new Method.Builder()
+                    .withName("meow")
+                    .withType("void")
+                    .withParameterTypes(new ArrayList<>())
+                    .build();
 
-            birdFlyMethod = new Method("fly");
-            birdSquawkMethod = new Method("squawk");
+            birdFlyMethod = new Method.Builder()
+                    .withName("fly")
+                    .withType("void")
+                    .withParameterTypes(new ArrayList<>())
+                    .build();
+            birdSquawkMethod = new Method.Builder()
+                    .withName("squak")
+                    .withType("void")
+                    .withParameterTypes(new ArrayList<>())
+                    .build();
         } catch (Exception e) {
             Assertions.fail("Method constructor failed - " + e.getLocalizedMessage());
         }
