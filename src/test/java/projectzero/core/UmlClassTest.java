@@ -213,8 +213,14 @@ public class UmlClassTest {
             UmlClass to1 = new UmlClass("To1");
             UmlClass to2 = new UmlClass("To2");
 
-            Relationship relationship1 = new Relationship(to1);
-            Relationship relationship2 = new Relationship(to2);
+            Relationship relationship1 = new Relationship.Builder()
+                    .withTo(to1)
+                    .withType(Relationship.Type.AGGREGATION)
+                    .build();
+            Relationship relationship2 = new Relationship.Builder()
+                    .withTo(to2)
+                    .withType(Relationship.Type.AGGREGATION)
+                    .build();
 
             Assertions.assertTrue(from.addRelationship(relationship1));
             Assertions.assertTrue(from.getRelationships().contains(relationship1));
@@ -231,8 +237,14 @@ public class UmlClassTest {
             UmlClass from = new UmlClass("From");
             UmlClass to = new UmlClass("To");
 
-            Relationship relationship1 = new Relationship(to);
-            Relationship relationship2 = new Relationship(to);
+            Relationship relationship1 = new Relationship.Builder()
+                    .withTo(to)
+                    .withType(Relationship.Type.AGGREGATION)
+                    .build();
+            Relationship relationship2 = new Relationship.Builder()
+                    .withTo(to)
+                    .withType(Relationship.Type.AGGREGATION)
+                    .build();
 
             Assertions.assertTrue(from.addRelationship(relationship1));
             Assertions.assertTrue(from.getRelationships().contains(relationship1));
@@ -246,8 +258,14 @@ public class UmlClassTest {
             UmlClass from = new UmlClass("From");
             UmlClass to = new UmlClass("To");
 
-            Relationship toTo = new Relationship(to);
-            Relationship toFrom = new Relationship(from);
+            Relationship toTo = new Relationship.Builder()
+                    .withTo(to)
+                    .withType(Relationship.Type.GENERALIZATION)
+                    .build();
+            Relationship toFrom = new Relationship.Builder()
+                    .withTo(from)
+                    .withType(Relationship.Type.GENERALIZATION)
+                    .build();
 
             Assertions.assertTrue(from.addRelationship(toTo));
             Assertions.assertFalse(to.addRelationship(toFrom));
@@ -260,7 +278,10 @@ public class UmlClassTest {
             UmlClass from = new UmlClass("From");
             UmlClass to = new UmlClass("To");
 
-            Relationship relationship = new Relationship(to);
+            Relationship relationship = new Relationship.Builder()
+                    .withTo(to)
+                    .withType(Relationship.Type.AGGREGATION)
+                    .build();
 
             Assertions.assertFalse(from.getRelationships().contains(relationship));
             Assertions.assertTrue(from.addRelationship(relationship));
@@ -276,7 +297,10 @@ public class UmlClassTest {
             UmlClass from = new UmlClass("From");
             UmlClass to = new UmlClass("To");
 
-            Relationship relationship = new Relationship(to);
+            Relationship relationship = new Relationship.Builder()
+                    .withTo(to)
+                    .withType(Relationship.Type.AGGREGATION)
+                    .build();
 
             Assertions.assertFalse(from.getRelationships().contains(relationship));
             Assertions.assertFalse(from.deleteRelationship(relationship));
@@ -291,8 +315,14 @@ public class UmlClassTest {
             UmlClass to1 = new UmlClass("To1");
             UmlClass to2 = new UmlClass("To2");
 
-            Relationship relationship1 = new Relationship(to1);
-            Relationship relationship2 = new Relationship(to2);
+            Relationship relationship1 = new Relationship.Builder()
+                    .withTo(to1)
+                    .withType(Relationship.Type.AGGREGATION)
+                    .build();
+            Relationship relationship2 = new Relationship.Builder()
+                    .withTo(to2)
+                    .withType(Relationship.Type.AGGREGATION)
+                    .build();
 
             Assertions.assertTrue(from.addRelationship(relationship1));
             Assertions.assertTrue(from.getRelationships().contains(relationship1));
@@ -309,8 +339,14 @@ public class UmlClassTest {
             UmlClass to1 = new UmlClass("To1");
             UmlClass to2 = new UmlClass("To2");
 
-            Relationship relationship1 = new Relationship(to1);
-            Relationship relationship2 = new Relationship(to2);
+            Relationship relationship1 = new Relationship.Builder()
+                    .withTo(to1)
+                    .withType(Relationship.Type.AGGREGATION)
+                    .build();
+            Relationship relationship2 = new Relationship.Builder()
+                    .withTo(to2)
+                    .withType(Relationship.Type.AGGREGATION)
+                    .build();
 
             Assertions.assertTrue(from.addRelationship(relationship1));
             Assertions.assertTrue(from.getRelationships().contains(relationship1));

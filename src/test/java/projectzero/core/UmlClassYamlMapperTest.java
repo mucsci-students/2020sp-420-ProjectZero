@@ -31,9 +31,18 @@ public class UmlClassYamlMapperTest {
             Assertions.fail("Constructors on UmlClass failed - " + e.getLocalizedMessage());
         }
 
-        Relationship toDog = new Relationship(dogClass);
-        Relationship toCat = new Relationship(catClass);
-        Relationship toBird = new Relationship(birdClass);
+        Relationship toDog = new Relationship.Builder()
+                .withTo(dogClass)
+                .withType(Relationship.Type.GENERALIZATION)
+                .build();
+        Relationship toCat = new Relationship.Builder()
+                .withTo(catClass)
+                .withType(Relationship.Type.GENERALIZATION)
+                .build();
+        Relationship toBird = new Relationship.Builder()
+                .withTo(birdClass)
+                .withType(Relationship.Type.GENERALIZATION)
+                .build();
 
         Assertions.assertTrue(animalClass.addRelationship(toDog));
         Assertions.assertTrue(animalClass.addRelationship(toCat));
