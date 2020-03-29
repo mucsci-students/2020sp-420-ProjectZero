@@ -8,7 +8,10 @@ public class RelationshipTest {
     @Test
     public void testRelationshipConstructorDoesNotThrowWithValidName() {
         Assertions.assertDoesNotThrow(() -> {
-            Relationship relationship = new Relationship(new UmlClass("Class"));
+            new Relationship.Builder()
+                    .withTo(new UmlClass("class"))
+                    .withType(Relationship.Type.AGGREGATION)
+                    .build();
         });
     }
 }

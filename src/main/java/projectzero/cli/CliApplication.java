@@ -3,6 +3,7 @@ package projectzero.cli;
 import projectzero.core.*;
 import projectzero.core.exceptions.InvalidNameException;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -109,14 +110,17 @@ public class CliApplication {
         }
     }
 
-    private void editMethod(String arguments) {
-        String className = arguments.substring(0, arguments.indexOf(" "));
-        arguments = arguments.substring(className.length() + 1);
-        String oMethodName = arguments.substring(0, arguments.indexOf(" "));
-        String nMethodName = arguments.substring(arguments.indexOf(" ") + 1);
+    private void editMethod(String s) {
+        String[] arguments = s.split(" ");
+
+        if (arguments.length != 4) {
+            System.out.println("Invalid Number of Arguments");
+        }
+
         try {
-            MainManager.getUmlClass(className).updateMethod(MainManager.getUmlClass(className).getMethod(oMethodName), new Method(nMethodName));
-            System.out.println("Method " + oMethodName + " has been changed to " + nMethodName + ".");
+            UmlClass umlClass = MainManager.getUmlClass(arguments[0]);
+            umlClass.updateMethod(umlClass.getMethod(arguments[1]), new Method.Builder().withName(arguments[2]).withType(arguments[3]).withParameterTypes(new ArrayList<>()).build());
+            System.out.println("Method " + arguments[1] + " has been changed to " + arguments[2] + ".");
         } catch (InvalidNameException e) {
             System.out.println("Invalid Class name.");
         } catch (NullPointerException e) {
@@ -124,14 +128,17 @@ public class CliApplication {
         }
     }
 
-    private void editField(String arguments) {
-        String className = arguments.substring(0, arguments.indexOf(" "));
-        arguments = arguments.substring(className.length() + 1);
-        String oFieldName = arguments.substring(0, arguments.indexOf(" "));
-        String nFieldName = arguments.substring(arguments.indexOf(" ") + 1);
+    private void editField(String s) {
+        String[] arguments = s.split(" ");
+
+        if (arguments.length != 4) {
+            System.out.println("Invalid Number of Arguments");
+        }
+
         try {
-            MainManager.getUmlClass(className).updateField(MainManager.getUmlClass(className).getField(oFieldName), new Field(nFieldName));
-            System.out.println("Field " + oFieldName + " has been changed to " + nFieldName + ".");
+            UmlClass umlClass = MainManager.getUmlClass(arguments[0]);
+            umlClass.updateField(umlClass.getField(arguments[1]), new Field.Builder().withName(arguments[2]).withType(arguments[3]).build());
+            System.out.println("Field " + arguments[1] + " has been changed to " + arguments[2] + ".");
         } catch (InvalidNameException e) {
             System.out.println("Invalid Class name.");
         } catch (NullPointerException e) {
@@ -168,17 +175,25 @@ public class CliApplication {
         }
     }
 
-    private void addRelationships(String arguments) {
-        String from = arguments.substring(0, arguments.indexOf(" "));
-        String to = arguments.substring(arguments.indexOf(" ") + 1);
-        if (from.equals(to)) {
+    private void addRelationships(String s) {
+        String[] arguments = s.split(" ");
+
+        if (arguments.length != 3) {
+            System.out.println("Invalid Number of Arguments");
+        }
+
+        if (arguments[0].equals(arguments[1])) {
             System.out.println("Relationship can't be made");
         } else {
             try {
-                if (!MainManager.getUmlClass(from).addRelationship(new Relationship(MainManager.getUmlClass(to)))) {
+                if (!MainManager.getUmlClass(arguments[0]).addRelationship(new Relationship.Builder()
+                        .withTo(MainManager.getUmlClass(arguments[1]))
+                        .withType(Relationship.Type.valueOf(arguments[2].toUpperCase()))
+                        .build())
+                ) {
                     System.out.println("Relationship can not be made.");
                 } else {
-                    System.out.println("Relationship added From " + from + " to " + to + ".");
+                    System.out.println("Relationship added From " + arguments[0] + " to " + arguments[1] + ".");
                 }
             } catch (NullPointerException e) {
                 System.out.println("Class does not exist.");
@@ -236,12 +251,20 @@ public class CliApplication {
     }
 
     private void addField(String s) {
-        String className = s.substring(0, s.indexOf(" "));
-        String field = s.substring(s.indexOf(" ") + 1);
+        String[] arguments = s.split(" ");
+
+        if (arguments.length != 3) {
+            System.out.println("Invalid number of arguments");
+            return;
+        }
 
         try {
-            MainManager.getUmlClass(className).addField(new Field(field));
-            System.out.println("The field " + field + " was added to " + className);
+            MainManager.getUmlClass(arguments[0]).addField(new Field.Builder()
+                    .withName(arguments[1])
+                    .withType(arguments[2])
+                    .build()
+            );
+            System.out.println("The field " + arguments[1] + " was added to " + arguments[0]);
         } catch (InvalidNameException e) {
             System.out.println("Invalid field input");
         } catch (NullPointerException e) {
@@ -251,13 +274,21 @@ public class CliApplication {
     }
 
     private void addMethod(String s) {
-        String className = s.substring(0, s.indexOf(" "));
-        String method = s.substring(s.indexOf(" ") + 1);
+        String[] arguments = s.split(" ");
 
+        if (arguments.length != 3) {
+            System.out.println("Invalid number of arguments");
+            return;
+        }
 
         try {
-            MainManager.getUmlClass(className).addMethod(new Method(method));
-            System.out.println("Method " + method + " was added to " + className);
+            MainManager.getUmlClass(arguments[0]).addMethod(new Method.Builder()
+                    .withName(arguments[1])
+                    .withType(arguments[2])
+                    .withParameterTypes(new ArrayList<>())
+                    .build()
+            );
+            System.out.println("The method " + arguments[1] + " was added to " + arguments[0]);
         } catch (InvalidNameException e) {
             System.out.println("Invalid method input");
         } catch (NullPointerException e) {
@@ -308,12 +339,12 @@ public class CliApplication {
             System.out.print("\t");
             System.out.println("Fields: ");
             for (Field f : tempClass.getFields()) {
-                System.out.println("\t  " + f.getName());
+                System.out.println("\t  " + f);
             }
             System.out.print("\t");
             System.out.println("Methods: ");
             for (Method m : tempClass.getMethods()) {
-                System.out.println("\t  " + m.getName());
+                System.out.println("\t  " + m);
             }
             System.out.print("\t");
             System.out.println("Relationship Points to: ");
@@ -332,12 +363,12 @@ public class CliApplication {
         System.out.print("\t");
         System.out.println("Fields: ");
         for (Field f : temp.getFields()) {
-            System.out.println("\t  " + f.getName());
+            System.out.println("\t  " + f);
         }
         System.out.print("\t");
         System.out.println("Methods: ");
         for (Method m : temp.getMethods()) {
-            System.out.println("\t  " + m.getName());
+            System.out.println("\t  " + m);
         }
         System.out.print("\t");
         System.out.println("Relationship Points to: ");

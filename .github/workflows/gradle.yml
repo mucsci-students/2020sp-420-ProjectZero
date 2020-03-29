@@ -1,5 +1,6 @@
 name: Run Gradle build and test on PRs
 on: pull_request
+
 jobs:
   gradle_build:
     strategy:

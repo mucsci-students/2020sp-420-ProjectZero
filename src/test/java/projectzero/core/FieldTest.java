@@ -9,14 +9,39 @@ public class FieldTest {
     @Test
     public void testFieldConstructorDoesNotThrowWithValidName() {
         Assertions.assertDoesNotThrow(() -> {
-            Field field = new Field("field");
+            new Field.Builder()
+                    .withName("field")
+                    .withType("type")
+                    .build();
         });
     }
 
     @Test
     public void testFieldConstructorThrowsWithInvalidName() {
         Assertions.assertThrows(InvalidNameException.class, () -> {
-            Field field = new Field("&field");
+            new Field.Builder()
+                    .withName("&field")
+                    .withType("type")
+                    .build();
+        });
+    }
+
+    @Test
+    public void testFieldConstructorThrowsWithNullName() {
+        Assertions.assertThrows(NullPointerException.class, () -> {
+            new Field.Builder()
+                    .withType("type")
+                    .build();
+        });
+    }
+
+    @Test
+    public void testFieldConstructorThrowsWithNullType() {
+        Assertions.assertThrows(NullPointerException.class, () -> {
+            new Field.Builder()
+                    .withName("field")
+                    .build();
         });
     }
 }
+
