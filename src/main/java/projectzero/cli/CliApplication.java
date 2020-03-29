@@ -347,9 +347,9 @@ public class CliApplication {
                 System.out.println("\t  " + m);
             }
             System.out.print("\t");
-            System.out.println("Relationship Points to: ");
+            System.out.println("Relationships: ");
             for (Relationship r : tempClass.getRelationships()) {
-                System.out.println("\t  " + r.getTo().getName());
+                System.out.println("\t  " + r);
             }
             System.out.println("]\n");
         }
@@ -371,9 +371,9 @@ public class CliApplication {
             System.out.println("\t  " + m);
         }
         System.out.print("\t");
-        System.out.println("Relationship Points to: ");
+        System.out.println("Relationship: ");
         for (Relationship r : temp.getRelationships()) {
-            System.out.println("\t  " + r.getTo().getName());
+            System.out.println("\t  " + r);
         }
         System.out.println("]\n");
     }
