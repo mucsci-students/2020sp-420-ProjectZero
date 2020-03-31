@@ -298,18 +298,17 @@ public class CliApplication {
 
     private void printHelp() {
         System.out.println("addClass <class name>\n" +
-                "addMethod <class Name> <method name>\n" +
-                "addField <class Name> <field name>\n" +
-                "addRelationship <From class Name> <to class name>\n");
+                "addMethod <class name> <method name> <method type> [<method parameter types>]\n" +
+                "addField <class name> <field name> <field type>\n" +
+                "addRelationship <from class name> <to class name> {AGGREGATION | COMPOSITION | GENERALIZATION}\n");
         System.out.println("deleteClass <class name>\n" +
                 "deleteMethod <class name> <method name>\n" +
                 "deleteField <class name> <field name>\n" +
                 "deleteRelationship <from class name> <to class name>\n");
         System.out.println("editClass <old class name> <new class name>\n" +
-                "editMethod <class name> <old method name> <new method name>\n" +
-                "editField <class name> <old field name> <new field name>\n");
-        System.out.println("displayAllClasses\n" +
-                "displayClass <class name>\n");
+                "editMethod <class name> <method name> <method type> [<method parameter types>]\n" +
+                "editField <class name> <field name> <field type>\n");
+        System.out.println("list [<class names>]\n");
         System.out.println("save <file name>\n" +
                 "load <file name>\n");
     }
