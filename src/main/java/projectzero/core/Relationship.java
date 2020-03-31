@@ -44,7 +44,7 @@ public class Relationship {
     @Override
     public String toString() {
         return "Relationship{" +
-                "to=" + to +
+                "to=" + to.getName() +
                 ", type=" + type +
                 '}';
     }
