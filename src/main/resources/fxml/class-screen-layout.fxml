@@ -7,58 +7,56 @@
 <VBox xmlns="http://javafx.com/javafx/8.0.25"
       xmlns:fx="http://javafx.com/fxml/1"
       id="mainLayout" spacing="10">
-
-    <children>
         <HBox>
-            <Label text="Class name: "/>
-            <TextField fx:id="textBoxClass"/>
-            <TextField/>
+            <Label text="Class: "/>
+            <TextField fx:id="textBoxClassName" promptText="name"/>
         </HBox>
         <HBox>
-            <Label text="Method name: "/>
-            <TextField fx:id="textBoxMethods"/>
+            <Label text="Method: "/>
+            <TextField fx:id="textBoxMethodName" promptText="method name"/>
+            <TextField fx:id="textBoxMethodReturnType" promptText="method return type"/>
+            <VBox>
+                <TextField fx:id="textBoxParamType" promptText="enter a paramType" onAction="#addParamType"/>
+                <ComboBox fx:id="comboMethodParameterTypes" promptText="method parameter types"/>
+            </VBox>
             <Button text="+" styleClass="plusButton" onAction="#addMethod"/>
         </HBox>
         <HBox>
-            <Label text="Field name: "/>
-            <TextField fx:id="textBoxFields"/>
+            <Label text="Field: "/>
+            <TextField fx:id="textBoxFieldName" promptText="field name"/>
+            <TextField fx:id="textBoxFieldType" promptText="field type"/>
             <Button text="+" styleClass="plusButton" onAction="#addField"/>
         </HBox>
         <HBox>
-            <Label text="Relationships: "/>
-            <ComboBox fx:id="comboRelationships">
+            <Label text="Relationship: "/>
+            <ComboBox fx:id="comboRelationshipToName" promptText="relationship toName">
                 <items>
                     <FXCollections fx:factory="observableArrayList">
                     </FXCollections>
                 </items>
             </ComboBox>
+            <ComboBox fx:id="comboRelationshipType" promptText="relationship type"/>
             <Button text="+" styleClass="plusButton" onAction="#addRelationship"/>
         </HBox>
         <VBox spacing="5">
-            <children>
-                <HBox alignment="TOP_LEFT">
+                <HBox alignment="TOP_CENTER" spacing="5">
                     <Label text="Methods:"/>
-                    <ListView fx:id="methodDisplay" prefWidth="200" prefHeight="100">
-                    </ListView>
+                    <ListView fx:id="methodDisplay" prefWidth="400" prefHeight="100"/>
                     <Button text="-" styleClass="minusButton" onAction="#minusMethod"/>
                 </HBox>
-                <HBox alignment="TOP_LEFT">
+                <HBox alignment="TOP_CENTER" spacing="5">
                     <Label text="Fields:"/>
-                    <ListView fx:id="fieldDisplay" prefWidth="200" prefHeight="100">
-                    </ListView>
+                    <ListView fx:id="fieldDisplay" prefWidth="400" prefHeight="100" />
                     <Button text="-" styleClass="minusButton" onAction="#minusField"/>
                 </HBox>
-                <HBox alignment="TOP_LEFT">
+                <HBox alignment="TOP_CENTER" spacing="5">
                     <Label text="Relationships:"/>
-                    <ListView fx:id="relationshipDisplay" prefWidth="200" prefHeight="100">
-                    </ListView>
+                    <ListView fx:id="relationshipDisplay" prefWidth="400" prefHeight="100"/>
                     <Button text="-" styleClass="minusButton" onAction="#minusRelationship"/>
                 </HBox>
-            </children>
         </VBox>
         <HBox>
             <Button styleClass="regButton" text="Apply" onAction="#applyUMLClass"/>
             <Button styleClass="regButton" text="Cancel"/>
         </HBox>
-    </children>
 </VBox>
