@@ -3,6 +3,7 @@ package projectzero.cli;
 import projectzero.core.*;
 import projectzero.core.exceptions.InvalidNameException;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -22,19 +23,18 @@ public class CliApplication {
         Scanner input = new Scanner(System.in);
         System.out.println("Enter command or help:");
 
-        while(true){
+        while (true) {
             inputLine = input.nextLine();
 
-            if(inputLine.length() > 1) {
+            if (inputLine.length() > 1) {
                 determineCommand(inputLine);
-            }
-            else{
+            } else {
                 System.out.println("Not a command");
             }
         }
     }
 
-    private void determineCommand(String inputLine){
+    private void determineCommand(String inputLine) {
         try {
             if (inputLine.equals("displayAllClasses")) {
                 printList();
@@ -105,20 +105,22 @@ public class CliApplication {
                     }
                 }
             }
-        }
-        catch(IndexOutOfBoundsException e){
+        } catch (IndexOutOfBoundsException e) {
             System.out.println("Invalid input\n");
         }
     }
 
-    private void editMethod(String arguments) {
-        String className = arguments.substring(0, arguments.indexOf(" "));
-        arguments = arguments.substring(className.length() + 1);
-        String oMethodName = arguments.substring(0, arguments.indexOf(" "));
-        String nMethodName = arguments.substring(arguments.indexOf(" ") + 1);
+    private void editMethod(String s) {
+        String[] arguments = s.split(" ");
+
+        if (arguments.length != 4) {
+            System.out.println("Invalid Number of Arguments");
+        }
+
         try {
-            MainManager.getUmlClass(className).updateMethod(MainManager.getUmlClass(className).getMethod(oMethodName), new Method(nMethodName));
-            System.out.println("Method " + oMethodName + " has been changed to " + nMethodName + ".");
+            UmlClass umlClass = MainManager.getUmlClass(arguments[0]);
+            umlClass.updateMethod(umlClass.getMethod(arguments[1]), new Method.Builder().withName(arguments[2]).withType(arguments[3]).withParameterTypes(new ArrayList<>()).build());
+            System.out.println("Method " + arguments[1] + " has been changed to " + arguments[2] + ".");
         } catch (InvalidNameException e) {
             System.out.println("Invalid Class name.");
         } catch (NullPointerException e) {
@@ -126,17 +128,20 @@ public class CliApplication {
         }
     }
 
-    private void editField(String arguments) {
-        String className = arguments.substring(0, arguments.indexOf(" "));
-        arguments = arguments.substring(className.length() + 1, arguments.length());
-        String oFieldName = arguments.substring(0, arguments.indexOf(" "));
-        String nFieldName = arguments.substring(arguments.indexOf(" ") + 1);
-        try{
-            MainManager.getUmlClass(className).updateField(MainManager.getUmlClass(className).getField(oFieldName), new Field(nFieldName));
-            System.out.println("Field " + oFieldName + " has been changed to " + nFieldName + ".");
-        } catch(InvalidNameException e){
+    private void editField(String s) {
+        String[] arguments = s.split(" ");
+
+        if (arguments.length != 4) {
+            System.out.println("Invalid Number of Arguments");
+        }
+
+        try {
+            UmlClass umlClass = MainManager.getUmlClass(arguments[0]);
+            umlClass.updateField(umlClass.getField(arguments[1]), new Field.Builder().withName(arguments[2]).withType(arguments[3]).build());
+            System.out.println("Field " + arguments[1] + " has been changed to " + arguments[2] + ".");
+        } catch (InvalidNameException e) {
             System.out.println("Invalid Class name.");
-        } catch(NullPointerException e){
+        } catch (NullPointerException e) {
             System.out.println("Field not found.");
         }
     }
@@ -144,7 +149,7 @@ public class CliApplication {
     private void editClass(String arguments) {
         String oClassName = arguments.substring(0, arguments.indexOf(" "));
         String nClassName = arguments.substring(arguments.indexOf(" ") + 1);
-        try{
+        try {
             MainManager.updateUmlClass(oClassName, new UmlClass(nClassName));
             System.out.println("Class " + oClassName + " has been changed to " + nClassName + ".");
         } catch (InvalidNameException e) {
@@ -165,23 +170,30 @@ public class CliApplication {
                 }
             }
             System.out.println("Relationship from " + from + " to " + to + " has been deleted.");
-        } catch(NullPointerException e){
+        } catch (NullPointerException e) {
             System.out.println("Relationship not found");
         }
     }
 
-    private void addRelationships(String arguments) {
-        String from = arguments.substring(0, arguments.indexOf(" "));
-        String to = arguments.substring(arguments.indexOf(" ") + 1);
-        if(from.equals(to)){
-            System.out.println("Relationship can't be made");
+    private void addRelationships(String s) {
+        String[] arguments = s.split(" ");
+
+        if (arguments.length != 3) {
+            System.out.println("Invalid Number of Arguments");
         }
-        else{
+
+        if (arguments[0].equals(arguments[1])) {
+            System.out.println("Relationship can't be made");
+        } else {
             try {
-                if (!MainManager.getUmlClass(from).addRelationship(new Relationship(MainManager.getUmlClass(to)))) {
+                if (!MainManager.getUmlClass(arguments[0]).addRelationship(new Relationship.Builder()
+                        .withTo(MainManager.getUmlClass(arguments[1]))
+                        .withType(Relationship.Type.valueOf(arguments[2].toUpperCase()))
+                        .build())
+                ) {
                     System.out.println("Relationship can not be made.");
                 } else {
-                    System.out.println("Relationship added From " + from + " to " + to + ".");
+                    System.out.println("Relationship added From " + arguments[0] + " to " + arguments[1] + ".");
                 }
             } catch (NullPointerException e) {
                 System.out.println("Class does not exist.");
@@ -203,7 +215,7 @@ public class CliApplication {
                 }
             }
             System.out.println("Field " + field + " has been deleted from " + className + ".");
-        } catch(NullPointerException e){
+        } catch (NullPointerException e) {
             System.out.println("Field not found");
         }
     }
@@ -220,7 +232,7 @@ public class CliApplication {
                 }
             }
             System.out.println("Method " + method + " has been deleted from " + className + ".");
-        } catch(NullPointerException e){
+        } catch (NullPointerException e) {
             System.out.println("Method not found.");
         }
 
@@ -228,10 +240,10 @@ public class CliApplication {
     }
 
     private void deleteClass(String arguments) {
-        try{
+        try {
             MainManager.deleteUmlClass(arguments);
             System.out.println(arguments + " was deleted.");
-        } catch(NullPointerException e){
+        } catch (NullPointerException e) {
             System.out.println("Class not found.");
         }
 
@@ -239,31 +251,47 @@ public class CliApplication {
     }
 
     private void addField(String s) {
-        String className = s.substring(0, s.indexOf(" "));
-        String field = s.substring(s.indexOf(" ") + 1);
+        String[] arguments = s.split(" ");
 
-        try{
-            MainManager.getUmlClass(className).addField(new Field(field));
-            System.out.println("The field " + field + " was added to " + className);
-        } catch(InvalidNameException e){
+        if (arguments.length != 3) {
+            System.out.println("Invalid number of arguments");
+            return;
+        }
+
+        try {
+            MainManager.getUmlClass(arguments[0]).addField(new Field.Builder()
+                    .withName(arguments[1])
+                    .withType(arguments[2])
+                    .build()
+            );
+            System.out.println("The field " + arguments[1] + " was added to " + arguments[0]);
+        } catch (InvalidNameException e) {
             System.out.println("Invalid field input");
-        } catch(NullPointerException e){
+        } catch (NullPointerException e) {
             System.out.println("Class not found");
         }
 
     }
 
     private void addMethod(String s) {
-        String className = s.substring(0, s.indexOf(" "));
-        String method = s.substring(s.indexOf(" ") + 1);
+        String[] arguments = s.split(" ");
 
+        if (arguments.length != 3) {
+            System.out.println("Invalid number of arguments");
+            return;
+        }
 
         try {
-            MainManager.getUmlClass(className).addMethod(new Method(method));
-            System.out.println("Method " + method + " was added to " + className);
-        } catch(InvalidNameException e){
+            MainManager.getUmlClass(arguments[0]).addMethod(new Method.Builder()
+                    .withName(arguments[1])
+                    .withType(arguments[2])
+                    .withParameterTypes(new ArrayList<>())
+                    .build()
+            );
+            System.out.println("The method " + arguments[1] + " was added to " + arguments[0]);
+        } catch (InvalidNameException e) {
             System.out.println("Invalid method input");
-        } catch(NullPointerException e){
+        } catch (NullPointerException e) {
             System.out.println("Class not found");
         }
 
@@ -288,14 +316,14 @@ public class CliApplication {
                 "load <file name>\n");
     }
 
-    private void addClass(String name){
+    private void addClass(String name) {
 
-        try{
+        try {
             MainManager.addUmlClass(new UmlClass(name));
             System.out.println(name + " " + "was added");
-        } catch(InvalidNameException e){
+        } catch (InvalidNameException e) {
             System.out.println("Not a valid class name.");
-        } catch(NullPointerException e){
+        } catch (NullPointerException e) {
             System.out.println("Class already exists.");
         }
 
@@ -310,17 +338,17 @@ public class CliApplication {
             System.out.println(tempClass.getName() + ": ");
             System.out.print("\t");
             System.out.println("Fields: ");
-            for(Field f: tempClass.getFields()){
-                System.out.println("\t  " + f.getName());
+            for (Field f : tempClass.getFields()) {
+                System.out.println("\t  " + f);
             }
             System.out.print("\t");
             System.out.println("Methods: ");
-            for(Method m: tempClass.getMethods()){
-                System.out.println("\t  " + m.getName());
+            for (Method m : tempClass.getMethods()) {
+                System.out.println("\t  " + m);
             }
             System.out.print("\t");
             System.out.println("Relationship Points to: ");
-            for(Relationship r: tempClass.getRelationships()){
+            for (Relationship r : tempClass.getRelationships()) {
                 System.out.println("\t  " + r.getTo().getName());
             }
             System.out.println("]\n");
@@ -328,23 +356,23 @@ public class CliApplication {
     }
 
 
-    public void displayOneClass(String name){
+    public void displayOneClass(String name) {
         UmlClass temp = MainManager.getUmlClass(name);
         System.out.print("[ ");
         System.out.println(temp.getName() + ": ");
         System.out.print("\t");
         System.out.println("Fields: ");
-        for(Field f: temp.getFields()){
-            System.out.println("\t  " + f.getName());
+        for (Field f : temp.getFields()) {
+            System.out.println("\t  " + f);
         }
         System.out.print("\t");
         System.out.println("Methods: ");
-        for(Method m: temp.getMethods()){
-            System.out.println("\t  " + m.getName());
+        for (Method m : temp.getMethods()) {
+            System.out.println("\t  " + m);
         }
         System.out.print("\t");
         System.out.println("Relationship Points to: ");
-        for(Relationship r: temp.getRelationships()){
+        for (Relationship r : temp.getRelationships()) {
             System.out.println("\t  " + r.getTo().getName());
         }
         System.out.println("]\n");
