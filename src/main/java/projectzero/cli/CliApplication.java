@@ -3,14 +3,12 @@ package projectzero.cli;
 import projectzero.core.*;
 import projectzero.core.exceptions.InvalidNameException;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 public class CliApplication {
     private UmlClassManager MainManager;
     private String inputLine;
+    private HashMap<String, String> helpMap;
 
     public CliApplication() {
         MainManager = new UmlClassManager();
@@ -21,6 +19,7 @@ public class CliApplication {
     }
 
     private void MainMenu() {
+        initHelpMap();
         Scanner input = new Scanner(System.in);
         System.out.println("Enter command or help:");
 
@@ -49,6 +48,10 @@ public class CliApplication {
                 if (!Validation.isValidMenuInput(command)) {
                     System.out.println("Not a valid command.");
                 } else {
+                    if(arguments.contains(" help ")) {
+                        System.out.println(helpMap.get(command));
+                        return;
+                    }
                     switch (command) {
                         case "addClass":
                             addClass(arguments);
@@ -311,6 +314,24 @@ public class CliApplication {
         System.out.println("list [<class names>]\n");
         System.out.println("save <file name>\n" +
                 "load <file name>\n");
+    }
+
+    private void initHelpMap(){
+        helpMap = new HashMap<>();
+        helpMap.put("addClass","addClass <class name>\n");
+        helpMap.put("addMethod","addMethod <class name> <method name> <method type> [<method parameter types>]\n");
+        helpMap.put("addField", "addField <class name> <field name> <field type>\n");
+        helpMap.put("addRelationship", "addRelationship <from class name> <to class name> {AGGREGATION | COMPOSITION | GENERALIZATION}\n");
+        helpMap.put("deleteClass","deleteClass <class name>\n");
+        helpMap.put("deleteMethod","deleteMethod <class name> <method name>\n");
+        helpMap.put("deleteField","deleteField <class name> <field name>\n");
+        helpMap.put("deleteRelationship","deleteRelationship <from class name> <to class name>\n");
+        helpMap.put("editClass","editClass <old class name> <new class name>\n");
+        helpMap.put("editMethod", "editMethod <class name> <method name> <method type> [<method parameter types>]\n");
+        helpMap.put("editField","editField <class name> <field name> <field type>\n");
+        helpMap.put("list","list [<class names>]\n");
+        helpMap.put("save","save <file name>\n");
+        helpMap.put("load","load <file name>\n");
     }
 
     private void addClass(String name) {
