@@ -48,7 +48,7 @@ public class CliApplication {
                 if (!Validation.isValidMenuInput(command)) {
                     System.out.println("Not a valid command.");
                 } else {
-                    if(arguments.contains(" help ")) {
+                    if(arguments.contains(" help")) {
                         System.out.println(helpMap.get(command));
                         return;
                     }
