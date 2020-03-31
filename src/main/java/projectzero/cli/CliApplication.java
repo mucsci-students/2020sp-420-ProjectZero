@@ -3,13 +3,12 @@ package projectzero.cli;
 import projectzero.core.*;
 import projectzero.core.exceptions.InvalidNameException;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 public class CliApplication {
     private UmlClassManager MainManager;
     private String inputLine;
+    private HashMap<String, String> helpMap;
 
     public CliApplication() {
         MainManager = new UmlClassManager();
@@ -20,6 +19,7 @@ public class CliApplication {
     }
 
     private void MainMenu() {
+        initHelpMap();
         Scanner input = new Scanner(System.in);
         System.out.println("Enter command or help:");
 
@@ -36,8 +36,8 @@ public class CliApplication {
 
     private void determineCommand(String inputLine) {
         try {
-            if (inputLine.equals("displayAllClasses")) {
-                printList();
+            if (inputLine.split(" ")[0].equals("list")) {
+                printList(inputLine);
             } else if (inputLine.equals("help")) {
                 printHelp();
             } else if (inputLine.equals("quit")) {
@@ -48,6 +48,10 @@ public class CliApplication {
                 if (!Validation.isValidMenuInput(command)) {
                     System.out.println("Not a valid command.");
                 } else {
+                    if(arguments.contains(" help")) {
+                        System.out.println(helpMap.get(command));
+                        return;
+                    }
                     switch (command) {
                         case "addClass":
                             addClass(arguments);
@@ -57,9 +61,6 @@ public class CliApplication {
                             break;
                         case "addField":
                             addField(arguments);
-                            break;
-                        case "displayClass":
-                            displayOneClass(arguments);
                             break;
                         case "deleteClass":
                             deleteClass(arguments);
@@ -300,20 +301,37 @@ public class CliApplication {
 
     private void printHelp() {
         System.out.println("addClass <class name>\n" +
-                "addMethod <class Name> <method name>\n" +
-                "addField <class Name> <field name>\n" +
-                "addRelationship <From class Name> <to class name>\n");
+                "addMethod <class name> <method name> <method type> [<method parameter types>]\n" +
+                "addField <class name> <field name> <field type>\n" +
+                "addRelationship <from class name> <to class name> {AGGREGATION | COMPOSITION | GENERALIZATION}\n");
         System.out.println("deleteClass <class name>\n" +
                 "deleteMethod <class name> <method name>\n" +
                 "deleteField <class name> <field name>\n" +
                 "deleteRelationship <from class name> <to class name>\n");
         System.out.println("editClass <old class name> <new class name>\n" +
-                "editMethod <class name> <old method name> <new method name>\n" +
-                "editField <class name> <old field name> <new field name>\n");
-        System.out.println("displayAllClasses\n" +
-                "displayClass <class name>\n");
+                "editMethod <class name> <method name> <method type> [<method parameter types>]\n" +
+                "editField <class name> <field name> <field type>\n");
+        System.out.println("list [<class names>]\n");
         System.out.println("save <file name>\n" +
                 "load <file name>\n");
+    }
+
+    private void initHelpMap(){
+        helpMap = new HashMap<>();
+        helpMap.put("addClass","addClass <class name>\n");
+        helpMap.put("addMethod","addMethod <class name> <method name> <method type> [<method parameter types>]\n");
+        helpMap.put("addField", "addField <class name> <field name> <field type>\n");
+        helpMap.put("addRelationship", "addRelationship <from class name> <to class name> {AGGREGATION | COMPOSITION | GENERALIZATION}\n");
+        helpMap.put("deleteClass","deleteClass <class name>\n");
+        helpMap.put("deleteMethod","deleteMethod <class name> <method name>\n");
+        helpMap.put("deleteField","deleteField <class name> <field name>\n");
+        helpMap.put("deleteRelationship","deleteRelationship <from class name> <to class name>\n");
+        helpMap.put("editClass","editClass <old class name> <new class name>\n");
+        helpMap.put("editMethod", "editMethod <class name> <method name> <method type> [<method parameter types>]\n");
+        helpMap.put("editField","editField <class name> <field name> <field type>\n");
+        helpMap.put("list","list [<class names>]\n");
+        helpMap.put("save","save <file name>\n");
+        helpMap.put("load","load <file name>\n");
     }
 
     private void addClass(String name) {
@@ -330,50 +348,43 @@ public class CliApplication {
 
     }
 
-    private void printList() {
-        List<UmlClass> tempList = MainManager.listUmlClasses();
-        System.out.println("\nCurrent classes:");
-        for (UmlClass tempClass : tempList) {
-            System.out.print("[ ");
-            System.out.println(tempClass.getName() + ": ");
-            System.out.print("\t");
-            System.out.println("Fields: ");
-            for (Field f : tempClass.getFields()) {
-                System.out.println("\t  " + f);
+    private void printList(String inputLine) {
+        String[] splitInput = inputLine.split(" ");
+        if(splitInput.length > 1){
+            for(String x : Arrays.copyOfRange(splitInput, 1 , splitInput.length)){
+                UmlClass tempClass = MainManager.getUmlClass(x);
+                printUmlClass(tempClass);
             }
-            System.out.print("\t");
-            System.out.println("Methods: ");
-            for (Method m : tempClass.getMethods()) {
-                System.out.println("\t  " + m);
-            }
-            System.out.print("\t");
-            System.out.println("Relationship Points to: ");
-            for (Relationship r : tempClass.getRelationships()) {
-                System.out.println("\t  " + r.getTo().getName());
-            }
-            System.out.println("]\n");
         }
+        else {
+            List<UmlClass> tempList = MainManager.listUmlClasses();
+            for(UmlClass umlClass : tempList){
+                printUmlClass(umlClass);
+            }
+        }
+
     }
-
-
-    public void displayOneClass(String name) {
-        UmlClass temp = MainManager.getUmlClass(name);
+    private void printUmlClass(UmlClass umlClass){
+        if(umlClass == null){
+            System.out.println("Class doesnt exist");
+            return;
+        }
         System.out.print("[ ");
-        System.out.println(temp.getName() + ": ");
+        System.out.println(umlClass.getName() + ": ");
         System.out.print("\t");
         System.out.println("Fields: ");
-        for (Field f : temp.getFields()) {
+        for (Field f : umlClass.getFields()) {
             System.out.println("\t  " + f);
         }
         System.out.print("\t");
         System.out.println("Methods: ");
-        for (Method m : temp.getMethods()) {
+        for (Method m : umlClass.getMethods()) {
             System.out.println("\t  " + m);
         }
         System.out.print("\t");
-        System.out.println("Relationship Points to: ");
-        for (Relationship r : temp.getRelationships()) {
-            System.out.println("\t  " + r.getTo().getName());
+        System.out.println("Relationships: ");
+        for (Relationship r : umlClass.getRelationships()) {
+            System.out.println("\t  " + r);
         }
         System.out.println("]\n");
     }
