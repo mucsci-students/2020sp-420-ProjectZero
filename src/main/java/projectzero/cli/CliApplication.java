@@ -4,6 +4,7 @@ import projectzero.core.*;
 import projectzero.core.exceptions.InvalidNameException;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
@@ -36,8 +37,8 @@ public class CliApplication {
 
     private void determineCommand(String inputLine) {
         try {
-            if (inputLine.equals("displayAllClasses")) {
-                printList();
+            if (inputLine.split(" ")[0].equals("list")) {
+                printList(inputLine);
             } else if (inputLine.equals("help")) {
                 printHelp();
             } else if (inputLine.equals("quit")) {
@@ -57,9 +58,6 @@ public class CliApplication {
                             break;
                         case "addField":
                             addField(arguments);
-                            break;
-                        case "displayClass":
-                            displayOneClass(arguments);
                             break;
                         case "deleteClass":
                             deleteClass(arguments);
@@ -330,49 +328,42 @@ public class CliApplication {
 
     }
 
-    private void printList() {
-        List<UmlClass> tempList = MainManager.listUmlClasses();
-        System.out.println("\nCurrent classes:");
-        for (UmlClass tempClass : tempList) {
-            System.out.print("[ ");
-            System.out.println(tempClass.getName() + ": ");
-            System.out.print("\t");
-            System.out.println("Fields: ");
-            for (Field f : tempClass.getFields()) {
-                System.out.println("\t  " + f);
+    private void printList(String inputLine) {
+        String[] splitInput = inputLine.split(" ");
+        if(splitInput.length > 1){
+            for(String x : Arrays.copyOfRange(splitInput, 1 , splitInput.length)){
+                UmlClass tempClass = MainManager.getUmlClass(x);
+                printUmlClass(tempClass);
             }
-            System.out.print("\t");
-            System.out.println("Methods: ");
-            for (Method m : tempClass.getMethods()) {
-                System.out.println("\t  " + m);
-            }
-            System.out.print("\t");
-            System.out.println("Relationships: ");
-            for (Relationship r : tempClass.getRelationships()) {
-                System.out.println("\t  " + r);
-            }
-            System.out.println("]\n");
         }
+        else {
+            List<UmlClass> tempList = MainManager.listUmlClasses();
+            for(UmlClass umlClass : tempList){
+                printUmlClass(umlClass);
+            }
+        }
+
     }
-
-
-    public void displayOneClass(String name) {
-        UmlClass temp = MainManager.getUmlClass(name);
+    private void printUmlClass(UmlClass umlClass){
+        if(umlClass == null){
+            System.out.println("Class doesnt exist");
+            return;
+        }
         System.out.print("[ ");
-        System.out.println(temp.getName() + ": ");
+        System.out.println(umlClass.getName() + ": ");
         System.out.print("\t");
         System.out.println("Fields: ");
-        for (Field f : temp.getFields()) {
+        for (Field f : umlClass.getFields()) {
             System.out.println("\t  " + f);
         }
         System.out.print("\t");
         System.out.println("Methods: ");
-        for (Method m : temp.getMethods()) {
+        for (Method m : umlClass.getMethods()) {
             System.out.println("\t  " + m);
         }
         System.out.print("\t");
-        System.out.println("Relationship: ");
-        for (Relationship r : temp.getRelationships()) {
+        System.out.println("Relationships: ");
+        for (Relationship r : umlClass.getRelationships()) {
             System.out.println("\t  " + r);
         }
         System.out.println("]\n");
