@@ -9,6 +9,7 @@ import projectzero.core.Field;
 import projectzero.core.Method;
 import projectzero.core.UmlClass;
 import java.io.IOException;
+import java.util.List;
 
 public class ClassNode extends Pane{
     private UmlClass umlClass;
@@ -28,11 +29,13 @@ public class ClassNode extends Pane{
         classLabel.setText(this.umlClass.getName());
 
         for(Field field: this.umlClass.getFields()){
-            fieldBox.getChildren().add(new Label(field.getName()));
+            fieldBox.getChildren().add(new Label(field.getName() + ": " + field.getType()));
         }
 
         for(Method method: this.umlClass.getMethods()){
-            methodBox.getChildren().add(new Label(method.getName()));
+            Label methodLabel = new Label();
+            methodLabel.setText(method.getName() + method.getParameterTypes() + ": " + method.getType());
+            methodBox.getChildren().add(methodLabel);
         }
 
         this.setOnMouseDragged(event -> {

@@ -8,8 +8,8 @@
             fx:controller="projectzero.fx.ContentPaneController">
     <MenuBar>
         <Menu text="File">
-            <MenuItem text="save" />
-            <MenuItem text="load" />
+            <MenuItem text="save" onAction="#handleOnSaveClick"/>
+            <MenuItem text="load" onAction="#handleOnLoadClick"/>
         </Menu>
     </MenuBar>
     <HBox fx:id="buttonPane">

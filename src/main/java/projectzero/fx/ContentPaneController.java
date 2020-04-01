@@ -27,11 +27,12 @@ public class ContentPaneController implements Initializable, Observer<UmlClass>{
         mainManager.register(this);
     }
     public void addButtonClick(ActionEvent event){
-        new ClassScreen(mainManager, ClassScreenType.ADDSCREEN).show();
+        new ClassScreen(mainManager, null).show();
     }
 
     public void editButtonClick(ActionEvent event){
-        new ClassScreen(mainManager,ClassScreenType.EDITSCREEN).show();
+        if(selectedUMLClass != null)
+            new ClassScreen(mainManager,selectedUMLClass).show();
     }
 
     public void deleteButtonClick(ActionEvent event){
@@ -46,23 +47,15 @@ public class ContentPaneController implements Initializable, Observer<UmlClass>{
         //Delete or add occured.
         if(mainManager.listUmlClasses().size() != graphicsPane.getChildren().size()) {
             if (mainManager.getUmlClass(umlClass.getName()) == null) {
-                ClassNode tempNode = null;
-                ObservableList<Node> classNodeList = graphicsPane.getChildren();
-
-                for(Node node: classNodeList){
-                    tempNode = (ClassNode) node;
-                    if(tempNode.getClass().getName().equals(umlClass.getName())){
-                        break;
-                    }
-                }
-                classNodeList.remove((Node)tempNode);
+                ClassNode tempNode = getClassNode(umlClass);
+                graphicsPane.getChildren().remove((Node)tempNode);
             }
             else{
                 graphicsPane.getChildren().add(new ClassNode(umlClass,this));
             }
         }
-        else{//Edit occured. Not implemented yet.
-
+        else{
+            selectedUMLClass = getClassNode(umlClass).getUmlClass();
         }
     }
     public void setSelectedUMLClass(UmlClass umlClass){
@@ -84,7 +77,19 @@ public class ContentPaneController implements Initializable, Observer<UmlClass>{
             }
         }
     }
-    public void handleOnLoadClick(){
 
+    public void handleOnLoadClick(){}
+
+    private ClassNode getClassNode(UmlClass umlClass){
+        ClassNode tempNode = null;
+        ObservableList<Node> classNodeList = graphicsPane.getChildren();
+
+        for(Node node: classNodeList){
+            tempNode = (ClassNode) node;
+            if(tempNode.getClass().getName().equals(umlClass.getName())){
+                break;
+            }
+        }
+        return tempNode;
     }
 }

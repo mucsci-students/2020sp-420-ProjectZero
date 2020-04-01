@@ -19,23 +19,18 @@ public abstract class ClassScreenController implements Initializable {
     protected ObservableList<Method> methods;
     protected ObservableList<Field> fields;
     protected ObservableList<Relationship> relationships;
+
     protected UmlClassManager mainManager;
     @FXML
-    protected TextField textBoxClassName;
+    protected TextField textBoxClassName,
+                        textBoxMethodName,
+                        textBoxMethodReturnType,
+                        textBoxParamType,
+                        textBoxFieldName,
+                        textBoxFieldType;
     @FXML
-    protected TextField textBoxMethodName;
-    @FXML
-    protected TextField textBoxMethodReturnType;
-    @FXML
-    protected TextField textBoxParamType;
-    @FXML
-    protected ComboBox<String> comboMethodParameterTypes;
-    @FXML
-    protected TextField textBoxFieldName;
-    @FXML
-    protected TextField textBoxFieldType;
-    @FXML
-    protected ComboBox<String> comboRelationshipToName;
+    protected ComboBox<String>  comboMethodParameterTypes,
+                                comboRelationshipToName;
     @FXML
     protected ComboBox<Relationship.Type> comboRelationshipType;
     @FXML
