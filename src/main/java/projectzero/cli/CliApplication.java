@@ -3,6 +3,7 @@ package projectzero.cli;
 import projectzero.core.*;
 import projectzero.core.exceptions.InvalidNameException;
 
+import java.io.InvalidClassException;
 import java.util.*;
 
 public class CliApplication {
@@ -48,7 +49,7 @@ public class CliApplication {
                 if (!Validation.isValidMenuInput(command)) {
                     System.out.println("Not a valid command.");
                 } else {
-                    if(arguments.contains(" help")) {
+                    if(arguments.contains("help")) {
                         System.out.println(helpMap.get(command));
                         return;
                     }
@@ -148,11 +149,19 @@ public class CliApplication {
     }
 
     private void editClass(String arguments) {
-        String oClassName = arguments.substring(0, arguments.indexOf(" "));
-        String nClassName = arguments.substring(arguments.indexOf(" ") + 1);
+        String oldClassName = arguments.substring(0, arguments.indexOf(" "));
+        String newClassName = arguments.substring(arguments.indexOf(" ") + 1);
         try {
-            MainManager.updateUmlClass(oClassName, new UmlClass(nClassName));
-            System.out.println("Class " + oClassName + " has been changed to " + nClassName + ".");
+            UmlClass oldUMLClass = MainManager.getUmlClass(oldClassName);
+            if(oldUMLClass == null) {
+                throw new InvalidNameException();
+            }
+            UmlClass newUMLClass = new UmlClass(newClassName);
+            oldUMLClass.getFields().forEach(newUMLClass::addField);
+            oldUMLClass.getMethods().forEach(newUMLClass::addMethod);
+            oldUMLClass.getRelationships().forEach(newUMLClass::addRelationship);
+            MainManager.updateUmlClass(oldClassName, newUMLClass);
+            System.out.println("Class " + oldClassName + " has been changed to " + newClassName + ".");
         } catch (InvalidNameException e) {
             System.out.println("Invalid Class name.");
         }
@@ -277,16 +286,23 @@ public class CliApplication {
     private void addMethod(String s) {
         String[] arguments = s.split(" ");
 
-        if (arguments.length != 3) {
+        if (arguments.length < 3) {
             System.out.println("Invalid number of arguments");
             return;
         }
-
+        List<String> paramTypesList;
+        if(arguments.length > 3){
+            String[] paramTypes = Arrays.copyOfRange(arguments,3,arguments.length);
+            paramTypesList = Arrays.asList(paramTypes);
+        }
+        else{
+            paramTypesList = new ArrayList<>();
+        }
         try {
             MainManager.getUmlClass(arguments[0]).addMethod(new Method.Builder()
                     .withName(arguments[1])
                     .withType(arguments[2])
-                    .withParameterTypes(new ArrayList<>())
+                    .withParameterTypes(paramTypesList)
                     .build()
             );
             System.out.println("The method " + arguments[1] + " was added to " + arguments[0]);
@@ -309,8 +325,8 @@ public class CliApplication {
                 "deleteField <class name> <field name>\n" +
                 "deleteRelationship <from class name> <to class name>\n");
         System.out.println("editClass <old class name> <new class name>\n" +
-                "editMethod <class name> <method name> <method type> [<method parameter types>]\n" +
-                "editField <class name> <field name> <field type>\n");
+                "editMethod <class name> <old method name> <new method name> <new method type> [<new method parameter types>]\n" +
+                "editField <class name> <old field name> <new field name> <new field type>\n");
         System.out.println("list [<class names>]\n");
         System.out.println("save <file name>\n" +
                 "load <file name>\n");
@@ -327,8 +343,8 @@ public class CliApplication {
         helpMap.put("deleteField","deleteField <class name> <field name>\n");
         helpMap.put("deleteRelationship","deleteRelationship <from class name> <to class name>\n");
         helpMap.put("editClass","editClass <old class name> <new class name>\n");
-        helpMap.put("editMethod", "editMethod <class name> <method name> <method type> [<method parameter types>]\n");
-        helpMap.put("editField","editField <class name> <field name> <field type>\n");
+        helpMap.put("editMethod",  "editMethod <class name> <old method name> <new method name> <new method type> [<new method parameter types>]\n");
+        helpMap.put("editField", "editField <class name> <old field name> <new field name> <new field type>\n");
         helpMap.put("list","list [<class names>]\n");
         helpMap.put("save","save <file name>\n");
         helpMap.put("load","load <file name>\n");
