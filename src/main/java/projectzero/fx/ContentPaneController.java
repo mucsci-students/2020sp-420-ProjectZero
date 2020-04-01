@@ -6,8 +6,12 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.layout.StackPane;
+import javafx.stage.FileChooser;
 import projectzero.core.UmlClass;
 import projectzero.core.UmlClassManager;
+
+import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -63,5 +67,24 @@ public class ContentPaneController implements Initializable, Observer<UmlClass>{
     }
     public void setSelectedUMLClass(UmlClass umlClass){
         selectedUMLClass = umlClass;
+    }
+
+    public void handleOnSaveClick(){
+        FileChooser fileChooser = new FileChooser();
+        FileChooser.ExtensionFilter extensionFilter = new FileChooser.ExtensionFilter("Yaml", "*.yaml","*.yml");
+        fileChooser.getExtensionFilters().add(extensionFilter);
+        File file = fileChooser.showSaveDialog(null);
+        if(file == null)
+            return;
+        else{
+            try {
+                mainManager.save(file.getAbsolutePath());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+    public void handleOnLoadClick(){
+
     }
 }
