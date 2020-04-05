@@ -1,16 +1,17 @@
 package projectzero.fx;
 
-import com.sun.javafx.scene.control.skin.ComboBoxListViewSkin;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.control.skin.ComboBoxListViewSkin;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import projectzero.core.*;
 import projectzero.core.exceptions.InvalidNameException;
+
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -156,10 +157,12 @@ public abstract class ClassScreenController implements Initializable {
             }
         );
         comboMethodParameterTypes.setSkin(new ComboBoxListViewSkin<String>(comboMethodParameterTypes) {
+
             @Override
-            protected boolean isHideOnClickEnabled() {
-                return false;
+            public void hide() {
+                this.hideOnClickProperty().setValue(false);
             }
+
         });
     }
     protected void resetData(){
