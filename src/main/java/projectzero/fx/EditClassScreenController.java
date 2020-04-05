@@ -23,8 +23,10 @@ public class EditClassScreenController extends ClassScreenController implements 
             methods.forEach(method -> originalUMLClass.addMethod(method));
             relationships.forEach(relationship -> originalUMLClass.addRelationship(relationship));
             mainManager.updateUmlClass(originalClassName,originalUMLClass);
+            textBoxClassName.setStyle("-fx-text-box-border: #9A9A9A; -fx-focus-color: darkslateblue;");
+            fieldDisplay.setStyle("-fx-border-color: #9A9A9A; -fx-focus-color: darkslateblue;");
         } catch (InvalidNameException e) {
-            e.printStackTrace();
+            textBoxClassName.setStyle(" -fx-text-box-border: red ; -fx-focus-color: red ;");
         }
         catch(NullPointerException e){
             e.printStackTrace();
