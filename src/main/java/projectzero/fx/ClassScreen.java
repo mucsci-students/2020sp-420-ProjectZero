@@ -12,7 +12,7 @@ import java.io.IOException;
 public class ClassScreen extends Stage {
     private String TITLE;
 
-    public ClassScreen(UmlClassManager mainManager, UmlClass editableClass) {
+    public ClassScreen(UmlClassManager mainManager, String editableClass) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/class-screen-layout.fxml"));
             setScreenController(loader,editableClass);
@@ -28,13 +28,13 @@ public class ClassScreen extends Stage {
         }
     }
 
-    private void setScreenController(FXMLLoader loader,UmlClass editableClass) {
-            if(editableClass == null) {
+    private void setScreenController(FXMLLoader loader,String editableClassName) {
+            if(editableClassName.equals("")) {
                 loader.setController(new AddClassScreenController());
                 TITLE = "Add UMLClass Screen";
             }
             else {
-                loader.setController(new EditClassScreenController(editableClass));
+                loader.setController(new EditClassScreenController(editableClassName));
                 TITLE = "Edit UMLClass Screen";
             }
     }

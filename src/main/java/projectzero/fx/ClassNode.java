@@ -1,6 +1,7 @@
 package projectzero.fx;
 
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
@@ -44,8 +45,9 @@ public class ClassNode extends Pane{
             this.setTranslateY(getTranslateY(tempNode,event.getY()));
         });
 
-        this.setOnMouseReleased(event -> controller.setSelectedUMLClass(this.umlClass));
+        this.setOnMouseReleased(event -> controller.setSelectedUMLClass(this.umlClass.getName()));
     }
+
 
     private void initlizeFields() {
         mainLayout = (VBox)this.getChildren().get(0);

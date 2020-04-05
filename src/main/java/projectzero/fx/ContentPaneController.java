@@ -17,28 +17,27 @@ import java.util.ResourceBundle;
 
 public class ContentPaneController implements Initializable, Observer<UmlClass>{
     private UmlClassManager mainManager;
-    private UmlClass selectedUMLClass;
+    private String selectedUMLClass;
     @FXML
     private StackPane graphicsPane;
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         mainManager = new UmlClassManager();
-        selectedUMLClass = null;
+        selectedUMLClass = "";
         mainManager.register(this);
     }
     public void addButtonClick(ActionEvent event){
-        new ClassScreen(mainManager, null).show();
+        new ClassScreen(mainManager, "").show();
     }
 
     public void editButtonClick(ActionEvent event){
-        if(selectedUMLClass != null)
+        if(!selectedUMLClass.equals(""))
             new ClassScreen(mainManager,selectedUMLClass).show();
     }
 
     public void deleteButtonClick(ActionEvent event){
-        if(selectedUMLClass != null){
-            mainManager.deleteUmlClass(selectedUMLClass.getName());
-            selectedUMLClass = null;
+        if(!selectedUMLClass.equals("")){
+            mainManager.deleteUmlClass(selectedUMLClass);
         }
     }
 
@@ -47,7 +46,7 @@ public class ContentPaneController implements Initializable, Observer<UmlClass>{
         //Delete or add occured.
         if(mainManager.listUmlClasses().size() != graphicsPane.getChildren().size()) {
             if (mainManager.getUmlClass(umlClass.getName()) == null) {
-                ClassNode tempNode = getClassNode(umlClass);
+                ClassNode tempNode = getClassNode(umlClass.getName());
                 graphicsPane.getChildren().remove((Node)tempNode);
             }
             else{
@@ -55,11 +54,13 @@ public class ContentPaneController implements Initializable, Observer<UmlClass>{
             }
         }
         else{
-            selectedUMLClass = getClassNode(umlClass).getUmlClass();
+            graphicsPane.getChildren().remove((Node)getClassNode(selectedUMLClass));
+            graphicsPane.getChildren().add(new ClassNode(umlClass,this));
         }
+        selectedUMLClass = "";
     }
-    public void setSelectedUMLClass(UmlClass umlClass){
-        selectedUMLClass = umlClass;
+    public void setSelectedUMLClass(String umlClassName){
+        selectedUMLClass = umlClassName;
     }
 
     public void handleOnSaveClick(){
@@ -80,13 +81,13 @@ public class ContentPaneController implements Initializable, Observer<UmlClass>{
 
     public void handleOnLoadClick(){}
 
-    private ClassNode getClassNode(UmlClass umlClass){
+    private ClassNode getClassNode(String umlClassName){
         ClassNode tempNode = null;
         ObservableList<Node> classNodeList = graphicsPane.getChildren();
 
         for(Node node: classNodeList){
             tempNode = (ClassNode) node;
-            if(tempNode.getClass().getName().equals(umlClass.getName())){
+            if(tempNode.getClass().getName().equals(umlClassName)){
                 break;
             }
         }

@@ -48,10 +48,8 @@ public class UmlClassManager implements Observable<UmlClass> {
     }
 
     public UmlClass updateUmlClass(String umlClassName, UmlClass umlClass) {
-        changedUMLClass = umlClassMap.get(umlClassName);
-        umlClassMap.remove(umlClassName);
+        this.deleteUmlClass(umlClassName);
         UmlClass newUMLClass = this.addUmlClass(umlClass);
-        notifyObservers();
         return newUMLClass;
     }
 
