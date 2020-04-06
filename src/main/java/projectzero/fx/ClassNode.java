@@ -1,53 +1,75 @@
 package projectzero.fx;
 
-import javafx.geometry.Orientation;
+import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.Label;
-import javafx.scene.control.Separator;
-import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import projectzero.core.Field;
 import projectzero.core.Method;
 import projectzero.core.UmlClass;
-
+import java.io.IOException;
 import java.util.List;
 
-public class ClassNode extends AnchorPane {
-    private static final double offsetX = -350.0;
-    private static final double offsetY = -100.0;
-    private static final double WIDTH = 100.0, HEIGHT = 80.0;
-    private UmlClass data;
+public class ClassNode extends Pane{
+    private UmlClass umlClass;
+    private Label classLabel;
+    private VBox fieldBox,methodBox,mainLayout;
 
-    public ClassNode(UmlClass data) {
-        this.setPrefSize(WIDTH, HEIGHT);
-        this.setMaxSize(WIDTH, HEIGHT);
-        this.data = data;
-        VBox layout = new VBox();
-        Label classLabel = new Label(this.data.getName());
-        List<Field> fields = this.data.getFields();
-        VBox fieldBox = new VBox();
-        for (Field field : fields) {
-            Label fieldLabel = new Label(field.getName());
-            fieldBox.getChildren().add(fieldLabel);
+    public ClassNode(UmlClass umlClass, ContentPaneController controller){
+        this.umlClass = umlClass;
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/class-node-layout.fxml"));
+            loader.setRoot(this);
+            loader.load();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        VBox methodBox = new VBox();
-        List<Method> methods = this.data.getMethods();
+        initlizeFields();
+        classLabel.setText(this.umlClass.getName());
 
-        for (Method method : methods) {
-            Label methodLabel = new Label(method.getName());
+        for(Field field: this.umlClass.getFields()){
+            fieldBox.getChildren().add(new Label(field.getName() + ": " + field.getType()));
+        }
+
+        for(Method method: this.umlClass.getMethods()){
+            Label methodLabel = new Label();
+            methodLabel.setText(method.getName() + method.getParameterTypes() + ": " + method.getType());
             methodBox.getChildren().add(methodLabel);
         }
-        Separator fieldLine = new Separator(Orientation.HORIZONTAL);
-        fieldLine.setMaxWidth(WIDTH);
-        fieldLine.setPrefWidth(WIDTH);
-        Separator methodLine = new Separator(Orientation.HORIZONTAL);
-        methodLine.setMaxWidth(WIDTH);
-        methodLine.setPrefWidth(WIDTH);
-        layout.getChildren().addAll(classLabel, fieldLine, fieldBox, methodLine, methodBox);
-        this.getChildren().add(layout);
-        this.setStyle("-fx-background-color: blue;");
+
         this.setOnMouseDragged(event -> {
-            this.setTranslateX(event.getSceneX() + offsetX);
-            this.setTranslateY(event.getSceneY() + offsetY);
+            Node tempNode = (Node)event.getSource();
+            this.setTranslateX(getTranslateX(tempNode,event.getX()));
+            this.setTranslateY(getTranslateY(tempNode,event.getY()));
         });
+
+        this.setOnMouseReleased(event -> controller.setSelectedUMLClass(this.umlClass.getName()));
+    }
+
+
+    private void initlizeFields() {
+        mainLayout = (VBox)this.getChildren().get(0);
+        classLabel = (Label) mainLayout.getChildren().get(0);
+        fieldBox = (VBox)mainLayout.getChildren().get(2);
+        methodBox = (VBox)mainLayout.getChildren().get(4);
+    }
+    public UmlClass getUmlClass(){
+            return this.umlClass;
+    }
+
+    private double getTranslateY(Node node,double mouseY){
+        return node.getTranslateY() + mouseY - getHalfHeight();
+    }
+
+    private double getTranslateX(Node node,double mouseX){
+        return node.getTranslateX() + mouseX - getHalfWidth();
+    }
+    private double getHalfWidth(){
+        return this.getWidth() / 2;
+    }
+    private double getHalfHeight(){
+        return this.getHeight() / 2;
     }
 }
