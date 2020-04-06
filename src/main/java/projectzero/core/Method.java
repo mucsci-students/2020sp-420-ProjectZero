@@ -61,11 +61,8 @@ public class Method {
 
     @Override
     public String toString() {
-        return "Method{" +
-                "name='" + name + '\'' +
-                ", type='" + type + '\'' +
-                ", parameterTypes=" + parameterTypes +
-                '}';
+        String paramaters = String.join(", ", parameterTypes);
+        return name + "(" + paramaters + "): " + type;
     }
 
     public static class Builder {

@@ -43,10 +43,7 @@ public class Relationship {
 
     @Override
     public String toString() {
-        return "Relationship{" +
-                "to=" + to.getName() +
-                ", type=" + type +
-                '}';
+        return "to: " + to.getName();
     }
 
     public enum Type {
