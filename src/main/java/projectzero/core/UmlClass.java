@@ -152,6 +152,27 @@ public class UmlClass {
     }
 
     @Override
+    public String toString() {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append(name + "\n");
+        stringBuilder.append("Fields:\n");
+        for (Field f : fields) {
+            stringBuilder.append(f + "\n");
+        }
+        stringBuilder.append("\n");
+        stringBuilder.append("Methods:\n");
+        for (Method m : methods) {
+            stringBuilder.append(m + "\n");
+        }
+        stringBuilder.append("\n");
+        stringBuilder.append("Relationships:\n");
+        for (Relationship r : relationships) {
+            stringBuilder.append(r + "\n");
+        }
+        return stringBuilder.toString();
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;

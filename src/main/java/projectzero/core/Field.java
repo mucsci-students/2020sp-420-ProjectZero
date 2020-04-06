@@ -52,10 +52,7 @@ public class Field {
 
     @Override
     public String toString() {
-        return "Field{" +
-                "name='" + name + '\'' +
-                ", type='" + type + '\'' +
-                '}';
+        return name + ": " + type;
     }
 
     public static class Builder {
