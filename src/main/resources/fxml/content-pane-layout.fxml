@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox fx:id="mainLayout" xmlns="http://javafx.com/javafx/8.0.25"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="projectzero.fx.ContentPaneController">
+    <MenuBar>
+        <Menu text="File">
+            <MenuItem text="save" onAction="#handleOnSaveClick"/>
+            <MenuItem text="load" onAction="#handleOnLoadClick"/>
+        </Menu>
+    </MenuBar>
+    <HBox fx:id="buttonPane">
+        <Button styleClass="regButton" fx:id="addButton" text="Add Class" onAction="#addButtonClick" maxWidth="Infinity" HBox.hgrow="ALWAYS"/>
+        <Button styleClass="regButton" fx:id="editButton" text="Edit Class" onAction="#editButtonClick" maxWidth="Infinity" HBox.hgrow="ALWAYS"/>
+        <Button styleClass="regButton" fx:id="deleteButton" text="Delete Class" onAction="#deleteButtonClick" maxWidth="Infinity" HBox.hgrow="ALWAYS"/>
+    </HBox>
+    <StackPane fx:id="graphicsPane">
+    </StackPane>
+
+</VBox>
