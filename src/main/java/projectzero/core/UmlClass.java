@@ -64,18 +64,18 @@ public class UmlClass {
         return true;
     }
 
-    public Field getField(String fieldName) {
-        for (Field f : fields) {
-            if (f.getName().equals(fieldName)) {
+    public Field getField(String fieldName){
+        for(Field f: fields){
+            if(f.getName().equals(fieldName)){
                 return f;
             }
         }
         return null;
     }
 
-    public Method getMethod(String methodName) {
-        for (Method m : methods) {
-            if (m.getName().equals(methodName)) {
+    public Method getMethod(String methodName){
+        for(Method m: methods){
+            if(m.getName().equals(methodName)){
                 return m;
             }
         }
@@ -149,6 +149,27 @@ public class UmlClass {
         }
 
         return false;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append(name + "\n");
+        stringBuilder.append("Fields:\n");
+        for (Field f : fields) {
+            stringBuilder.append(f + "\n");
+        }
+        stringBuilder.append("\n");
+        stringBuilder.append("Methods:\n");
+        for (Method m : methods) {
+            stringBuilder.append(m + "\n");
+        }
+        stringBuilder.append("\n");
+        stringBuilder.append("Relationships:\n");
+        for (Relationship r : relationships) {
+            stringBuilder.append(r + "\n");
+        }
+        return stringBuilder.toString();
     }
 
     @Override

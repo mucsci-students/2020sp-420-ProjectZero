@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<fx:root xmlns="http://javafx.com/javafx"
+         xmlns:fx="http://javafx.com/fxml"
+         type="javafx.scene.layout.Pane"
+         fx:id="pane" maxWidth="-Infinity"
+         maxHeight="-Infinity"
+         styleClass="classnode">
+    <VBox id="mainLayout" fx:id="mainLayout">
+        <children>
+            <Label fx:id="classLabel"/>
+            <Separator prefWidth="${pane.maxWidth}" />
+            <VBox fx:id="fieldBox">
+                <children>
+
+                </children>
+            </VBox>
+            <Separator prefWidth="${pane.maxWidth}"  />
+            <VBox fx:id="methodBox">
+                <children>
+
+                </children>
+            </VBox>
+
+        </children>
+    </VBox>
+</fx:root>

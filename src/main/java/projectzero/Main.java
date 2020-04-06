@@ -13,7 +13,7 @@ public class Main {
             version = args[0];
         }
 
-        if (version.equals("0")) {
+        if (version.equals("--cli")) {
             CliApplication cliApplication = new CliApplication();
             cliApplication.run();
         } else {

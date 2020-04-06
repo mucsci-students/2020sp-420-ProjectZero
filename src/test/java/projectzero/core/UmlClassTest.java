@@ -3,13 +3,15 @@ package projectzero.core;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
+
 public class UmlClassTest {
 
     @Test
     public void testUmlClassAddFieldSucceedsOnValidField() {
         Assertions.assertDoesNotThrow(() -> {
             UmlClass umlClass = new UmlClass("Class");
-            Field field = new Field("field");
+            Field field = new Field.Builder().withName("field").withType("type").build();
 
             Assertions.assertTrue(umlClass.addField(field));
             Assertions.assertTrue(umlClass.getFields().contains(field));
@@ -20,8 +22,8 @@ public class UmlClassTest {
     public void testUmlClassAddFieldReturnsFalseOnDuplicateField() {
         Assertions.assertDoesNotThrow(() -> {
             UmlClass umlClass = new UmlClass("Class");
-            Field field1 = new Field("field");
-            Field field2 = new Field("field");
+            Field field1 = new Field.Builder().withName("field").withType("type").build();
+            Field field2 = new Field.Builder().withName("field").withType("type").build();
 
             Assertions.assertTrue(umlClass.addField(field1));
             Assertions.assertTrue(umlClass.getFields().contains(field1));
@@ -33,7 +35,7 @@ public class UmlClassTest {
     public void testUmlClassDeleteFieldReturnsTrueOnSuccessfulDelete() {
         Assertions.assertDoesNotThrow(() -> {
             UmlClass umlClass = new UmlClass("Class");
-            Field field = new Field("field");
+            Field field = new Field.Builder().withName("field").withType("type").build();
 
             Assertions.assertTrue(umlClass.addField(field));
             Assertions.assertTrue(umlClass.getFields().contains(field));
@@ -46,7 +48,7 @@ public class UmlClassTest {
     public void testUmlClassDeleteFieldReturnsFalseOnUnsuccessfulDelete() {
         Assertions.assertDoesNotThrow(() -> {
             UmlClass umlClass = new UmlClass("Class");
-            Field field = new Field("field");
+            Field field = new Field.Builder().withName("field").withType("type").build();
 
             Assertions.assertFalse(umlClass.getFields().contains(field));
             Assertions.assertFalse(umlClass.deleteField(field));
@@ -58,8 +60,8 @@ public class UmlClassTest {
     public void testUmlClassUpdateFieldReturnsTrueOnSuccessfulUpdate() {
         Assertions.assertDoesNotThrow(() -> {
             UmlClass umlClass = new UmlClass("Class");
-            Field field1 = new Field("field1");
-            Field field2 = new Field("field2");
+            Field field1 = new Field.Builder().withName("field1").withType("type").build();
+            Field field2 = new Field.Builder().withName("field2").withType("type").build();
 
             Assertions.assertTrue(umlClass.addField(field1));
             Assertions.assertTrue(umlClass.getFields().contains(field1));
@@ -73,8 +75,8 @@ public class UmlClassTest {
     public void testUmlClassUpdateFieldReturnsFalseOnUnsuccessfulUpdate() {
         Assertions.assertDoesNotThrow(() -> {
             UmlClass umlClass = new UmlClass("Class");
-            Field field1 = new Field("field1");
-            Field field2 = new Field("field2");
+            Field field1 = new Field.Builder().withName("field1").withType("type").build();
+            Field field2 = new Field.Builder().withName("field2").withType("type").build();
 
             Assertions.assertTrue(umlClass.addField(field1));
             Assertions.assertTrue(umlClass.getFields().contains(field1));
@@ -90,7 +92,11 @@ public class UmlClassTest {
     public void testUmlClassAddMethodSucceedsOnValidMethod() {
         Assertions.assertDoesNotThrow(() -> {
             UmlClass umlClass = new UmlClass("Class");
-            Method method = new Method("method1");
+            Method method = new Method.Builder()
+                    .withName("method")
+                    .withType("type")
+                    .withParameterTypes(new ArrayList<>())
+                    .build();
 
             umlClass.addMethod(method);
 
@@ -102,8 +108,16 @@ public class UmlClassTest {
     public void testUmlClassAddMethodReturnsFalseOnDuplicateMethod() {
         Assertions.assertDoesNotThrow(() -> {
             UmlClass umlClass = new UmlClass("Class");
-            Method method1 = new Method("method");
-            Method method2 = new Method("method");
+            Method method1 = new Method.Builder()
+                    .withName("method")
+                    .withType("type")
+                    .withParameterTypes(new ArrayList<>())
+                    .build();
+            Method method2 = new Method.Builder()
+                    .withName("method")
+                    .withType("type")
+                    .withParameterTypes(new ArrayList<>())
+                    .build();
 
             Assertions.assertTrue(umlClass.addMethod(method1));
             Assertions.assertTrue(umlClass.getMethods().contains(method1));
@@ -115,7 +129,11 @@ public class UmlClassTest {
     public void testUmlClassDeleteMethodReturnsTrueOnSuccessfulDelete() {
         Assertions.assertDoesNotThrow(() -> {
             UmlClass umlClass = new UmlClass("Class");
-            Method method = new Method("method");
+            Method method = new Method.Builder()
+                    .withName("method")
+                    .withType("type")
+                    .withParameterTypes(new ArrayList<>())
+                    .build();
 
             Assertions.assertTrue(umlClass.addMethod(method));
             Assertions.assertTrue(umlClass.getMethods().contains(method));
@@ -128,7 +146,11 @@ public class UmlClassTest {
     public void testUmlClassDeleteMethodReturnsFalseOnUnsuccessfulDelete() {
         Assertions.assertDoesNotThrow(() -> {
             UmlClass umlClass = new UmlClass("Class");
-            Method method = new Method("method");
+            Method method = new Method.Builder()
+                    .withName("method")
+                    .withType("type")
+                    .withParameterTypes(new ArrayList<>())
+                    .build();
 
             Assertions.assertFalse(umlClass.getMethods().contains(method));
             Assertions.assertFalse(umlClass.deleteMethod(method));
@@ -140,8 +162,16 @@ public class UmlClassTest {
     public void testUmlClassUpdateMethodReturnsTrueOnSuccessfulUpdate() {
         Assertions.assertDoesNotThrow(() -> {
             UmlClass umlClass = new UmlClass("Class");
-            Method method1 = new Method("method1");
-            Method method2 = new Method("method2");
+            Method method1 = new Method.Builder()
+                    .withName("method1")
+                    .withType("type")
+                    .withParameterTypes(new ArrayList<>())
+                    .build();
+            Method method2 = new Method.Builder()
+                    .withName("method2")
+                    .withType("type")
+                    .withParameterTypes(new ArrayList<>())
+                    .build();
 
             Assertions.assertTrue(umlClass.addMethod(method1));
             Assertions.assertTrue(umlClass.getMethods().contains(method1));
@@ -155,8 +185,16 @@ public class UmlClassTest {
     public void testUmlClassUpdateMethodReturnsFalseOnUnsuccessfulUpdate() {
         Assertions.assertDoesNotThrow(() -> {
             UmlClass umlClass = new UmlClass("Class");
-            Method method1 = new Method("method1");
-            Method method2 = new Method("method2");
+            Method method1 = new Method.Builder()
+                    .withName("method1")
+                    .withType("type")
+                    .withParameterTypes(new ArrayList<>())
+                    .build();
+            Method method2 = new Method.Builder()
+                    .withName("method2")
+                    .withType("type")
+                    .withParameterTypes(new ArrayList<>())
+                    .build();
 
             Assertions.assertTrue(umlClass.addMethod(method1));
             Assertions.assertTrue(umlClass.getMethods().contains(method1));
@@ -175,8 +213,14 @@ public class UmlClassTest {
             UmlClass to1 = new UmlClass("To1");
             UmlClass to2 = new UmlClass("To2");
 
-            Relationship relationship1 = new Relationship(to1);
-            Relationship relationship2 = new Relationship(to2);
+            Relationship relationship1 = new Relationship.Builder()
+                    .withTo(to1)
+                    .withType(Relationship.Type.AGGREGATION)
+                    .build();
+            Relationship relationship2 = new Relationship.Builder()
+                    .withTo(to2)
+                    .withType(Relationship.Type.AGGREGATION)
+                    .build();
 
             Assertions.assertTrue(from.addRelationship(relationship1));
             Assertions.assertTrue(from.getRelationships().contains(relationship1));
@@ -193,8 +237,14 @@ public class UmlClassTest {
             UmlClass from = new UmlClass("From");
             UmlClass to = new UmlClass("To");
 
-            Relationship relationship1 = new Relationship(to);
-            Relationship relationship2 = new Relationship(to);
+            Relationship relationship1 = new Relationship.Builder()
+                    .withTo(to)
+                    .withType(Relationship.Type.AGGREGATION)
+                    .build();
+            Relationship relationship2 = new Relationship.Builder()
+                    .withTo(to)
+                    .withType(Relationship.Type.AGGREGATION)
+                    .build();
 
             Assertions.assertTrue(from.addRelationship(relationship1));
             Assertions.assertTrue(from.getRelationships().contains(relationship1));
@@ -208,8 +258,14 @@ public class UmlClassTest {
             UmlClass from = new UmlClass("From");
             UmlClass to = new UmlClass("To");
 
-            Relationship toTo = new Relationship(to);
-            Relationship toFrom = new Relationship(from);
+            Relationship toTo = new Relationship.Builder()
+                    .withTo(to)
+                    .withType(Relationship.Type.GENERALIZATION)
+                    .build();
+            Relationship toFrom = new Relationship.Builder()
+                    .withTo(from)
+                    .withType(Relationship.Type.GENERALIZATION)
+                    .build();
 
             Assertions.assertTrue(from.addRelationship(toTo));
             Assertions.assertFalse(to.addRelationship(toFrom));
@@ -222,7 +278,10 @@ public class UmlClassTest {
             UmlClass from = new UmlClass("From");
             UmlClass to = new UmlClass("To");
 
-            Relationship relationship = new Relationship(to);
+            Relationship relationship = new Relationship.Builder()
+                    .withTo(to)
+                    .withType(Relationship.Type.AGGREGATION)
+                    .build();
 
             Assertions.assertFalse(from.getRelationships().contains(relationship));
             Assertions.assertTrue(from.addRelationship(relationship));
@@ -238,7 +297,10 @@ public class UmlClassTest {
             UmlClass from = new UmlClass("From");
             UmlClass to = new UmlClass("To");
 
-            Relationship relationship = new Relationship(to);
+            Relationship relationship = new Relationship.Builder()
+                    .withTo(to)
+                    .withType(Relationship.Type.AGGREGATION)
+                    .build();
 
             Assertions.assertFalse(from.getRelationships().contains(relationship));
             Assertions.assertFalse(from.deleteRelationship(relationship));
@@ -253,8 +315,14 @@ public class UmlClassTest {
             UmlClass to1 = new UmlClass("To1");
             UmlClass to2 = new UmlClass("To2");
 
-            Relationship relationship1 = new Relationship(to1);
-            Relationship relationship2 = new Relationship(to2);
+            Relationship relationship1 = new Relationship.Builder()
+                    .withTo(to1)
+                    .withType(Relationship.Type.AGGREGATION)
+                    .build();
+            Relationship relationship2 = new Relationship.Builder()
+                    .withTo(to2)
+                    .withType(Relationship.Type.AGGREGATION)
+                    .build();
 
             Assertions.assertTrue(from.addRelationship(relationship1));
             Assertions.assertTrue(from.getRelationships().contains(relationship1));
@@ -271,8 +339,14 @@ public class UmlClassTest {
             UmlClass to1 = new UmlClass("To1");
             UmlClass to2 = new UmlClass("To2");
 
-            Relationship relationship1 = new Relationship(to1);
-            Relationship relationship2 = new Relationship(to2);
+            Relationship relationship1 = new Relationship.Builder()
+                    .withTo(to1)
+                    .withType(Relationship.Type.AGGREGATION)
+                    .build();
+            Relationship relationship2 = new Relationship.Builder()
+                    .withTo(to2)
+                    .withType(Relationship.Type.AGGREGATION)
+                    .build();
 
             Assertions.assertTrue(from.addRelationship(relationship1));
             Assertions.assertTrue(from.getRelationships().contains(relationship1));
