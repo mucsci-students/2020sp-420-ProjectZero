@@ -12,7 +12,7 @@ A cliApplication that allows the user to add, delete, and edit UML classes, meth
 1. ```Navigate to where the file is located on your computer in the console```
 2. ```./gradlew build```
 3. ```./gradlew shadow```
-4. ```java -jar path/to/jar --cli (for cli) or java -jar path/to/jar (for GUI``` 
+4. ```java -jar path/to/jar --cli (for cli) or java -jar path/to/jar (for GUI)``` 
 
 The default option will open up the GUI application. To open the console app, you would need to include a 1 after you specify the path to the file.
 
