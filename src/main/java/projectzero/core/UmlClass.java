@@ -1,18 +1,19 @@
 package projectzero.core;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import projectzero.core.exceptions.InvalidNameException;
 
 import javax.lang.model.SourceVersion;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
 public class UmlClass {
     private final String name;
-    private final List<Field> fields;
-    private final List<Method> methods;
-    private final List<Relationship> relationships;
+    private final ObservableList<Field> fields;
+    private final ObservableList<Method> methods;
+    private final ObservableList<Relationship> relationships;
 
     public UmlClass(String name) throws InvalidNameException {
         if (!SourceVersion.isIdentifier(name)) {
@@ -20,9 +21,9 @@ public class UmlClass {
         }
 
         this.name = name;
-        this.fields = new ArrayList<>();
-        this.methods = new ArrayList<>();
-        this.relationships = new ArrayList<>();
+        this.fields = FXCollections.observableArrayList();
+        this.methods = FXCollections.observableArrayList();
+        this.relationships = FXCollections.observableArrayList();
     }
 
     private UmlClass(@JsonProperty("name") String name,
@@ -34,24 +35,24 @@ public class UmlClass {
         }
 
         this.name = name;
-        this.fields = fields;
-        this.methods = methods;
-        this.relationships = relationships;
+        this.fields = FXCollections.observableList(fields);
+        this.methods = FXCollections.observableList(methods);
+        this.relationships = FXCollections.observableList(relationships);
     }
 
     public String getName() {
         return name;
     }
 
-    public List<Field> getFields() {
+    public ObservableList<Field> getFields() {
         return fields;
     }
 
-    public List<Method> getMethods() {
+    public ObservableList<Method> getMethods() {
         return methods;
     }
 
-    public List<Relationship> getRelationships() {
+    public ObservableList<Relationship> getRelationships() {
         return relationships;
     }
 

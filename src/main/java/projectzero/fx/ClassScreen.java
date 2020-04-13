@@ -4,7 +4,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
-import projectzero.core.UmlClass;
 import projectzero.core.UmlClassManager;
 
 import java.io.IOException;
@@ -19,8 +18,8 @@ public class ClassScreen extends Stage {
             ((ClassScreenController)loader.getController()).setUMLClassManager(mainManager);
             GridPane root = loader.load();
             Scene mainScene = new Scene(root);
-            mainScene.getStylesheets().add(getClass().getResource("/css/mainStyle.css").toExternalForm());
-            mainScene.getStylesheets().add(getClass().getResource("/css/classScreenStyle.css").toExternalForm());
+            mainScene.getStylesheets().add(getClass().getResource("/css/Parent.css").toExternalForm());
+            mainScene.getStylesheets().add(getClass().getResource("/css/class-screen.css").toExternalForm());
             this.setScene(mainScene);
             this.setTitle(TITLE);
         } catch (IOException e) {

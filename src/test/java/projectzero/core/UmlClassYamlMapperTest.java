@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -144,11 +145,11 @@ public class UmlClassYamlMapperTest {
         UmlClassYamlMapper umlClassYamlMapper = new UmlClassYamlMapper();
 
         Assertions.assertDoesNotThrow(() -> {
-            umlClassYamlMapper.write(filePath.toString(), umlClassMap);
+            umlClassYamlMapper.write(filePath.toFile(), umlClassMap);
         });
 
         Assertions.assertDoesNotThrow(() -> {
-            Map<String, UmlClass> readUmlClassMap = umlClassYamlMapper.read(filePath.toString());
+            Map<String, UmlClass> readUmlClassMap = umlClassYamlMapper.read(filePath.toFile());
             Assertions.assertEquals(umlClassMap, readUmlClassMap);
             Assertions.assertEquals(umlClassMap.get("dog").getFields(), readUmlClassMap.get("dog").getFields());
             Assertions.assertEquals(umlClassMap.get("dog").getMethods(), readUmlClassMap.get("dog").getMethods());
