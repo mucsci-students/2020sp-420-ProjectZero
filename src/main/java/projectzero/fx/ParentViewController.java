@@ -1,10 +1,12 @@
 package projectzero.fx;
 
 import javafx.collections.MapChangeListener;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.control.Button;
+import javafx.scene.control.MenuItem;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
@@ -13,15 +15,42 @@ import projectzero.core.UmlClassManager;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
 
-public class ParentViewController {
-    private UmlClassManager umlClassManager;
+public class ParentViewController implements Initializable {
+    private final UmlClassManager umlClassManager;
     private UmlClass selectedUmlClass;
+
     @FXML
     private Pane pane;
 
-    public void initialize(UmlClassManager umlClassManager) {
+    @FXML
+    private MenuItem fileSaveMenuItem;
+
+    @FXML
+    private MenuItem fileLoadMenuItem;
+
+    @FXML
+    private Button addButton;
+
+    @FXML
+    private Button editButton;
+
+    @FXML
+    private Button deleteButton;
+
+    ParentViewController(UmlClassManager umlClassManager) {
         this.umlClassManager = umlClassManager;
+    }
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        this.fileSaveMenuItem.setOnAction(event -> this.handleOnSaveClick());
+        this.fileLoadMenuItem.setOnAction(event -> this.handleOnLoadClick());
+        this.addButton.setOnAction(event -> this.handleOnAddClick());
+        this.editButton.setOnAction(event -> this.handleOnEditClick());
+        this.deleteButton.setOnAction(event -> this.handleDeleteClick());
 
         umlClassManager.getUmlClassMap().addListener((MapChangeListener<String, UmlClass>) change -> {
             if (change.wasAdded()) {
@@ -45,25 +74,6 @@ public class ParentViewController {
                 pane.getChildren().remove(node);
             }
         });
-    }
-
-    public void addButtonClick() {
-        new ClassScreen(umlClassManager, "").show();
-    }
-
-    public void editButtonClick(ActionEvent event) {
-        if (selectedUmlClass != null)
-            new ClassScreen(umlClassManager, selectedUmlClass.getName()).show();
-    }
-
-    public void deleteButtonClick(ActionEvent event) {
-        if (selectedUmlClass != null) {
-            umlClassManager.deleteUmlClass(selectedUmlClass.getName());
-        }
-    }
-
-    public void setSelectedUMLClass(UmlClass umlClass) {
-        selectedUmlClass = umlClass;
     }
 
     public void handleOnSaveClick() {
@@ -98,5 +108,24 @@ public class ParentViewController {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public void handleOnAddClick() {
+        new ClassScreen(umlClassManager, "").show();
+    }
+
+    public void handleOnEditClick() {
+        if (selectedUmlClass != null)
+            new ClassScreen(umlClassManager, selectedUmlClass.getName()).show();
+    }
+
+    public void handleDeleteClick() {
+        if (selectedUmlClass != null) {
+            umlClassManager.deleteUmlClass(selectedUmlClass.getName());
+        }
+    }
+
+    public void setSelectedUMLClass(UmlClass umlClass) {
+        selectedUmlClass = umlClass;
     }
 }

@@ -12,15 +12,15 @@ import java.io.IOException;
 public class FXApplication extends Application {
 
     @Override
-    public void start(Stage stage) throws IOException{
+    public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/ParentView.fxml"));
 
+        ParentViewController parentViewController = new ParentViewController(new UmlClassManager());
+        fxmlLoader.setController(parentViewController);
+
         Parent parent = fxmlLoader.load();
-        ParentViewController parentViewController = fxmlLoader.getController();
 
-        parentViewController.initialize(new UmlClassManager());
-
-        Scene scene = new Scene(parent,720 ,480);
+        Scene scene = new Scene(parent, 720, 480);
         scene.getStylesheets().add(getClass().getResource("/css/Parent.css").toExternalForm());
 
         stage.setTitle("UML Editor");
