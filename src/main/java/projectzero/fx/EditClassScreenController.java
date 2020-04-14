@@ -9,7 +9,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class EditClassScreenController extends ClassScreenController implements Initializable {
-    private String originalClassName;
+    private final String originalClassName;
 
     public EditClassScreenController(String editedUmlClassName){
         this.originalClassName = editedUmlClassName;
@@ -19,9 +19,9 @@ public class EditClassScreenController extends ClassScreenController implements 
     public void applyUMLClass(ActionEvent event) {
         try {
             UmlClass originalUMLClass = new UmlClass(textBoxClassName.getText());
-            fields.forEach(field -> originalUMLClass.addField(field));
-            methods.forEach(method -> originalUMLClass.addMethod(method));
-            relationships.forEach(relationship -> originalUMLClass.addRelationship(relationship));
+            fields.forEach(originalUMLClass::addField);
+            methods.forEach(originalUMLClass::addMethod);
+            relationships.forEach(originalUMLClass::addRelationship);
             mainManager.updateUmlClass(originalClassName,originalUMLClass);
             textBoxClassName.setStyle("-fx-text-box-border: #9A9A9A; -fx-focus-color: darkslateblue;");
             fieldDisplay.setStyle("-fx-border-color: #9A9A9A; -fx-focus-color: darkslateblue;");
@@ -42,9 +42,8 @@ public class EditClassScreenController extends ClassScreenController implements 
     private void fillGUIComponents(){
         UmlClass originalUMLClass = mainManager.getUmlClass(originalClassName);
         this.textBoxClassName.setText(originalUMLClass.getName());
-        originalUMLClass.getFields().forEach(field -> fields.add(field));
-        originalUMLClass.getMethods().forEach(method -> methods.add(method));
-        originalUMLClass.getRelationships().forEach(relationship -> relationships.add(relationship));
-
+        fields.addAll(originalUMLClass.getFields());
+        methods.addAll(originalUMLClass.getMethods());
+        relationships.addAll(originalUMLClass.getRelationships());
     }
 }

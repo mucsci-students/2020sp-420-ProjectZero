@@ -10,6 +10,7 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
+import javafx.stage.Modality;
 import projectzero.core.UmlClass;
 import projectzero.core.UmlClassManager;
 
@@ -111,12 +112,19 @@ public class ParentViewController implements Initializable {
     }
 
     public void handleOnAddClick() {
-        new ClassScreen(umlClassManager, "").show();
+        ClassScreen classScreen = new ClassScreen(umlClassManager, "");
+        classScreen.initOwner(pane.getScene().getWindow());
+        classScreen.initModality(Modality.APPLICATION_MODAL);
+        classScreen.showAndWait();
     }
 
     public void handleOnEditClick() {
-        if (selectedUmlClass != null)
-            new ClassScreen(umlClassManager, selectedUmlClass.getName()).show();
+        if (selectedUmlClass != null) {
+            ClassScreen classScreen = new ClassScreen(umlClassManager, selectedUmlClass.getName());
+            classScreen.initOwner(pane.getScene().getWindow());
+            classScreen.initModality(Modality.APPLICATION_MODAL);
+            classScreen.showAndWait();
+        }
     }
 
     public void handleDeleteClick() {
