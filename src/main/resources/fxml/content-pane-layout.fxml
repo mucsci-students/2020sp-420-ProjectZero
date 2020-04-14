@@ -17,7 +17,7 @@
         <Button styleClass="regButton" fx:id="editButton" text="Edit Class" onAction="#editButtonClick" maxWidth="Infinity" HBox.hgrow="ALWAYS"/>
         <Button styleClass="regButton" fx:id="deleteButton" text="Delete Class" onAction="#deleteButtonClick" maxWidth="Infinity" HBox.hgrow="ALWAYS"/>
     </HBox>
-    <StackPane fx:id="graphicsPane">
+    <StackPane fx:id="graphicsPane" styleClass="graphicsPane" prefWidth="Infinity" prefHeight="400">
     </StackPane>
 
 </VBox>

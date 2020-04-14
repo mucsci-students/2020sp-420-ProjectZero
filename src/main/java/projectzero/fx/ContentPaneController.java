@@ -7,6 +7,8 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.layout.StackPane;
 import javafx.stage.FileChooser;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import projectzero.core.UmlClass;
 import projectzero.core.UmlClassManager;
 
@@ -18,6 +20,7 @@ import java.util.ResourceBundle;
 public class ContentPaneController implements Initializable, Observer<UmlClass>{
     private UmlClassManager mainManager;
     private String selectedUMLClass;
+    private Stage mainMindow;
     @FXML
     private StackPane graphicsPane;
     @Override
@@ -27,12 +30,19 @@ public class ContentPaneController implements Initializable, Observer<UmlClass>{
         mainManager.register(this);
     }
     public void addButtonClick(ActionEvent event){
-        new ClassScreen(mainManager, "").show();
+        ClassScreen classScreen = new ClassScreen(mainManager, "");
+        classScreen.initOwner(mainMindow);
+        classScreen.initModality(Modality.APPLICATION_MODAL);
+        classScreen.show();
     }
-
+//try this.
     public void editButtonClick(ActionEvent event){
-        if(!selectedUMLClass.equals(""))
-            new ClassScreen(mainManager,selectedUMLClass).show();
+        if(!selectedUMLClass.equals("")) {
+            ClassScreen classScreen = new ClassScreen(mainManager, selectedUMLClass);
+            classScreen.initOwner(mainMindow);
+            classScreen.initModality(Modality.APPLICATION_MODAL);
+            classScreen.show();
+        }
     }
 
     public void deleteButtonClick(ActionEvent event){
@@ -81,7 +91,7 @@ public class ContentPaneController implements Initializable, Observer<UmlClass>{
 
     public void handleOnLoadClick(){}
 
-    private ClassNode getClassNode(String umlClassName){
+    public ClassNode getClassNode(String umlClassName){
         ClassNode tempNode = null;
         ObservableList<Node> classNodeList = graphicsPane.getChildren();
 
@@ -92,5 +102,13 @@ public class ContentPaneController implements Initializable, Observer<UmlClass>{
             }
         }
         return tempNode;
+    }
+
+    public StackPane getGraphicsPane(){
+        return graphicsPane;
+    }
+
+    public void setMainWindow(Stage stage){
+        this.mainMindow = stage;
     }
 }
