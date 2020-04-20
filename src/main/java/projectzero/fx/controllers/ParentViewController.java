@@ -11,6 +11,7 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.scene.shape.Line;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -72,6 +73,19 @@ public class ParentViewController implements Initializable {
                     umlClassNodeVBox.setTranslateY(change.getValueAdded().getY());
 
                     umlClassNodeVBox.setOnMouseClicked(event -> this.setSelectedUMLClass(this.umlClassManager.getUmlClass(umlClassNodeVBox.getId())));
+
+                    change.getValueAdded().getRelationships().forEach(relationship -> {
+                        Line line = new Line();
+
+                        line.startXProperty().bind(change.getValueAdded().xProperty());
+                        line.startYProperty().bind(change.getValueAdded().yProperty());
+
+                        line.endXProperty().bind(umlClassManager.getUmlClass(relationship.getTo()).xProperty());
+                        line.endYProperty().bind(umlClassManager.getUmlClass(relationship.getTo()).yProperty());
+
+                        this.pane.getChildren().add(line);
+                    });
+
                     pane.getChildren().add(umlClassNodeVBox);
                 } catch (IOException ioException) {
                     System.out.println(ioException.getMessage());
