@@ -4,6 +4,7 @@
 <?import javafx.scene.layout.*?>
 <GridPane xmlns="http://javafx.com/javafx/8.0.25"
           xmlns:fx="http://javafx.com/fxml/1"
+          fx:id="gridPane"
           id="mainLayout" columnConstraints="" vgap="5" hgap="2">
     <columnConstraints>
         <ColumnConstraints halignment="CENTER"/>
@@ -64,6 +65,6 @@
 
     <Button fx:id="applyButton" styleClass="regButton" text="Apply"
             GridPane.columnIndex="2" GridPane.rowIndex="10" GridPane.halignment="RIGHT"/>
-    <Button styleClass="regButton" text="Cancel"
+    <Button fx:id="cancelButton" styleClass="regButton" text="Cancel"
             GridPane.columnIndex="3" GridPane.rowIndex="10"/>
 </GridPane>

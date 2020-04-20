@@ -6,8 +6,10 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.skin.ComboBoxListViewSkin;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
+import javafx.stage.Stage;
 import projectzero.core.*;
 import projectzero.core.exceptions.InvalidNameException;
 
@@ -29,7 +31,11 @@ public class ClassScreenViewController implements Initializable {
             removeFieldButton,
             removeMethodButton,
             removeRelationshipButton,
-            applyButton;
+            applyButton,
+            cancelButton;
+
+    @FXML
+    private GridPane gridPane;
 
     @FXML
     private TextField textBoxClassName,
@@ -79,6 +85,7 @@ public class ClassScreenViewController implements Initializable {
         this.removeMethodButton.setOnAction(event -> handleOnRemoveMethodClick());
         this.removeRelationshipButton.setOnAction(event -> handleOnRemoveRelationshipClick());
         this.applyButton.setOnAction(event -> applyUMLClass());
+        this.cancelButton.setOnAction(event -> handleOnCancelClick());
         this.textBoxParamType.setOnAction(event -> this.addParamType());
 
         if (existingUmlClass != null) {
@@ -180,12 +187,20 @@ public class ClassScreenViewController implements Initializable {
 
             textBoxClassName.setStyle("-fx-text-box-border: #9A9A9A; -fx-focus-color: darkslateblue;");
             fieldDisplay.setStyle("-fx-border-color: #9A9A9A; -fx-focus-color: darkslateblue;");
+
+            Stage stage = (Stage) (this.gridPane.getScene().getWindow());
+            stage.close();
         } catch (InvalidNameException e) {
             textBoxClassName.setStyle(" -fx-text-box-border: red ; -fx-focus-color: red ;");
         }
     }
 
     @FXML
+    private void handleOnCancelClick() {
+        Stage stage = (Stage) this.gridPane.getScene().getWindow();
+        stage.close();
+    }
+
     private void fillRelationships() {
         umlClassManager.listUmlClasses().forEach(umlClass -> comboRelationshipToName.getItems().add(umlClass.getName()));
     }
