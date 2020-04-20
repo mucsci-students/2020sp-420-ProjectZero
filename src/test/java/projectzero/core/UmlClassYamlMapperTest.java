@@ -144,11 +144,11 @@ public class UmlClassYamlMapperTest {
         UmlClassYamlMapper umlClassYamlMapper = new UmlClassYamlMapper();
 
         Assertions.assertDoesNotThrow(() -> {
-            umlClassYamlMapper.write(filePath.toString(), umlClassMap);
+            umlClassYamlMapper.write(filePath.toFile(), umlClassMap);
         });
 
         Assertions.assertDoesNotThrow(() -> {
-            Map<String, UmlClass> readUmlClassMap = umlClassYamlMapper.read(filePath.toString());
+            Map<String, UmlClass> readUmlClassMap = umlClassYamlMapper.read(filePath.toFile());
             Assertions.assertEquals(umlClassMap, readUmlClassMap);
             Assertions.assertEquals(umlClassMap.get("dog").getFields(), readUmlClassMap.get("dog").getFields());
             Assertions.assertEquals(umlClassMap.get("dog").getMethods(), readUmlClassMap.get("dog").getMethods());

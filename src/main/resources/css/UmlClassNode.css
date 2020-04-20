@@ -1,20 +1,18 @@
-.classnode{
+.classNode {
     -fx-background-color: white;
     -fx-background-radius: 10;
     -fx-border-radius: 8;
     -fx-border-color: black;
     -fx-border-width: 2px;
-    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.8), 4, 0.4, 2, 2);
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.8), 4, 0.4, 2, 2);
+    -fx-padding: 5;
 }
+
 .label {
     -fx-text-fill: black;
 }
-.classnode .label{
 
-
-}
-
-.separator{
+.separator {
     -fx-background-color: black;
 }
 

@@ -9,14 +9,14 @@ import java.io.IOException;
 import java.util.Map;
 
 public class UmlClassYamlMapper {
-    public Map<String, UmlClass> read(String fileName) throws IOException {
+    public Map<String, UmlClass> read(File file) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper(new YAMLFactory());
-        return objectMapper.readValue(new File(fileName), new TypeReference<Map<String, UmlClass>>() {
+        return objectMapper.readValue(file, new TypeReference<Map<String, UmlClass>>() {
         });
     }
 
-    public void write(String fileName, Map<String, UmlClass> umlClassMap) throws IOException {
+    public void write(File file, Map<String, UmlClass> umlClassMap) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper(new YAMLFactory());
-        objectMapper.writeValue(new File(fileName), umlClassMap);
+        objectMapper.writeValue(file, umlClassMap);
     }
 }

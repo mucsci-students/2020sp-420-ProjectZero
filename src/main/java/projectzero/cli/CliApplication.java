@@ -3,11 +3,12 @@ package projectzero.cli;
 import projectzero.core.*;
 import projectzero.core.exceptions.InvalidNameException;
 
+import java.io.File;
 import java.util.*;
 import java.util.stream.Collectors;
 
 public class CliApplication {
-    private UmlClassManager MainManager;
+    private final UmlClassManager MainManager;
     private String inputLine;
     private HashMap<String, String> helpMap;
 
@@ -76,7 +77,7 @@ public class CliApplication {
                             break;
                         case "save":
                             try {
-                                MainManager.save(arguments);
+                                MainManager.save(new File(arguments));
                                 System.out.println("File saved.");
                             } catch (Exception e) {
                                 System.out.println("Did not save correctly.");
@@ -84,7 +85,7 @@ public class CliApplication {
                             break;
                         case "load":
                             try {
-                                MainManager.load(arguments);
+                                MainManager.load(new File(arguments));
                                 System.out.println("File Loaded.");
                             } catch (Exception e) {
                                 System.out.println("Did not load correctly.");

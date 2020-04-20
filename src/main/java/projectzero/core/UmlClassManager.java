@@ -1,46 +1,33 @@
 package projectzero.core;
 
-import projectzero.fx.Observable;
-import projectzero.fx.Observer;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableMap;
 
+import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-public class UmlClassManager implements Observable<UmlClass> {
-    private Map<String, UmlClass> umlClassMap;
-    private UmlClassYamlMapper umlClassYamlMapper;
-    private ArrayList<Observer> observerList;
-    private UmlClass changedUMLClass = null;
+public class UmlClassManager {
+    private final ObservableMap<String, UmlClass> umlClassMap;
+    private final UmlClassYamlMapper umlClassYamlMapper;
 
     public UmlClassManager() {
-        this.umlClassMap = new HashMap<>();
+        this.umlClassMap = FXCollections.observableHashMap();
         umlClassYamlMapper = new UmlClassYamlMapper();
-        observerList = new ArrayList<Observer>();
     }
 
     public UmlClassManager(UmlClassYamlMapper umlClassYamlMapper) {
-        this.umlClassMap = new HashMap<>();
+        this.umlClassMap = FXCollections.observableHashMap();
         this.umlClassYamlMapper = umlClassYamlMapper;
-        observerList = new ArrayList<Observer>();
     }
 
     public UmlClass addUmlClass(UmlClass umlClass) {
-        UmlClass newUmlClass = umlClassMap.putIfAbsent(umlClass.getName(), umlClass);
-        if(newUmlClass == null)
-            changedUMLClass = umlClass;
-        notifyObservers();
-        return newUmlClass;
+        return umlClassMap.putIfAbsent(umlClass.getName(), umlClass);
     }
 
     public UmlClass deleteUmlClass(String umlClassName) {
-        UmlClass umlClass = umlClassMap.remove(umlClassName);
-        changedUMLClass = umlClass;
-        notifyObservers();
-        return umlClass;
+        return umlClassMap.remove(umlClassName);
     }
 
     public UmlClass getUmlClass(String umlClassName) {
@@ -48,40 +35,25 @@ public class UmlClassManager implements Observable<UmlClass> {
     }
 
     public UmlClass updateUmlClass(String umlClassName, UmlClass umlClass) {
-        this.deleteUmlClass(umlClassName);
-        UmlClass newUMLClass = this.addUmlClass(umlClass);
-        return newUMLClass;
+        deleteUmlClass(umlClassName);
+        return addUmlClass(umlClass);
     }
 
     public List<UmlClass> listUmlClasses() {
         return new ArrayList<>(umlClassMap.values());
     }
 
-    public void save(String path) throws IOException {
-        umlClassYamlMapper.write(path, this.umlClassMap);
-        notifyObservers();
+    public ObservableMap<String, UmlClass> getUmlClassMap() {
+        return this.umlClassMap;
     }
 
-    public void load(String path) throws IOException {
-        this.umlClassMap = umlClassYamlMapper.read(path);
-        notifyObservers();
+    public void save(File file) throws IOException {
+        umlClassYamlMapper.write(file, this.umlClassMap);
     }
 
-    @Override
-    public void register(Observer<UmlClass> observer) {
-        observerList.add(observer);
-    }
-
-    @Override
-    public void unregister(Observer<UmlClass> observer) {
-        observerList.remove(observer);
-    }
-
-    @Override
-    public void notifyObservers() {
-        for(Observer observer: observerList)
-            observer.update(changedUMLClass);
-        changedUMLClass = null;
+    public void load(File file) throws IOException {
+        this.umlClassMap.clear();
+        this.umlClassMap.putAll(umlClassYamlMapper.read(file));
     }
 }
 
