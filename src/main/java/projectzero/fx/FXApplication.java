@@ -6,6 +6,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import projectzero.core.UmlClassManager;
+import projectzero.fx.controllers.ParentViewController;
 
 import java.io.IOException;
 

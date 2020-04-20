@@ -65,18 +65,18 @@ public class UmlClass {
         return true;
     }
 
-    public Field getField(String fieldName){
-        for(Field f: fields){
-            if(f.getName().equals(fieldName)){
+    public Field getField(String fieldName) {
+        for (Field f : fields) {
+            if (f.getName().equals(fieldName)) {
                 return f;
             }
         }
         return null;
     }
 
-    public Method getMethod(String methodName){
-        for(Method m: methods){
-            if(m.getName().equals(methodName)){
+    public Method getMethod(String methodName) {
+        for (Method m : methods) {
+            if (m.getName().equals(methodName)) {
                 return m;
             }
         }

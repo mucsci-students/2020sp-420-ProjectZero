@@ -1,7 +1,5 @@
-package projectzero.fx;
+package projectzero.fx.controllers;
 
-import javafx.beans.binding.Binding;
-import javafx.beans.binding.Bindings;
 import javafx.beans.property.ListProperty;
 import javafx.beans.property.SimpleListProperty;
 import javafx.fxml.FXML;
@@ -16,7 +14,6 @@ import projectzero.core.UmlClass;
 
 import java.net.URL;
 import java.util.ResourceBundle;
-import java.util.stream.Collectors;
 
 public class UmlClassNodeViewController implements Initializable {
     private final UmlClass umlClass;

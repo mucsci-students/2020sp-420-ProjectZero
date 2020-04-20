@@ -1,16 +1,19 @@
-package projectzero.fx;
+package projectzero.fx.controllers;
 
 import javafx.collections.MapChangeListener;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.MenuItem;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
+import javafx.stage.Stage;
 import projectzero.core.UmlClass;
 import projectzero.core.UmlClassManager;
 
@@ -41,7 +44,7 @@ public class ParentViewController implements Initializable {
     @FXML
     private Button deleteButton;
 
-    ParentViewController(UmlClassManager umlClassManager) {
+    public ParentViewController(UmlClassManager umlClassManager) {
         this.umlClassManager = umlClassManager;
     }
 
@@ -77,7 +80,8 @@ public class ParentViewController implements Initializable {
         });
     }
 
-    public void handleOnSaveClick() {
+    @FXML
+    private void handleOnSaveClick() {
         FileChooser fileChooser = new FileChooser();
         FileChooser.ExtensionFilter extensionFilter = new FileChooser.ExtensionFilter("Yaml", "*.yaml", "*.yml");
         fileChooser.getExtensionFilters().add(extensionFilter);
@@ -94,7 +98,8 @@ public class ParentViewController implements Initializable {
         }
     }
 
-    public void handleOnLoadClick() {
+    @FXML
+    private void handleOnLoadClick() {
         FileChooser fileChooser = new FileChooser();
         FileChooser.ExtensionFilter extensionFilter = new FileChooser.ExtensionFilter("Yaml", "*.yaml", "*.yml");
         fileChooser.getExtensionFilters().add(extensionFilter);
@@ -111,29 +116,51 @@ public class ParentViewController implements Initializable {
         }
     }
 
-    public void handleOnAddClick() {
-        ClassScreen classScreen = new ClassScreen(umlClassManager, "");
-        classScreen.initOwner(pane.getScene().getWindow());
-        classScreen.initModality(Modality.APPLICATION_MODAL);
-        classScreen.showAndWait();
+    @FXML
+    private void handleOnAddClick() {
+        loadClassScreenView(null);
     }
 
-    public void handleOnEditClick() {
+    @FXML
+    private void handleOnEditClick() {
         if (selectedUmlClass != null) {
-            ClassScreen classScreen = new ClassScreen(umlClassManager, selectedUmlClass.getName());
-            classScreen.initOwner(pane.getScene().getWindow());
-            classScreen.initModality(Modality.APPLICATION_MODAL);
-            classScreen.showAndWait();
+            this.loadClassScreenView(selectedUmlClass);
         }
     }
 
-    public void handleDeleteClick() {
+    @FXML
+    private void handleDeleteClick() {
         if (selectedUmlClass != null) {
             umlClassManager.deleteUmlClass(selectedUmlClass.getName());
         }
     }
 
-    public void setSelectedUMLClass(UmlClass umlClass) {
+    @FXML
+    private void setSelectedUMLClass(UmlClass umlClass) {
         selectedUmlClass = umlClass;
+    }
+
+    private void loadClassScreenView(UmlClass umlClass) {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/ClassScreenView.fxml"));
+
+            ClassScreenViewController classScreenViewController = new ClassScreenViewController(umlClass, this.umlClassManager);
+            fxmlLoader.setController(classScreenViewController);
+
+            GridPane gridPane = fxmlLoader.load();
+
+            Scene scene = new Scene(gridPane);
+            scene.getStylesheets().add(getClass().getResource("/css/ClassScreen.css").toExternalForm());
+
+            Stage stage = new Stage();
+            stage.setScene(scene);
+
+            stage.initOwner(pane.getScene().getWindow());
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.showAndWait();
+        } catch (IOException exception) {
+            System.out.println("Could not load ClassScreenView");
+            System.exit(0);
+        }
     }
 }

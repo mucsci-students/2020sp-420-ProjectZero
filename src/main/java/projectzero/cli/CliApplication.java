@@ -8,7 +8,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class CliApplication {
-    private UmlClassManager MainManager;
+    private final UmlClassManager MainManager;
     private String inputLine;
     private HashMap<String, String> helpMap;
 

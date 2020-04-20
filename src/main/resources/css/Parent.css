@@ -1,30 +1,30 @@
-.root{
+.root {
     -fx-background-color: #9A9A9A;
 }
 
-.menu:hover{
+.menu:hover {
     -fx-background-color: #0099CC;
 }
 
-.label{
+.label {
     -fx-font-size: 12px;
     -fx-text-fill: black;
     -fx-font-weight: bold;
     -fx-font-family: "Sans-Serif";
 }
 
-.button{
+.button {
     -fx-font-size: 12px;
     -fx-text-fill: black;
     -fx-font-weight: bold;
     -fx-font-family: "Sans-Serif";
 }
 
-.regButton{
+.regButton {
     -fx-background-color: #E8E8E8;
 
 }
 
-.regButton:pressed{
+.regButton:pressed {
     -fx-background-color: #0099CC
 }

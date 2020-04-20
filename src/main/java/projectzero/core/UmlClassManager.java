@@ -9,8 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UmlClassManager {
-    private ObservableMap<String, UmlClass> umlClassMap;
-    private UmlClassYamlMapper umlClassYamlMapper;
+    private final ObservableMap<String, UmlClass> umlClassMap;
+    private final UmlClassYamlMapper umlClassYamlMapper;
 
     public UmlClassManager() {
         this.umlClassMap = FXCollections.observableHashMap();
