@@ -48,8 +48,15 @@ public class UmlClassNodeViewController implements Initializable {
 
         vBox.setOnMouseDragged(event -> {
             Node tempNode = (Node) event.getSource();
-            vBox.setTranslateX(getTranslateX(tempNode, event.getX()));
-            vBox.setTranslateY(getTranslateY(tempNode, event.getY()));
+
+            double newX = getTranslateX(tempNode, event.getX());
+            double newY = getTranslateY(tempNode, event.getY());
+
+            vBox.setTranslateX(newX);
+            vBox.setTranslateY(newY);
+
+            this.umlClass.setX(newX);
+            this.umlClass.setY(newY);
         });
     }
 

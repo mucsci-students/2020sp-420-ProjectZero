@@ -11,6 +11,7 @@ import java.util.Objects;
 
 public class UmlClass {
     private final String name;
+    private double x, y;
     private final ObservableList<Field> fields;
     private final ObservableList<Method> methods;
     private final ObservableList<Relationship> relationships;
@@ -42,6 +43,22 @@ public class UmlClass {
 
     public String getName() {
         return name;
+    }
+
+    public double getX() {
+        return x;
+    }
+
+    public void setX(double x) {
+        this.x = x;
+    }
+
+    public double getY() {
+        return y;
+    }
+
+    public void setY(double y) {
+        this.y = y;
     }
 
     public ObservableList<Field> getFields() {
