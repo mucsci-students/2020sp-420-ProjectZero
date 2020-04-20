@@ -76,6 +76,8 @@ public class ParentViewController implements Initializable {
 
                     umlClassNodeVBox.setOnMouseClicked(event -> this.setSelectedUMLClass(this.umlClassManager.getUmlClass(umlClassNodeVBox.getId())));
 
+                    pane.getChildren().add(umlClassNodeVBox);
+
                     change.getValueAdded().getRelationships().forEach(relationship -> {
                         Line line = new Line();
 
@@ -88,9 +90,9 @@ public class ParentViewController implements Initializable {
                         line.endYProperty().bind(umlClassManager.getUmlClass(relationship.getTo()).yProperty());
 
                         this.pane.getChildren().add(line);
-                    });
 
-                    pane.getChildren().add(umlClassNodeVBox);
+                        line.toBack();
+                    });
                 } catch (IOException ioException) {
                     System.out.println(ioException.getMessage());
                     System.exit(0);
