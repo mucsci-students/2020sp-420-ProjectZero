@@ -60,6 +60,26 @@ public class ParentViewController implements Initializable {
         this.editButton.setOnAction(event -> this.handleOnEditClick());
         this.deleteButton.setOnAction(event -> this.handleDeleteClick());
 
+        umlClassManager.getUmlClassMap().values().forEach(umlClass -> {
+            try {
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/UmlClassNodeView.fxml"));
+
+                UmlClassNodeViewController umlClassNodeViewController = new UmlClassNodeViewController(umlClass);
+                fxmlLoader.setController(umlClassNodeViewController);
+
+                VBox umlClassNodeVBox = fxmlLoader.load();
+                umlClassNodeVBox.setId(umlClass.getName());
+                umlClassNodeVBox.getStylesheets().add(getClass().getResource("/css/UmlClassNode.css").toExternalForm());
+
+                umlClassNodeVBox.setOnMouseClicked(event -> this.setSelectedUMLClass(this.umlClassManager.getUmlClass(umlClassNodeVBox.getId())));
+
+                pane.getChildren().add(umlClassNodeVBox);
+            } catch (IOException ioException) {
+                System.out.println(ioException.getMessage());
+                System.exit(0);
+            }
+        });
+
         umlClassManager.getUmlClassMap().addListener((MapChangeListener<String, UmlClass>) change -> {
             if (change.wasAdded()) {
                 try {
@@ -69,7 +89,7 @@ public class ParentViewController implements Initializable {
                     fxmlLoader.setController(umlClassNodeViewController);
 
                     VBox umlClassNodeVBox = fxmlLoader.load();
-                    umlClassNodeVBox.setId(change.getKey());
+                    umlClassNodeVBox.setId(change.getValueAdded().getName());
                     umlClassNodeVBox.getStylesheets().add(getClass().getResource("/css/UmlClassNode.css").toExternalForm());
 
                     umlClassNodeVBox.setOnMouseClicked(event -> this.setSelectedUMLClass(this.umlClassManager.getUmlClass(umlClassNodeVBox.getId())));
@@ -80,7 +100,7 @@ public class ParentViewController implements Initializable {
                     System.exit(0);
                 }
             } else if (change.wasRemoved()) {
-                Node node = pane.getChildren().stream().filter(n -> n.getId().equals(change.getKey())).findFirst().get();
+                Node node = pane.getChildren().stream().filter(n -> n.getId().equals(change.getValueRemoved().getName())).findFirst().get();
                 pane.getChildren().remove(node);
             }
         });

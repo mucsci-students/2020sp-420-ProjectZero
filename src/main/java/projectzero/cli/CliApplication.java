@@ -1,9 +1,13 @@
 package projectzero.cli;
 
+import javafx.application.Platform;
+import javafx.stage.Stage;
 import projectzero.core.*;
 import projectzero.core.exceptions.InvalidNameException;
+import projectzero.fx.FXApplication;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -44,6 +48,19 @@ public class CliApplication {
                 printHelp(inputLine);
             } else if (inputLine.equals("quit")) {
                 System.exit(0);
+            } else if (inputLine.equals("png") || inputLine.equals("gui")) {
+                FXApplication fxApplication = new FXApplication(this.MainManager);
+                fxApplication.init();
+
+                Platform.startup(() -> {
+                    Stage stage = new Stage();
+
+                    try {
+                        fxApplication.start(stage);
+                    } catch (IOException ioException) {
+                        ioException.printStackTrace();
+                    }
+                });
             } else {
                 String command = inputLine.substring(0, inputLine.indexOf(" "));
                 String arguments = inputLine.substring(inputLine.indexOf(" ") + 1);
@@ -106,6 +123,8 @@ public class CliApplication {
             }
         } catch (IndexOutOfBoundsException e) {
             System.out.println("Invalid input\n");
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
