@@ -21,7 +21,9 @@ import projectzero.core.UmlClassManager;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 
 public class ParentViewController implements Initializable {
     private final UmlClassManager umlClassManager;
@@ -77,6 +79,8 @@ public class ParentViewController implements Initializable {
                     change.getValueAdded().getRelationships().forEach(relationship -> {
                         Line line = new Line();
 
+                        line.setId(change.getKey() + "_" + relationship.getTo());
+
                         line.startXProperty().bind(change.getValueAdded().xProperty());
                         line.startYProperty().bind(change.getValueAdded().yProperty());
 
@@ -92,8 +96,8 @@ public class ParentViewController implements Initializable {
                     System.exit(0);
                 }
             } else if (change.wasRemoved()) {
-                Node node = pane.getChildren().stream().filter(n -> n.getId().equals(change.getKey())).findFirst().get();
-                pane.getChildren().remove(node);
+                List<Node> nodes = pane.getChildren().stream().filter(n -> n.getId().contains(change.getKey())).collect(Collectors.toList());
+                pane.getChildren().removeAll(nodes);
             }
         });
     }
