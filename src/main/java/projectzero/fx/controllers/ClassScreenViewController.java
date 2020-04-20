@@ -14,6 +14,7 @@ import projectzero.core.*;
 import projectzero.core.exceptions.InvalidNameException;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class ClassScreenViewController implements Initializable {
@@ -123,7 +124,7 @@ public class ClassScreenViewController implements Initializable {
             Method method = builder
                     .withName(textBoxMethodName.getText())
                     .withType(textBoxMethodReturnType.getText())
-                    .withParameterTypes(comboMethodParameterTypes.getItems())
+                    .withParameterTypes(new ArrayList<>(comboMethodParameterTypes.getItems()))
                     .build();
 
             this.methods.add(method);
