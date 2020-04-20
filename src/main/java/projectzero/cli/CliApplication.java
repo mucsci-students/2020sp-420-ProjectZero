@@ -396,6 +396,8 @@ public class CliApplication {
             System.out.println("list [<class names>]\n");
             System.out.println("save <file name>\n" +
                     "load <file name>\n");
+            System.out.println("png\n" +
+                    "gui\n");
         } else {
             System.out.println(helpMap.get(splitString[1]));
         }
@@ -417,6 +419,8 @@ public class CliApplication {
         helpMap.put("list", "list [<class names>]\n");
         helpMap.put("save", "save <file name>\n");
         helpMap.put("load", "load <file name>\n");
+        helpMap.put("gui", "gui\n");
+        helpMap.put("png", "png\n");
     }
 
     private void addClass(String name) {
