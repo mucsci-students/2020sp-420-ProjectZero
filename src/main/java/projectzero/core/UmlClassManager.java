@@ -35,7 +35,8 @@ public class UmlClassManager {
     }
 
     public UmlClass updateUmlClass(String umlClassName, UmlClass umlClass) {
-        return umlClassMap.put(umlClassName, umlClass);
+        deleteUmlClass(umlClassName);
+        return addUmlClass(umlClass);
     }
 
     public List<UmlClass> listUmlClasses() {

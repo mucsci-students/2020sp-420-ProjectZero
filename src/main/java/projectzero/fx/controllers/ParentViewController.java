@@ -68,6 +68,8 @@ public class ParentViewController implements Initializable {
                     umlClassNodeVBox.setId(change.getKey());
                     umlClassNodeVBox.getStylesheets().add(getClass().getResource("/css/UmlClassNode.css").toExternalForm());
 
+                    umlClassNodeVBox.setOnMouseClicked(event -> this.setSelectedUMLClass(this.umlClassManager.getUmlClass(umlClassNodeVBox.getId())));
+
                     pane.getChildren().add(umlClassNodeVBox);
                 } catch (IOException ioException) {
                     System.out.println(ioException.getMessage());
@@ -135,7 +137,6 @@ public class ParentViewController implements Initializable {
         }
     }
 
-    @FXML
     private void setSelectedUMLClass(UmlClass umlClass) {
         selectedUmlClass = umlClass;
     }

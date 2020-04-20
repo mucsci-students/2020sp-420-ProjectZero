@@ -59,9 +59,15 @@ public class ClassScreenViewController implements Initializable {
         this.existingUmlClass = umlClass;
         this.umlClassManager = umlClassManager;
 
-        this.fields = FXCollections.observableArrayList();
-        this.methods = FXCollections.observableArrayList();
-        this.relationships = FXCollections.observableArrayList();
+        if (existingUmlClass == null) {
+            this.fields = FXCollections.observableArrayList();
+            this.methods = FXCollections.observableArrayList();
+            this.relationships = FXCollections.observableArrayList();
+        } else {
+            this.fields = FXCollections.observableArrayList(existingUmlClass.getFields());
+            this.methods = FXCollections.observableArrayList(existingUmlClass.getMethods());
+            this.relationships = FXCollections.observableArrayList(existingUmlClass.getRelationships());
+        }
     }
 
     @Override
@@ -74,6 +80,10 @@ public class ClassScreenViewController implements Initializable {
         this.removeRelationshipButton.setOnAction(event -> handleOnRemoveRelationshipClick());
         this.applyButton.setOnAction(event -> applyUMLClass());
         this.textBoxParamType.setOnAction(event -> this.addParamType());
+
+        if (existingUmlClass != null) {
+            this.textBoxClassName.setText(existingUmlClass.getName());
+        }
 
         setupListViews();
         fillRelationships();
