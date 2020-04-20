@@ -51,8 +51,6 @@ public class UmlClassNodeViewController implements Initializable {
             vBox.setTranslateX(getTranslateX(tempNode, event.getX()));
             vBox.setTranslateY(getTranslateY(tempNode, event.getY()));
         });
-
-        //pane.setOnMouseReleased(event -> controller.setSelectedUMLClass(this.umlClass.getName()));
     }
 
     private double getTranslateY(Node node, double mouseY) {
