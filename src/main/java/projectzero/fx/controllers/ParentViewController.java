@@ -136,7 +136,21 @@ public class ParentViewController implements Initializable {
         }
     }
 
-    private void setSelectedUMLClass(UmlClass umlClass) {
+    private void setSelectedUMLClass(UmlClass umlClass)
+    {
+        if(selectedUmlClass == null){
+            this.pane.getChildren().stream().filter(node -> node.getId().equals(umlClass.getName())).findFirst().ifPresent(node -> {
+                node.getStyleClass().add("selected");
+            });
+        }
+        else{
+            this.pane.getChildren().stream().filter(node -> node.getId().equals(selectedUmlClass.getName())).findFirst().ifPresent(node -> {
+                node.getStyleClass().remove("selected");
+            });
+            this.pane.getChildren().stream().filter(node -> node.getId().equals(umlClass.getName())).findFirst().ifPresent(node -> {
+                node.getStyleClass().add("selected");
+            });
+        }
         selectedUmlClass = umlClass;
     }
 
