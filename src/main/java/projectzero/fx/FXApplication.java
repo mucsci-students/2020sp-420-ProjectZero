@@ -11,12 +11,21 @@ import projectzero.fx.controllers.ParentViewController;
 import java.io.IOException;
 
 public class FXApplication extends Application {
+    UmlClassManager umlClassManager;
+
+    public FXApplication() {
+        this.umlClassManager = new UmlClassManager();
+    }
+
+    public FXApplication(UmlClassManager umlClassManager) {
+        this.umlClassManager = umlClassManager;
+    }
 
     @Override
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/ParentView.fxml"));
 
-        ParentViewController parentViewController = new ParentViewController(new UmlClassManager());
+        ParentViewController parentViewController = new ParentViewController(this.umlClassManager);
         fxmlLoader.setController(parentViewController);
 
         Parent parent = fxmlLoader.load();
