@@ -32,15 +32,16 @@ public class UmlClassYamlMapperTest {
         }
 
         Relationship toDog = new Relationship.Builder()
-                .withTo(dogClass)
+                .withTo(dogClass.getName()
+                )
                 .withType(Relationship.Type.GENERALIZATION)
                 .build();
         Relationship toCat = new Relationship.Builder()
-                .withTo(catClass)
+                .withTo(catClass.getName())
                 .withType(Relationship.Type.GENERALIZATION)
                 .build();
         Relationship toBird = new Relationship.Builder()
-                .withTo(birdClass)
+                .withTo(birdClass.getName())
                 .withType(Relationship.Type.GENERALIZATION)
                 .build();
 
