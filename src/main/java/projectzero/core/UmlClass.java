@@ -1,6 +1,7 @@
 package projectzero.core;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import projectzero.core.exceptions.InvalidNameException;
@@ -11,6 +12,7 @@ import java.util.Objects;
 
 public class UmlClass {
     private final String name;
+    private SimpleDoubleProperty x, y;
     private final ObservableList<Field> fields;
     private final ObservableList<Method> methods;
     private final ObservableList<Relationship> relationships;
@@ -21,12 +23,16 @@ public class UmlClass {
         }
 
         this.name = name;
+        this.x = new SimpleDoubleProperty(0);
+        this.y = new SimpleDoubleProperty(0);
         this.fields = FXCollections.observableArrayList();
         this.methods = FXCollections.observableArrayList();
         this.relationships = FXCollections.observableArrayList();
     }
 
     private UmlClass(@JsonProperty("name") String name,
+                     @JsonProperty("x") double x,
+                     @JsonProperty("y") double y,
                      @JsonProperty("fields") List<Field> fields,
                      @JsonProperty("methods") List<Method> methods,
                      @JsonProperty("relationships") List<Relationship> relationships) throws InvalidNameException {
@@ -35,6 +41,8 @@ public class UmlClass {
         }
 
         this.name = name;
+        this.x = new SimpleDoubleProperty(x);
+        this.y = new SimpleDoubleProperty(y);
         this.fields = FXCollections.observableList(fields);
         this.methods = FXCollections.observableList(methods);
         this.relationships = FXCollections.observableList(relationships);
@@ -42,6 +50,30 @@ public class UmlClass {
 
     public String getName() {
         return name;
+    }
+
+    public double getX() {
+        return x.get();
+    }
+
+    public SimpleDoubleProperty xProperty() {
+        return x;
+    }
+
+    public void setX(double x) {
+        this.x.set(x);
+    }
+
+    public double getY() {
+        return y.get();
+    }
+
+    public SimpleDoubleProperty yProperty() {
+        return y;
+    }
+
+    public void setY(double y) {
+        this.y.set(y);
     }
 
     public ObservableList<Field> getFields() {
@@ -127,11 +159,11 @@ public class UmlClass {
             return false;
         }
 
-        for (Relationship r : relationship.getTo().getRelationships()) {
-            if (r.getTo().equals(this)) {
-                return false;
-            }
-        }
+//        for (Relationship r : relationship.getTo().getRelationships()) {
+//            if (r.getTo().equals(this.getName())) {
+//                return false;
+//            }
+//        }
 
         relationships.add(relationship);
         return true;

@@ -4,10 +4,8 @@ import javafx.beans.property.ListProperty;
 import javafx.beans.property.SimpleListProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
-import javafx.scene.layout.VBox;
 import projectzero.core.Field;
 import projectzero.core.Method;
 import projectzero.core.UmlClass;
@@ -22,9 +20,6 @@ public class UmlClassNodeViewController implements Initializable {
 
     @FXML
     private Label classLabel;
-
-    @FXML
-    private VBox vBox;
 
     @FXML
     private ListView<Field> fieldListView;
@@ -45,27 +40,5 @@ public class UmlClassNodeViewController implements Initializable {
 
         methodListView.itemsProperty().bind(methodListProperty);
         methodListProperty.set(umlClass.getMethods());
-
-        vBox.setOnMouseDragged(event -> {
-            Node tempNode = (Node) event.getSource();
-            vBox.setTranslateX(getTranslateX(tempNode, event.getX()));
-            vBox.setTranslateY(getTranslateY(tempNode, event.getY()));
-        });
-    }
-
-    private double getTranslateY(Node node, double mouseY) {
-        return node.getTranslateY() + mouseY - getHalfHeight();
-    }
-
-    private double getTranslateX(Node node, double mouseX) {
-        return node.getTranslateX() + mouseX - getHalfWidth();
-    }
-
-    private double getHalfWidth() {
-        return vBox.getWidth() / 2;
-    }
-
-    private double getHalfHeight() {
-        return vBox.getHeight() / 2;
     }
 }

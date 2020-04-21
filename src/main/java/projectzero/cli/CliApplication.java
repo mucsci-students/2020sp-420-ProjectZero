@@ -227,7 +227,7 @@ public class CliApplication {
 
         try {
             for (Relationship r : temp.getRelationships()) {
-                if (r.getTo().getName().equals(to)) {
+                if (r.getTo().equals(to)) {
                     temp.deleteRelationship(r);
                     break;
                 }
@@ -250,7 +250,7 @@ public class CliApplication {
         } else {
             try {
                 if (!MainManager.getUmlClass(arguments[0]).addRelationship(new Relationship.Builder()
-                        .withTo(MainManager.getUmlClass(arguments[1]))
+                        .withTo(MainManager.getUmlClass(arguments[1]).getName())
                         .withType(Relationship.Type.valueOf(arguments[2].toUpperCase()))
                         .build())
                 ) {

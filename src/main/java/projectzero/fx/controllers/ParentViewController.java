@@ -14,6 +14,7 @@ import javafx.scene.image.WritableImage;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.scene.shape.Line;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -24,7 +25,9 @@ import javax.imageio.ImageIO;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 
 public class ParentViewController implements Initializable {
     private final UmlClassManager umlClassManager;
@@ -204,19 +207,55 @@ public class ParentViewController implements Initializable {
                     fxmlLoader.setController(umlClassNodeViewController);
 
                     VBox umlClassNodeVBox = fxmlLoader.load();
-                    umlClassNodeVBox.setId(change.getValueAdded().getName());
+                    umlClassNodeVBox.setId(change.getKey());
                     umlClassNodeVBox.getStylesheets().add(getClass().getResource("/css/UmlClassNode.css").toExternalForm());
+
+                    umlClassNodeVBox.setTranslateX(change.getValueAdded().getX());
+                    umlClassNodeVBox.setTranslateY(change.getValueAdded().getY());
 
                     umlClassNodeVBox.setOnMouseClicked(event -> this.setSelectedUMLClass(this.umlClassManager.getUmlClass(umlClassNodeVBox.getId())));
 
+                    umlClassNodeVBox.setOnMouseDragged(event -> {
+                        Node node = (Node) event.getSource();
+
+                        double newX = node.getTranslateX() + event.getX() - umlClassNodeVBox.getWidth() / 2;
+                        double newY = node.getTranslateY() + event.getY() - umlClassNodeVBox.getHeight() / 2;
+
+                        umlClassNodeVBox.setTranslateX(newX);
+                        umlClassNodeVBox.setTranslateY(newY);
+
+                        change.getValueAdded().setX(newX);
+                        change.getValueAdded().setY(newY);
+                    });
+
                     pane.getChildren().add(umlClassNodeVBox);
+
+                    change.getValueAdded().getRelationships().forEach(relationship -> {
+                        Line line = new Line();
+
+                        line.setId("line_" + change.getKey() + "_" + relationship.getTo());
+
+                        line.startXProperty().bind(change.getValueAdded().xProperty());
+                        line.startYProperty().bind(change.getValueAdded().yProperty());
+
+                        line.endXProperty().bind(umlClassManager.getUmlClass(relationship.getTo()).xProperty());
+                        line.endYProperty().bind(umlClassManager.getUmlClass(relationship.getTo()).yProperty());
+
+                        this.pane.getChildren().add(line);
+
+                        line.toBack();
+                    });
                 } catch (IOException ioException) {
                     System.out.println(ioException.getMessage());
                     System.exit(0);
                 }
             } else if (change.wasRemoved()) {
-                Node node = pane.getChildren().stream().filter(n -> n.getId().equals(change.getValueRemoved().getName())).findFirst().get();
-                pane.getChildren().remove(node);
+                // Remove Class Node
+                pane.getChildren().stream().filter(n -> n.getId().equals(change.getKey())).findFirst().ifPresent(value -> pane.getChildren().remove(value));
+
+                // Remove Lines
+                List<Node> nodes = pane.getChildren().stream().filter(n -> n.getId().contains("line") && n.getId().contains(change.getKey())).collect(Collectors.toList());
+                pane.getChildren().removeAll(nodes);
             }
         });
     }

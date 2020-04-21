@@ -142,7 +142,7 @@ public class ClassScreenViewController implements Initializable {
     private void handleOnAddRelationshipClick() {
         Relationship.Builder builder = new Relationship.Builder();
         Relationship relationship = builder
-                .withTo(umlClassManager.getUmlClass(comboRelationshipToName.getSelectionModel().getSelectedItem()))
+                .withTo(umlClassManager.getUmlClass(comboRelationshipToName.getSelectionModel().getSelectedItem()).getName())
                 .withType(comboRelationshipType.getSelectionModel().getSelectedItem())
                 .build();
 
