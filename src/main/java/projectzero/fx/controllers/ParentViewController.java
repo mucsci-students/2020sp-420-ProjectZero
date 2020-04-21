@@ -76,12 +76,25 @@ public class ParentViewController implements Initializable {
 
                     umlClassNodeVBox.setOnMouseClicked(event -> this.setSelectedUMLClass(this.umlClassManager.getUmlClass(umlClassNodeVBox.getId())));
 
+                    umlClassNodeVBox.setOnMouseDragged(event -> {
+                        Node node = (Node) event.getSource();
+
+                        double newX = node.getTranslateX() + event.getX() - umlClassNodeVBox.getWidth() / 2;
+                        double newY = node.getTranslateY() + event.getY() - umlClassNodeVBox.getHeight() / 2;
+
+                        umlClassNodeVBox.setTranslateX(newX);
+                        umlClassNodeVBox.setTranslateY(newY);
+
+                        change.getValueAdded().setX(newX);
+                        change.getValueAdded().setY(newY);
+                    });
+
                     pane.getChildren().add(umlClassNodeVBox);
 
                     change.getValueAdded().getRelationships().forEach(relationship -> {
                         Line line = new Line();
 
-                        line.setId(change.getKey() + "_" + relationship.getTo());
+                        line.setId("line_" + change.getKey() + "_" + relationship.getTo());
 
                         line.startXProperty().bind(change.getValueAdded().xProperty());
                         line.startYProperty().bind(change.getValueAdded().yProperty());
@@ -98,7 +111,11 @@ public class ParentViewController implements Initializable {
                     System.exit(0);
                 }
             } else if (change.wasRemoved()) {
-                List<Node> nodes = pane.getChildren().stream().filter(n -> n.getId().contains(change.getKey())).collect(Collectors.toList());
+                // Remove Class Node
+                pane.getChildren().stream().filter(n -> n.getId().equals(change.getKey())).findFirst().ifPresent(value -> pane.getChildren().remove(value));
+
+                // Remove Lines
+                List<Node> nodes = pane.getChildren().stream().filter(n -> n.getId().contains("line") && n.getId().contains(change.getKey())).collect(Collectors.toList());
                 pane.getChildren().removeAll(nodes);
             }
         });
