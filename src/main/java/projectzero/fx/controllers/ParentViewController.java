@@ -85,7 +85,7 @@ public class ParentViewController implements Initializable {
             return;
         }
 
-        if (extension.equals("yaml") || extension.equals("yal")) {
+        if (extension.equals("yaml") || extension.equals("yml")) {
             try {
                 umlClassManager.save(file);
             } catch (IOException e) {
