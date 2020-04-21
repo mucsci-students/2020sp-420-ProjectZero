@@ -1,13 +1,16 @@
 package projectzero.fx.controllers;
 
 import javafx.collections.MapChangeListener;
+import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.SnapshotParameters;
 import javafx.scene.control.Button;
 import javafx.scene.control.MenuItem;
+import javafx.scene.image.WritableImage;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
@@ -17,6 +20,7 @@ import javafx.stage.Stage;
 import projectzero.core.UmlClass;
 import projectzero.core.UmlClassManager;
 
+import javax.imageio.ImageIO;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -56,47 +60,39 @@ public class ParentViewController implements Initializable {
         this.editButton.setOnAction(event -> this.handleOnEditClick());
         this.deleteButton.setOnAction(event -> this.handleDeleteClick());
 
-        umlClassManager.getUmlClassMap().addListener((MapChangeListener<String, UmlClass>) change -> {
-            if (change.wasAdded()) {
-                try {
-                    FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/UmlClassNodeView.fxml"));
-
-                    UmlClassNodeViewController umlClassNodeViewController = new UmlClassNodeViewController(change.getValueAdded());
-                    fxmlLoader.setController(umlClassNodeViewController);
-
-                    VBox umlClassNodeVBox = fxmlLoader.load();
-                    umlClassNodeVBox.setId(change.getKey());
-                    umlClassNodeVBox.getStylesheets().add(getClass().getResource("/css/UmlClassNode.css").toExternalForm());
-
-                    umlClassNodeVBox.setOnMouseClicked(event -> this.setSelectedUMLClass(this.umlClassManager.getUmlClass(umlClassNodeVBox.getId())));
-
-                    pane.getChildren().add(umlClassNodeVBox);
-                } catch (IOException ioException) {
-                    System.out.println(ioException.getMessage());
-                    System.exit(0);
-                }
-            } else if (change.wasRemoved()) {
-                Node node = pane.getChildren().stream().filter(n -> n.getId().equals(change.getKey())).findFirst().get();
-                pane.getChildren().remove(node);
-            }
-        });
+        this.loadExistingUmlClasses();
+        this.addListenerToUmlClassMap();
     }
 
     @FXML
     private void handleOnSaveClick() {
         FileChooser fileChooser = new FileChooser();
-        FileChooser.ExtensionFilter extensionFilter = new FileChooser.ExtensionFilter("Yaml", "*.yaml", "*.yml");
-        fileChooser.getExtensionFilters().add(extensionFilter);
+        FileChooser.ExtensionFilter yamlExtensionFilter = new FileChooser.ExtensionFilter("Yaml", "*.yaml", "*.yml");
+        FileChooser.ExtensionFilter pngExtensionFilter = new FileChooser.ExtensionFilter("Png", "*.png");
+        fileChooser.getExtensionFilters().addAll(yamlExtensionFilter, pngExtensionFilter);
 
         File file = fileChooser.showSaveDialog(null);
 
         if (file == null)
             return;
 
-        try {
-            umlClassManager.save(file);
-        } catch (IOException e) {
-            e.printStackTrace();
+        String fileName = file.getName();
+        String extension;
+
+        if (fileName.lastIndexOf(".") != -1 && fileName.lastIndexOf(".") != 0) {
+            extension = fileName.substring(fileName.lastIndexOf(".") + 1);
+        } else {
+            return;
+        }
+
+        if (extension.equals("yaml") || extension.equals("yml")) {
+            try {
+                umlClassManager.save(file);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else {
+            saveAsPng(this.pane, file);
         }
     }
 
@@ -163,5 +159,65 @@ public class ParentViewController implements Initializable {
             System.out.println("Could not load ClassScreenView");
             System.exit(0);
         }
+    }
+
+    @FXML
+    public void saveAsPng(Node node, File file) {
+        WritableImage image = node.snapshot(new SnapshotParameters(), null);
+
+        try {
+            ImageIO.write(SwingFXUtils.fromFXImage(image, null), "png", file);
+        } catch (IOException e) {
+            // TODO: handle exception here
+        }
+    }
+
+    private void loadExistingUmlClasses() {
+        this.umlClassManager.getUmlClassMap().values().forEach(umlClass -> {
+            try {
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/UmlClassNodeView.fxml"));
+
+                UmlClassNodeViewController umlClassNodeViewController = new UmlClassNodeViewController(umlClass);
+                fxmlLoader.setController(umlClassNodeViewController);
+
+                VBox umlClassNodeVBox = fxmlLoader.load();
+                umlClassNodeVBox.setId(umlClass.getName());
+                umlClassNodeVBox.getStylesheets().add(getClass().getResource("/css/UmlClassNode.css").toExternalForm());
+
+                umlClassNodeVBox.setOnMouseClicked(event -> this.setSelectedUMLClass(this.umlClassManager.getUmlClass(umlClassNodeVBox.getId())));
+
+                pane.getChildren().add(umlClassNodeVBox);
+            } catch (IOException ioException) {
+                System.out.println(ioException.getMessage());
+                System.exit(0);
+            }
+        });
+    }
+
+    private void addListenerToUmlClassMap() {
+        this.umlClassManager.getUmlClassMap().addListener((MapChangeListener<String, UmlClass>) change -> {
+            if (change.wasAdded()) {
+                try {
+                    FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/UmlClassNodeView.fxml"));
+
+                    UmlClassNodeViewController umlClassNodeViewController = new UmlClassNodeViewController(change.getValueAdded());
+                    fxmlLoader.setController(umlClassNodeViewController);
+
+                    VBox umlClassNodeVBox = fxmlLoader.load();
+                    umlClassNodeVBox.setId(change.getValueAdded().getName());
+                    umlClassNodeVBox.getStylesheets().add(getClass().getResource("/css/UmlClassNode.css").toExternalForm());
+
+                    umlClassNodeVBox.setOnMouseClicked(event -> this.setSelectedUMLClass(this.umlClassManager.getUmlClass(umlClassNodeVBox.getId())));
+
+                    pane.getChildren().add(umlClassNodeVBox);
+                } catch (IOException ioException) {
+                    System.out.println(ioException.getMessage());
+                    System.exit(0);
+                }
+            } else if (change.wasRemoved()) {
+                Node node = pane.getChildren().stream().filter(n -> n.getId().equals(change.getValueRemoved().getName())).findFirst().get();
+                pane.getChildren().remove(node);
+            }
+        });
     }
 }

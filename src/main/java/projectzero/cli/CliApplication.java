@@ -1,9 +1,13 @@
 package projectzero.cli;
 
+import javafx.application.Platform;
+import javafx.stage.Stage;
 import projectzero.core.*;
 import projectzero.core.exceptions.InvalidNameException;
+import projectzero.fx.FXApplication;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -44,6 +48,19 @@ public class CliApplication {
                 printHelp(inputLine);
             } else if (inputLine.equals("quit")) {
                 System.exit(0);
+            } else if (inputLine.equals("png") || inputLine.equals("gui")) {
+                FXApplication fxApplication = new FXApplication(this.MainManager);
+                fxApplication.init();
+
+                Platform.startup(() -> {
+                    Stage stage = new Stage();
+
+                    try {
+                        fxApplication.start(stage);
+                    } catch (IOException ioException) {
+                        ioException.printStackTrace();
+                    }
+                });
             } else {
                 String command = inputLine.substring(0, inputLine.indexOf(" "));
                 String arguments = inputLine.substring(inputLine.indexOf(" ") + 1);
@@ -106,6 +123,8 @@ public class CliApplication {
             }
         } catch (IndexOutOfBoundsException e) {
             System.out.println("Invalid input\n");
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
@@ -377,6 +396,8 @@ public class CliApplication {
             System.out.println("list [<class names>]\n");
             System.out.println("save <file name>\n" +
                     "load <file name>\n");
+            System.out.println("png\n" +
+                    "gui\n");
         } else {
             System.out.println(helpMap.get(splitString[1]));
         }
@@ -398,6 +419,8 @@ public class CliApplication {
         helpMap.put("list", "list [<class names>]\n");
         helpMap.put("save", "save <file name>\n");
         helpMap.put("load", "load <file name>\n");
+        helpMap.put("gui", "gui\n");
+        helpMap.put("png", "png\n");
     }
 
     private void addClass(String name) {
