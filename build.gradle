@@ -26,6 +26,7 @@ dependencies {
 
     testCompile "org.testfx:testfx-core:4.0.16-alpha"
     testCompile "org.testfx:testfx-junit5:4.0.16-alpha"
+    testCompile group: 'org.testfx', name: 'openjfx-monocle', version: 'jdk-11+26'
     testCompile group: 'org.mockito', name: 'mockito-core', version: '3.2.4'
     testCompile group: 'org.mockito', name: 'mockito-junit-jupiter', version: '3.2.4'
 }
