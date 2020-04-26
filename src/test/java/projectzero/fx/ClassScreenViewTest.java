@@ -11,7 +11,6 @@ import org.testfx.api.FxRobot;
 import org.testfx.assertions.api.Assertions;
 import org.testfx.framework.junit5.ApplicationExtension;
 import org.testfx.framework.junit5.Start;
-import org.testfx.util.WaitForAsyncUtils;
 import projectzero.core.Field;
 import projectzero.core.Method;
 import projectzero.core.UmlClassManager;
@@ -50,8 +49,6 @@ public class ClassScreenViewTest {
         robot.write("Class");
         robot.clickOn("#applyButton");
 
-        WaitForAsyncUtils.waitForFxEvents();
-
         Assertions.assertThat(umlClassManager.listUmlClasses().size()).isEqualTo(1);
         Assertions.assertThat(umlClassManager.getUmlClass("Class")).isNotNull();
     }
@@ -61,8 +58,6 @@ public class ClassScreenViewTest {
         robot.clickOn("#textBoxClassName");
         robot.write("@Class");
         robot.clickOn("#applyButton");
-
-        WaitForAsyncUtils.waitForFxEvents();
 
         Assertions.assertThat(umlClassManager.listUmlClasses().size()).isEqualTo(0);
     }
@@ -79,8 +74,6 @@ public class ClassScreenViewTest {
         robot.clickOn("#addFieldButton");
 
         robot.clickOn("#applyButton");
-
-        WaitForAsyncUtils.waitForFxEvents();
 
         Assertions.assertThat(umlClassManager.listUmlClasses().size()).isEqualTo(1);
 
@@ -108,8 +101,6 @@ public class ClassScreenViewTest {
         robot.clickOn("#addMethodButton");
 
         robot.clickOn("#applyButton");
-
-        WaitForAsyncUtils.waitForFxEvents();
 
         Assertions.assertThat(umlClassManager.listUmlClasses().size()).isEqualTo(1);
 
