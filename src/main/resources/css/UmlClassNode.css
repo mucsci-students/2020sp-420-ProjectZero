@@ -16,7 +16,7 @@
     -fx-background-color: black;
 }
 
-.selected{
+.selected {
     -fx-border-color: red;
 }
 
