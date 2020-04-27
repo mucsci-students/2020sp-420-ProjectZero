@@ -12,7 +12,8 @@ import java.util.Objects;
 
 public class UmlClass {
     private final String name;
-    private SimpleDoubleProperty x, y;
+    private final SimpleDoubleProperty x;
+    private final SimpleDoubleProperty y;
     private final ObservableList<Field> fields;
     private final ObservableList<Method> methods;
     private final ObservableList<Relationship> relationships;
