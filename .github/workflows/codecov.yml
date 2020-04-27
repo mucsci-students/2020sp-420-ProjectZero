@@ -13,8 +13,12 @@ jobs:
         run: chmod +x gradlew
       - name: check with gradle
         run: ./gradlew check
+        env:
+          _JAVA_OPTIONS: "-Djava.awt.headless=true -Dtestfx.robot=glass -Dtestfx.headless=true -Dprism.order=sw"
       - name: run codecov
         run: ./gradlew jacocoTestReport
+        env:
+          _JAVA_OPTIONS: "-Djava.awt.headless=true -Dtestfx.robot=glass -Dtestfx.headless=true -Dprism.order=sw"
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v1
         with:

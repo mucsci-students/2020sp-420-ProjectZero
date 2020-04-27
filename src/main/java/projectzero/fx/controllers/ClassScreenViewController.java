@@ -42,7 +42,7 @@ public class ClassScreenViewController implements Initializable {
     private TextField textBoxClassName,
             textBoxMethodName,
             textBoxMethodReturnType,
-            textBoxParamType,
+            textBoxMethodParamType,
             textBoxFieldName,
             textBoxFieldType;
 
@@ -62,7 +62,7 @@ public class ClassScreenViewController implements Initializable {
     @FXML
     private ListView<Relationship> relationshipDisplay;
 
-    ClassScreenViewController(UmlClass umlClass, UmlClassManager umlClassManager) {
+    public ClassScreenViewController(UmlClass umlClass, UmlClassManager umlClassManager) {
         this.existingUmlClass = umlClass;
         this.umlClassManager = umlClassManager;
 
@@ -87,7 +87,7 @@ public class ClassScreenViewController implements Initializable {
         this.removeRelationshipButton.setOnAction(event -> handleOnRemoveRelationshipClick());
         this.applyButton.setOnAction(event -> applyUMLClass());
         this.cancelButton.setOnAction(event -> handleOnCancelClick());
-        this.textBoxParamType.setOnAction(event -> this.addParamType());
+        this.textBoxMethodParamType.setOnAction(event -> this.addParamType());
 
         if (existingUmlClass != null) {
             this.textBoxClassName.setText(existingUmlClass.getName());
@@ -168,12 +168,12 @@ public class ClassScreenViewController implements Initializable {
 
     @FXML
     private void addParamType() {
-        comboMethodParameterTypes.getItems().add(textBoxParamType.getText());
-        textBoxParamType.setText("");
+        comboMethodParameterTypes.getItems().add(textBoxMethodParamType.getText());
+        textBoxMethodParamType.setText("");
     }
 
     @FXML
-    private void applyUMLClass() {
+    public void applyUMLClass() {
         try {
             UmlClass umlClass = new UmlClass(textBoxClassName.getText());
             this.fields.forEach(umlClass::addField);
@@ -192,7 +192,7 @@ public class ClassScreenViewController implements Initializable {
             Stage stage = (Stage) (this.gridPane.getScene().getWindow());
             stage.close();
         } catch (InvalidNameException e) {
-            textBoxClassName.setStyle(" -fx-text-box-border: red ; -fx-focus-color: red ;");
+            textBoxClassName.setStyle(" -fx-text-box-border: #ff0000 ; -fx-focus-color: red ;");
         }
     }
 

@@ -17,23 +17,31 @@
 
 
     <Label text="Class: " GridPane.columnIndex="0" GridPane.rowIndex="1"/>
-    <TextField fx:id="textBoxClassName" promptText="name" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+    <TextField id="textBoxClassName" fx:id="textBoxClassName" promptText="name" GridPane.columnIndex="1"
+               GridPane.rowIndex="1"/>
 
     <Label text="Method: " GridPane.columnIndex="0" GridPane.rowIndex="2" GridPane.rowSpan="2"/>
-    <TextField fx:id="textBoxMethodName" promptText="method name" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
-    <TextField fx:id="textBoxParamType" promptText="enter a paramType" GridPane.columnIndex="2"
+    <TextField id="textBoxMethodName" fx:id="textBoxMethodName" promptText="method name" GridPane.columnIndex="1"
+               GridPane.rowIndex="2"/>
+    <TextField id="textBoxMethodParamType" fx:id="textBoxMethodParamType" promptText="enter a paramType"
+               GridPane.columnIndex="2"
                GridPane.rowIndex="2"/>
 
-    <TextField fx:id="textBoxMethodReturnType" promptText="method return type" GridPane.columnIndex="1"
+    <TextField id="textBoxMethodReturnType" fx:id="textBoxMethodReturnType" promptText="method return type"
+               GridPane.columnIndex="1"
                GridPane.rowIndex="3"/>
     <ComboBox fx:id="comboMethodParameterTypes" promptText="method parameter types" GridPane.columnIndex="2"
               GridPane.rowIndex="3"/>
-    <Button fx:id="addMethodButton" text="+" styleClass="plusButton" GridPane.columnIndex="3" GridPane.rowIndex="3"/>
+    <Button id="addMethodButton" fx:id="addMethodButton" text="+" styleClass="plusButton" GridPane.columnIndex="3"
+            GridPane.rowIndex="3"/>
 
     <Label text="Field: " GridPane.columnIndex="0" GridPane.rowIndex="4"/>
-    <TextField fx:id="textBoxFieldName" promptText="field name" GridPane.columnIndex="1" GridPane.rowIndex="4"/>
-    <TextField fx:id="textBoxFieldType" promptText="field type" GridPane.columnIndex="2" GridPane.rowIndex="4"/>
-    <Button fx:id="addFieldButton" text="+" styleClass="plusButton" GridPane.columnIndex="3" GridPane.rowIndex="4"/>
+    <TextField id="textBoxFieldName" fx:id="textBoxFieldName" promptText="field name" GridPane.columnIndex="1"
+               GridPane.rowIndex="4"/>
+    <TextField id="textBoxFieldType" fx:id="textBoxFieldType" promptText="field type" GridPane.columnIndex="2"
+               GridPane.rowIndex="4"/>
+    <Button id="addFieldButton" fx:id="addFieldButton" text="+" styleClass="plusButton" GridPane.columnIndex="3"
+            GridPane.rowIndex="4"/>
 
     <Label text="Relationship: " GridPane.columnIndex="0" GridPane.rowIndex="5"/>
     <HBox GridPane.columnIndex="1" GridPane.rowIndex="5" spacing="5">
@@ -54,7 +62,7 @@
             GridPane.columnIndex="2" GridPane.rowIndex="7" GridPane.valignment="TOP"/>
 
     <Label text="Fields:" GridPane.columnIndex="0" GridPane.rowIndex="8"/>
-    <ListView fx:id="fieldDisplay" prefHeight="100" GridPane.columnIndex="1" GridPane.rowIndex="8"/>
+    <ListView id="fieldDisplay" fx:id="fieldDisplay" prefHeight="100" GridPane.columnIndex="1" GridPane.rowIndex="8"/>
     <Button fx:id="removeFieldButton" text="-" styleClass="minusButton"
             GridPane.columnIndex="2" GridPane.rowIndex="8" GridPane.valignment="TOP"/>
 
@@ -63,7 +71,7 @@
     <Button fx:id="removeRelationshipButton" text="-" styleClass="minusButton"
             GridPane.columnIndex="2" GridPane.rowIndex="9" GridPane.valignment="TOP"/>
 
-    <Button fx:id="applyButton" styleClass="regButton" text="Apply"
+    <Button id="applyButton" fx:id="applyButton" styleClass="regButton" text="Apply"
             GridPane.columnIndex="2" GridPane.rowIndex="10" GridPane.halignment="RIGHT"/>
     <Button fx:id="cancelButton" styleClass="regButton" text="Cancel"
             GridPane.columnIndex="3" GridPane.rowIndex="10"/>
