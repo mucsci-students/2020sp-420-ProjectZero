@@ -2,10 +2,7 @@ name: Example workflow for Codecov
 on: [push]
 jobs:
   codecov:
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os: [ubuntu-latest, macos-latest, windows-latest]
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - name: Set up JDK 1.11
