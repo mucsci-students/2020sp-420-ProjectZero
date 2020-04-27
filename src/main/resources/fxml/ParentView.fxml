@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<VBox xmlns="http://javafx.com/javafx/8.0.25"
+      xmlns:fx="http://javafx.com/fxml/1">
+    <MenuBar>
+        <Menu text="File">
+            <MenuItem fx:id="fileSaveMenuItem" text="save"/>
+            <MenuItem fx:id="fileLoadMenuItem" text="load"/>
+        </Menu>
+    </MenuBar>
+    <HBox fx:id="buttonPane">
+        <Button styleClass="regButton" fx:id="addButton" text="Add Class" maxWidth="Infinity"
+                HBox.hgrow="ALWAYS"/>
+        <Button styleClass="regButton" fx:id="editButton" text="Edit Class"
+                maxWidth="Infinity" HBox.hgrow="ALWAYS"/>
+        <Button styleClass="regButton" fx:id="deleteButton" text="Delete Class"
+                maxWidth="Infinity" HBox.hgrow="ALWAYS"/>
+    </HBox>
+    <Pane fx:id="pane"/>
+</VBox>

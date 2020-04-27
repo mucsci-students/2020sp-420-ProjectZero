@@ -1,7 +1,9 @@
 plugins {
+    id 'application'
     id "com.github.johnrengelman.shadow" version "5.2.0"
     id "java"
     id 'org.openjfx.javafxplugin' version '0.0.8'
+    id 'jacoco'
 }
 
 group 'projectzero'
@@ -9,7 +11,7 @@ version '0.1.0'
 
 javafx {
     version = "11.0.2"
-    modules = [ 'javafx.controls', 'javafx.fxml' ]
+    modules = [ 'javafx.controls', 'javafx.fxml', 'javafx.swing' ]
 }
 
 repositories {
@@ -23,6 +25,9 @@ dependencies {
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.5.2'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.5.2'
 
+    testCompile "org.testfx:testfx-core:4.0.16-alpha"
+    testCompile "org.testfx:testfx-junit5:4.0.16-alpha"
+    testCompile group: 'org.testfx', name: 'openjfx-monocle', version: 'jdk-11+26'
     testCompile group: 'org.mockito', name: 'mockito-core', version: '3.2.4'
     testCompile group: 'org.mockito', name: 'mockito-junit-jupiter', version: '3.2.4'
 }
@@ -43,3 +48,14 @@ jar {
 shadowJar {
     archiveVersion = ''
 }
+
+mainClassName = 'projectzero.Main'
+
+jacocoTestReport {
+    reports {
+        xml.enabled true
+        html.enabled false
+    }
+}
+
+check.dependsOn jacocoTestReport

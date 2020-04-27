@@ -1,87 +1,98 @@
 package projectzero.core;
 
-import projectzero.fx.Observable;
-import projectzero.fx.Observer;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableMap;
 
+import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-public class UmlClassManager implements Observable<UmlClass> {
-    private Map<String, UmlClass> umlClassMap;
-    private UmlClassYamlMapper umlClassYamlMapper;
-    private ArrayList<Observer> observerList;
-    private UmlClass changedUMLClass = null;
+public class UmlClassManager {
+    private final ObservableMap<String, UmlClass> umlClassMap;
+    private final UmlClassYamlMapper umlClassYamlMapper;
+
 
     public UmlClassManager() {
-        this.umlClassMap = new HashMap<>();
+        this.umlClassMap = FXCollections.observableHashMap();
         umlClassYamlMapper = new UmlClassYamlMapper();
-        observerList = new ArrayList<Observer>();
     }
 
     public UmlClassManager(UmlClassYamlMapper umlClassYamlMapper) {
-        this.umlClassMap = new HashMap<>();
+        this.umlClassMap = FXCollections.observableHashMap();
         this.umlClassYamlMapper = umlClassYamlMapper;
-        observerList = new ArrayList<Observer>();
     }
 
+    /**
+     *  Add a new UmlClass
+     * @param umlClass The new class that is going to be added
+     * @return returns a UmlClass if there is a duplicate class otherwise, returns null
+     */
     public UmlClass addUmlClass(UmlClass umlClass) {
-        UmlClass newUmlClass = umlClassMap.putIfAbsent(umlClass.getName(), umlClass);
-        if(newUmlClass == null)
-            changedUMLClass = umlClass;
-        notifyObservers();
-        return newUmlClass;
+        return umlClassMap.putIfAbsent(umlClass.getName(), umlClass);
     }
 
+    /**
+     *  Delete a UmlClass
+     * @param umlClassName The Umlclass name that will be deleted
+     * @return returns the class that is deleted and null if the UmlClass doesn't exist
+     */
     public UmlClass deleteUmlClass(String umlClassName) {
-        UmlClass umlClass = umlClassMap.remove(umlClassName);
-        changedUMLClass = umlClass;
-        notifyObservers();
-        return umlClass;
+        return umlClassMap.remove(umlClassName);
     }
 
+    /**
+     * Gets a specified UmlClass
+     * @param umlClassName The UmlClass you would like to see
+     * @return Returns the specified UmlClass or null if the class isn't found
+     */
     public UmlClass getUmlClass(String umlClassName) {
         return umlClassMap.get(umlClassName);
     }
 
+    /**
+     * Replaces a UmlClass with another UmlClass
+     * @param umlClassName The UmlClass that will be deleted
+     * @param umlClass The UmlClass that will be used to update
+     * @return Returns a UmlClass if there is a duplicate otherwise, returns null
+     */
     public UmlClass updateUmlClass(String umlClassName, UmlClass umlClass) {
-        this.deleteUmlClass(umlClassName);
-        UmlClass newUMLClass = this.addUmlClass(umlClass);
-        return newUMLClass;
+        deleteUmlClass(umlClassName);
+        return addUmlClass(umlClass);
     }
 
+    /**
+     * List of the current UmlClasses
+     * @return Returns a List of the UmlClasses
+     */
     public List<UmlClass> listUmlClasses() {
         return new ArrayList<>(umlClassMap.values());
     }
 
-    public void save(String path) throws IOException {
-        umlClassYamlMapper.write(path, this.umlClassMap);
-        notifyObservers();
+    /**
+     * Get the Observable List of current UmlClasses
+     * @return Returns the Observer List
+     */
+    public ObservableMap<String, UmlClass> getUmlClassMap() {
+        return this.umlClassMap;
     }
 
-    public void load(String path) throws IOException {
-        this.umlClassMap = umlClassYamlMapper.read(path);
-        notifyObservers();
+    /**
+     * Saves the current project
+     * @param file The file that the information will be saved to
+     * @throws IOException Thrown when trying to save to a protected file or bad permissions
+     */
+    public void save(File file) throws IOException {
+        umlClassYamlMapper.write(file, this.umlClassMap);
     }
 
-    @Override
-    public void register(Observer<UmlClass> observer) {
-        observerList.add(observer);
-    }
-
-    @Override
-    public void unregister(Observer<UmlClass> observer) {
-        observerList.remove(observer);
-    }
-
-    @Override
-    public void notifyObservers() {
-        for(Observer observer: observerList)
-            observer.update(changedUMLClass);
-        changedUMLClass = null;
+    /**
+     * Load an existing project
+     * @param file The file used to load information
+     * @throws IOException Thrown when trying to load a file not in the correct format
+     */
+    public void load(File file) throws IOException {
+        this.umlClassMap.clear();
+        this.umlClassMap.putAll(umlClassYamlMapper.read(file));
     }
 }
-

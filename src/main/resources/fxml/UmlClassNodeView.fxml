@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.VBox?>
+<VBox
+        xmlns="http://javafx.com/javafx"
+        xmlns:fx="http://javafx.com/fxml"
+        id="mainLayout" fx:id="vBox"
+        minHeight="50"
+        minWidth="50"
+        styleClass="classNode">
+    <Label fx:id="classLabel"/>
+    <Separator/>
+    <ListView fx:id="fieldListView" maxHeight="100"/>
+    <Separator/>
+    <ListView fx:id="methodListView" maxHeight="100"/>
+</VBox>

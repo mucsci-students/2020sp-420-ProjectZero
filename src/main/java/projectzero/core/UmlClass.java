@@ -1,18 +1,22 @@
 package projectzero.core;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import javafx.beans.property.SimpleDoubleProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import projectzero.core.exceptions.InvalidNameException;
 
 import javax.lang.model.SourceVersion;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
 public class UmlClass {
     private final String name;
-    private final List<Field> fields;
-    private final List<Method> methods;
-    private final List<Relationship> relationships;
+    private final SimpleDoubleProperty x;
+    private final SimpleDoubleProperty y;
+    private final ObservableList<Field> fields;
+    private final ObservableList<Method> methods;
+    private final ObservableList<Relationship> relationships;
 
     public UmlClass(String name) throws InvalidNameException {
         if (!SourceVersion.isIdentifier(name)) {
@@ -20,12 +24,16 @@ public class UmlClass {
         }
 
         this.name = name;
-        this.fields = new ArrayList<>();
-        this.methods = new ArrayList<>();
-        this.relationships = new ArrayList<>();
+        this.x = new SimpleDoubleProperty(0);
+        this.y = new SimpleDoubleProperty(0);
+        this.fields = FXCollections.observableArrayList();
+        this.methods = FXCollections.observableArrayList();
+        this.relationships = FXCollections.observableArrayList();
     }
 
     private UmlClass(@JsonProperty("name") String name,
+                     @JsonProperty("x") double x,
+                     @JsonProperty("y") double y,
                      @JsonProperty("fields") List<Field> fields,
                      @JsonProperty("methods") List<Method> methods,
                      @JsonProperty("relationships") List<Relationship> relationships) throws InvalidNameException {
@@ -34,24 +42,50 @@ public class UmlClass {
         }
 
         this.name = name;
-        this.fields = fields;
-        this.methods = methods;
-        this.relationships = relationships;
+        this.x = new SimpleDoubleProperty(x);
+        this.y = new SimpleDoubleProperty(y);
+        this.fields = FXCollections.observableList(fields);
+        this.methods = FXCollections.observableList(methods);
+        this.relationships = FXCollections.observableList(relationships);
     }
 
     public String getName() {
         return name;
     }
 
-    public List<Field> getFields() {
+    public double getX() {
+        return x.get();
+    }
+
+    public SimpleDoubleProperty xProperty() {
+        return x;
+    }
+
+    public void setX(double x) {
+        this.x.set(x);
+    }
+
+    public double getY() {
+        return y.get();
+    }
+
+    public SimpleDoubleProperty yProperty() {
+        return y;
+    }
+
+    public void setY(double y) {
+        this.y.set(y);
+    }
+
+    public ObservableList<Field> getFields() {
         return fields;
     }
 
-    public List<Method> getMethods() {
+    public ObservableList<Method> getMethods() {
         return methods;
     }
 
-    public List<Relationship> getRelationships() {
+    public ObservableList<Relationship> getRelationships() {
         return relationships;
     }
 
@@ -64,18 +98,18 @@ public class UmlClass {
         return true;
     }
 
-    public Field getField(String fieldName){
-        for(Field f: fields){
-            if(f.getName().equals(fieldName)){
+    public Field getField(String fieldName) {
+        for (Field f : fields) {
+            if (f.getName().equals(fieldName)) {
                 return f;
             }
         }
         return null;
     }
 
-    public Method getMethod(String methodName){
-        for(Method m: methods){
-            if(m.getName().equals(methodName)){
+    public Method getMethod(String methodName) {
+        for (Method m : methods) {
+            if (m.getName().equals(methodName)) {
                 return m;
             }
         }
@@ -126,11 +160,11 @@ public class UmlClass {
             return false;
         }
 
-        for (Relationship r : relationship.getTo().getRelationships()) {
-            if (r.getTo().equals(this)) {
-                return false;
-            }
-        }
+//        for (Relationship r : relationship.getTo().getRelationships()) {
+//            if (r.getTo().equals(this.getName())) {
+//                return false;
+//            }
+//        }
 
         relationships.add(relationship);
         return true;

@@ -6,10 +6,10 @@ import java.util.Objects;
 
 public class Relationship {
 
-    private final UmlClass to;
+    private final String to;
     private final Relationship.Type type;
 
-    private Relationship(@JsonProperty("to") UmlClass to, @JsonProperty("type") Relationship.Type type) {
+    private Relationship(@JsonProperty("to") String to, @JsonProperty("type") Relationship.Type type) {
         this.to = to;
         this.type = type;
     }
@@ -19,7 +19,7 @@ public class Relationship {
         this.type = builder.type;
     }
 
-    public UmlClass getTo() {
+    public String getTo() {
         return to;
     }
 
@@ -43,7 +43,7 @@ public class Relationship {
 
     @Override
     public String toString() {
-        return "to: " + to.getName();
+        return "to: " + to;
     }
 
     public enum Type {
@@ -53,10 +53,10 @@ public class Relationship {
     }
 
     public static class Builder {
-        private UmlClass to;
+        private String to;
         private Relationship.Type type;
 
-        public Relationship.Builder withTo(UmlClass to) {
+        public Relationship.Builder withTo(String to) {
             this.to = to;
             return this;
         }
