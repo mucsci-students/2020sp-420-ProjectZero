@@ -22,8 +22,10 @@
               editMethod:          changes the name of the method to the specified new name
               editField:           changes the name of the field to the specified new name
               list:                displays all class names
-              save:                saves class information to the specified file path
-              load:                loads class information from the specified file path
+              save:                saves project information to the specified file path
+              load:                loads project information from the specified file path
+              help:                can either show all command information or information about a specific command
+              png:                 saves the project as a png file
               
 # GUI usage:
 
@@ -66,12 +68,18 @@
                         to the desired position. 
                      
                      
-  ## Save a class:
-                    1. To save the class information, click the 'save'
+  ## Save a project:
+                    1. To save the current project information, click the 'save'
                        button. 
                     2. A file explorer will appear, prompting for
-                       a name and where to save the file.
+                       a name and a choice of file type and where to save the file.
                     3. Enter the name you wish to save the file as
                        and navigate to where the file should be saved
                        and click the save button.
-
+                       
+  ## Load a project:
+                    1. To load a project, click the 'load'
+                       button. 
+                    2. A file explorer will appear, where you
+                       can select the file that you would like
+                       to load.
