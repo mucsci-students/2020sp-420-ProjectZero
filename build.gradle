@@ -3,6 +3,7 @@ plugins {
     id "com.github.johnrengelman.shadow" version "5.2.0"
     id "java"
     id 'org.openjfx.javafxplugin' version '0.0.8'
+    id 'jacoco'
 }
 
 group 'projectzero'
@@ -49,3 +50,12 @@ shadowJar {
 }
 
 mainClassName = 'projectzero.Main'
+
+jacocoTestReport {
+    reports {
+        xml.enabled true
+        html.enabled false
+    }
+}
+
+check.dependsOn jacocoTestReport
