@@ -87,7 +87,7 @@ public class UmlClass {
         return x;
     }
     /**
-     * @return set X position of the GUI representation.
+     * @param x set X position of the GUI representation.
      */
     public void setX(double x) {
         this.x.set(x);
@@ -105,7 +105,7 @@ public class UmlClass {
         return y;
     }
     /**
-     * @return set Y position of the GUI representation.
+     * @param y set Y position of the GUI representation.
      */
     public void setY(double y) {
         this.y.set(y);
