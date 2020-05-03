@@ -192,7 +192,7 @@ public class ClassScreenViewController implements Initializable {
             Stage stage = (Stage) (this.gridPane.getScene().getWindow());
             stage.close();
         } catch (InvalidNameException e) {
-            textBoxClassName.setStyle(" -fx-text-box-border: #ff0000 ; -fx-focus-color: red ;");
+            textBoxClassName.setStyle("-fx-text-box-border: red ; -fx-focus-color: red ;");
         }
     }
 

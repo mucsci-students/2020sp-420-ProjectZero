@@ -12,12 +12,22 @@ public class UmlClassManager {
     private final ObservableMap<String, UmlClass> umlClassMap;
     private final UmlClassYamlMapper umlClassYamlMapper;
 
-
+    /**
+     * Default constructor that will initialize an empty obsersable HashMap
+     *      and UmlClassYamlMapper object.
+     */
     public UmlClassManager() {
         this.umlClassMap = FXCollections.observableHashMap();
         umlClassYamlMapper = new UmlClassYamlMapper();
     }
 
+    /**
+     * Constructor that will initialize an empty observable HashMap
+     *      and assign the UmlClassManager's UmlClassYamlMapper object to
+     *      the UmlClassYamlMapper provided.
+     * @param umlClassYamlMapper UmlClassMapper object that will be
+     *                              associated with this UmlClassManager.
+     */
     public UmlClassManager(UmlClassYamlMapper umlClassYamlMapper) {
         this.umlClassMap = FXCollections.observableHashMap();
         this.umlClassYamlMapper = umlClassYamlMapper;
