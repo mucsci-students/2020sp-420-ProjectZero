@@ -247,11 +247,11 @@ public class ParentViewController implements Initializable {
 
                         line.setId("line_" + change.getKey() + "_" + relationship.getTo());
 
-                        line.startXProperty().bind(change.getValueAdded().xProperty());
-                        line.startYProperty().bind(change.getValueAdded().yProperty());
+                        line.startXProperty().bind(change.getValueAdded().xProperty().add(100));
+                        line.startYProperty().bind(change.getValueAdded().yProperty().add(100));
 
-                        line.endXProperty().bind(umlClassManager.getUmlClass(relationship.getTo()).xProperty());
-                        line.endYProperty().bind(umlClassManager.getUmlClass(relationship.getTo()).yProperty());
+                        line.endXProperty().bind(umlClassManager.getUmlClass(relationship.getTo()).xProperty().add(100));
+                        line.endYProperty().bind(umlClassManager.getUmlClass(relationship.getTo()).yProperty().add(100));
 
                         this.pane.getChildren().add(line);
 
