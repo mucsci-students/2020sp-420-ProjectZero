@@ -1,6 +1,6 @@
 # UML Application
 
-![](https://github.com/mucsci-students/2020sp-420-ProjectZero/workflows/.github/workflows/gradle.yml/badge.svg)
+![](https://github.com/mucsci-students/2020sp-420-ProjectZero/workflows/Run%20Gradle%20build%20and%20test%20on%20PRs/badge.svg?branch=develop)
 
 [![codecov](https://codecov.io/gh/mucsci-students/2020sp-420-ProjectZero/branch/develop/graph/badge.svg)](https://codecov.io/gh/mucsci-students/2020sp-420-ProjectZero)
 
