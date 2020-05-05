@@ -1,6 +1,6 @@
 # UML Application
 
-[![Build Status](https://travis-ci.com/travis-ci/travis-web.svg?branch=master)](https://travis-ci.com/travis-ci/travis-web)
+![](https://github.com/mucsci-students/2020sp-420-ProjectZero/workflows/.github/workflows/gradle.yml/badge.svg)
 
 [![codecov](https://codecov.io/gh/mucsci-students/2020sp-420-ProjectZero/branch/develop/graph/badge.svg)](https://codecov.io/gh/mucsci-students/2020sp-420-ProjectZero)
 
