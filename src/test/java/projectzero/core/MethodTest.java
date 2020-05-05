@@ -55,4 +55,17 @@ public class MethodTest {
                 .build()
         );
     }
+
+    @Test
+    public void testToString() throws InvalidNameException {
+        Method.Builder builder = new Method.Builder();
+        ArrayList<String> params = new ArrayList<>();
+        params.add("Params1");
+        Assertions.assertTrue(builder.withName("Method1")
+                .withParameterTypes(params).withType("int")
+                .build().toString().equals("Method1(Params1): int"));
+
+        Assertions.assertFalse(builder.withName("Method2").withType("int")
+                .build().toString().equals("Not a toString"));
+    }
 }

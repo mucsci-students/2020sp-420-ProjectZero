@@ -2,6 +2,7 @@ package projectzero.core;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import projectzero.core.exceptions.InvalidNameException;
 
 import java.util.ArrayList;
 
@@ -357,4 +358,42 @@ public class UmlClassTest {
             Assertions.assertTrue(from.getRelationships().contains(relationship2));
         });
     }
+    @Test
+    public void testGetFieldReturnsDesiredField() throws InvalidNameException {
+        UmlClass class1 = new UmlClass("Class1");
+        Field field1 = new Field.Builder().withName("Field1").withType("int").build();
+        class1.addField(field1);
+        Assertions.assertTrue(class1.getField("Field1").getName().equals("Field1"));
+    }
+    @Test
+    public void testGetFieldReturnsNullNotDesiredField() throws InvalidNameException {
+        UmlClass class1 = new UmlClass("Class2");
+        Field field1 = new Field.Builder().withName("Field2").withType("int").build();
+        class1.addField(field1);
+        Assertions.assertNull(class1.getField("notAField"));
+    }
+
+    @Test
+    public void testGetMethodReturnsDesiredMethod() throws InvalidNameException {
+        UmlClass class1 = new UmlClass("Class2");
+        ArrayList<String> params = new ArrayList<>();
+        params.add("Params1");
+        class1.addMethod(new Method.Builder().withName("Method1")
+                .withParameterTypes(params).withType("int").build());
+        Assertions.assertTrue(class1.getMethod("Method1").getName().equals("Method1"));
+        Assertions.assertTrue(class1.getMethod("Method1").getType().equals("int"));
+        Assertions.assertTrue(class1.getMethod("Method1")
+                .getParameterTypes().get(0).equals("Params1"));
+    }
+
+    @Test
+    public void testGetMethodReturnsNullDesiredMethod() throws InvalidNameException {
+        UmlClass class2 = new UmlClass("Class1");
+        ArrayList<String> params = new ArrayList<>();
+        params.add("Params2");
+        class2.addMethod(new Method.Builder().withName("Method2")
+                .withParameterTypes(params).withType("int").build());
+        Assertions.assertNull(class2.getMethod("notAClass"));
+    }
 }
+

@@ -11,14 +11,6 @@ public class Field {
     private final String type;
 
     private Field(@JsonProperty("name") String name, @JsonProperty("type") String type) throws InvalidNameException {
-        if (name == null || type == null) {
-            throw new NullPointerException();
-        }
-
-        if (!SourceVersion.isIdentifier(name)) {
-            throw new InvalidNameException();
-        }
-
         this.name = name;
         this.type = type;
     }

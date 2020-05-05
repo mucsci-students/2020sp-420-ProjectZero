@@ -43,5 +43,12 @@ public class FieldTest {
                     .build();
         });
     }
+
+    @Test
+    public void testToString() throws InvalidNameException {
+        Field.Builder builder = new Field.Builder();
+        Assertions.assertTrue(builder.withName("Field1").withType("int").build().toString().equals("Field1: int"));
+        Assertions.assertFalse(builder.withName("Field2").withType("String").build().equals("Not a to string"));
+    }
 }
 
