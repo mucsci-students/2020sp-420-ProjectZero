@@ -1,5 +1,7 @@
 # UML Application
 
+![](https://github.com/mucsci-students/2020sp-420-ProjectZero/workflows/.github/workflows/gradle.yml/badge.svg)
+
 [![codecov](https://codecov.io/gh/mucsci-students/2020sp-420-ProjectZero/branch/develop/graph/badge.svg)](https://codecov.io/gh/mucsci-students/2020sp-420-ProjectZero)
 
 A cliApplication that allows the user to add, delete, and edit UML classes, methods, fields, and relationships in the console window. There is also an optional GUI view. You are also able to save/load files created in the console.
