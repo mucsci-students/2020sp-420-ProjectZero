@@ -1,5 +1,7 @@
 # UML Application
 
+![](https://github.com/mucsci-students/2020sp-420-ProjectZero/workflows/.github/workflows/gradle.yml/badge.svg)
+
 [![codecov](https://codecov.io/gh/mucsci-students/2020sp-420-ProjectZero/branch/develop/graph/badge.svg)](https://codecov.io/gh/mucsci-students/2020sp-420-ProjectZero)
 
 A cliApplication that allows the user to add, delete, and edit UML classes, methods, fields, and relationships in the console window. There is also an optional GUI view. You are also able to save/load files created in the console.
@@ -13,7 +15,7 @@ A cliApplication that allows the user to add, delete, and edit UML classes, meth
  ## Deployment
 1. ```Navigate to where the file is located on your computer in the console```
 2. ```./gradlew build```
-3. ```./gradlew shadow```
+3. ```./gradlew shadowJar```
 4. ```java -jar path/to/jar --cli (for cli) or java -jar path/to/jar (for GUI)``` 
 
 The default option will open up the GUI application. To open the console app, you would need to include a 1 after you specify the path to the file.
@@ -25,7 +27,7 @@ This Application was built using [Gradle](https://gradle.org/).
 
 ## Version
 
-2.0.0
+4.0.0
 
 ## Authors
 

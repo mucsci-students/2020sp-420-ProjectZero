@@ -3,7 +3,7 @@
 ## Deployment
     1. Navigate to where the file is located on your computer in the console
     2. ./gradlew build
-    3. ./gradlew shadow
+    3. ./gradlew shadowJar
     4. java -jar path/to/jar --cli (for cli) or java -jar path/to/jar (for GUI)
     5. To switch between the GUI and CLI, save, exit, and relaunch the application
        in the desired mode. 
