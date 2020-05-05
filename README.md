@@ -27,7 +27,7 @@ This Application was built using [Gradle](https://gradle.org/).
 
 ## Version
 
-2.0.0
+4.0.0
 
 ## Authors
 
