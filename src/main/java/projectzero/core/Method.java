@@ -13,14 +13,6 @@ public class Method {
     private final List<String> parameterTypes;
 
     private Method(@JsonProperty("name") String name, @JsonProperty("type") String type, @JsonProperty("parameterTypes") List<String> parameterTypes) throws InvalidNameException {
-        if (name == null || type == null || parameterTypes == null) {
-            throw new NullPointerException();
-        }
-
-        if (!SourceVersion.isIdentifier(name)) {
-            throw new InvalidNameException();
-        }
-
         this.name = name;
         this.type = type;
         this.parameterTypes = parameterTypes;
